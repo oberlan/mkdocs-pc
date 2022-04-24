@@ -1,0 +1,78 @@
+site_name: Programação Competitiva
+site_url: https://algoritmos.oberlan.com/ 
+site_author: Oberlan Romão
+
+# Copyright
+copyright: Copyright &copy; 2021 - 2022 Oberlan Romão
+
+
+nav:
+  - Disciplina: index.md
+  - Inicio: inicio.md
+  - Matemática: matematica.md
+  - Ordenação e Busca: ordenacao.md
+  - Estrutura de Dados: ed.md
+  - Busca Exaustiva: buscaexaustiva.md
+  - Algoritmos Gulosos: guloso.md
+  - Programação dinâmica: pd.md
+  - Grafos: grafos.md
+  - Processamento de strings: strings.md
+  - Geometria Computacional: gc.md
+
+# Tema
+theme:
+  name: material
+  language: pt-BR
+  palette: 
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline 
+        name: Dark mode
+    - scheme: slate 
+      toggle:
+        icon: material/toggle-switch
+        name: Light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: assets/logo.png
+  logo: 
+  features:
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - content.code.annotate
+  icon:
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
