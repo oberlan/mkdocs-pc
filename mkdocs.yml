@@ -9,6 +9,8 @@ copyright: Copyright &copy; 2021 - 2022 Oberlan Romão
 nav:
   - Disciplina: index.md
   - Inicio: inicio.md
+  - Manipulação de Bits: manipulacaobits.md
+  - Complexidade de Algoritmos: complexidade.md
   - Matemática: matematica.md
   - Ordenação e Busca: ordenacao.md
   - Estrutura de Dados: ed.md
@@ -58,6 +60,7 @@ theme:
       quote: octicons/quote-16
 
 markdown_extensions:
+  - def_list
   - pymdownx.arithmatex:
       generic: true
   - admonition

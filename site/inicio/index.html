@@ -306,6 +306,20 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#manipulacao-de-bits" class="md-nav__link">
+    Manipulação de bits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dicas-e-truques-de-c" class="md-nav__link">
+    Dicas e truques de C++
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -538,14 +552,14 @@ ser usadas diretamente no código. Sem essa linha teríamos que escrever, por ex
 <p>Alternativamente ao <code>\n</code> podemos usar o comando <code class="highlight"><span class="n">endl</span><span class="w"></span></code>. Entretanto, este comando irá liberar o <em>buffer</em> de saída e fará com que o código rode mais lento. Por isso, prefira usar o <code>\n</code>.</p>
 <details class="tip">
 <summary>Dica</summary>
-<p>Use sempre o <code>\n</code> ao invés do <code class="highlight"><span class="n">endl</span><span class="w"></span></code>.</p>
+<p>Use sempre o <code>\n</code> ao invés do <code class="highlight"><span class="n">endl</span><span class="w"></span></code>. Use uma macro <code class="highlight"><span class="cp">#define endl &#39;\n&#39;</span></code> para não correr o risco de esquecer.</p>
 </details>
 <p>Para se aprofundar mais:</p>
 <p><a href="https://usaco.guide/general/input-output?lang=cpp">Input &amp; Output</a></p>
 <p><a href="https://usaco.guide/general/fast-io?lang=cpp">Fast Input &amp; Output</a></p>
 <h2 id="trabalhando-com-numeros">Trabalhando com números</h2>
 <ul>
-<li>Inteiros: Para evitarmos <a href="https://www.cplusplus.com/articles/DE18T05o/"><em>integer overflow</em></a>, use sempre <code class="highlight"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"></span></code> (64bits) ao invés de <code class="highlight"><span class="kt">int</span><span class="w"></span></code>.</li>
+<li>Inteiros: Para evitar <a href="https://www.cplusplus.com/articles/DE18T05o/"><em>integer overflow</em></a>, use sempre <code class="highlight"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"></span></code> (64bits) ao invés de <code class="highlight"><span class="kt">int</span><span class="w"></span></code>.</li>
 <li>Reais: Use <code class="highlight"><span class="kt">double</span><span class="w"></span></code> (64bits) ou <code class="highlight"><span class="kt">long</span><span class="w"> </span><span class="kt">double</span><span class="w"></span></code> (80bits). Esqueça o <code class="highlight"><span class="kt">float</span><span class="w"></span></code> 😅. Além disso, nunca compare dois <code class="highlight"><span class="kt">double</span><span class="w"></span></code> com o operador <code class="highlight"><span class="o">==</span><span class="w"></span></code> (é possível que os valores sejam iguais, mas não são devido a erros de precisão). Para verificar se dois <code class="highlight"><span class="kt">double</span><span class="w"></span></code> use o código a seguir:</li>
 </ul>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
@@ -561,14 +575,23 @@ ser usadas diretamente no código. Sem essa linha teríamos que escrever, por ex
 <a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="p">...</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
+<p>Para saber mais: <a href="https://usaco.guide/general/data-types?lang=cpp">Data Types</a></p>
 <h2 id="simplificando-o-codigo">Simplificando o código</h2>
 <h3 id="nomes-de-tipos">Nomes de tipos</h3>
 <p>Usando o comando <code class="highlight"><span class="k">typedef</span><span class="w"></span></code> é possível dar um nome mais curto a um tipo de dado. Por exemplo:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
 <span class="normal"><a href="#__codelineno-8-2">2</a></span>
-<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ll</span><span class="p">;</span><span class="w"></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span>
+<span class="normal"><a href="#__codelineno-8-7">7</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">ll</span><span class="p">;</span><span class="w"></span>
 <a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="k">typedef</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vi</span><span class="p">;</span><span class="w"></span>
-<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="k">typedef</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pi</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="k">typedef</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vll</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="k">typedef</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pi</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="k">typedef</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="n">ll</span><span class="p">,</span><span class="n">ll</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pll</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="k">typedef</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pii</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vpi</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="k">typedef</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pll</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vpll</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
 <h3 id="macros">Macros</h3>
@@ -596,7 +619,15 @@ ser usadas diretamente no código. Sem essa linha teríamos que escrever, por ex
 <a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="cp">#define endl &#39;\n&#39;</span>
 </code></pre></div>
 </td></tr></table>
-<p>Assim, por exemplo, o código <code class="highlight"><span class="k">for</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"></span></code> pode ser simplificado por <code class="highlight"><span class="n">FOR</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span></code>. </p>
+<p>Assim, por exemplo, o código <code class="highlight"><span class="k">for</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"></span></code> pode ser simplificado por <code class="highlight"><span class="n">FOR</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"></span></code>.</p>
+<h2 id="manipulacao-de-bits">Manipulação de bits</h2>
+<h2 id="dicas-e-truques-de-c">Dicas e truques de C++</h2>
+<p>A seguir, são listados alguns links com dicas e truques de C++ úteis para programação competitiva. Leia <strong>todos</strong> com atenção:</p>
+<ul>
+<li><a href="https://codeforces.com/blog/entry/74684">C++ tips and tricks</a></li>
+<li><a href="http://www.codingwithart.com/2020/10/top-20-c-tips-and-tricks-for.html">Top 20 C++ Tricks for Competitive Programming</a></li>
+<li><a href="https://neps.academy/br/blog/truques-de-programacao-competitiva-para-programadores-de-c%2B%2B">Truques de programação competitiva para programadores de C++</a></li>
+</ul>
 
               
             </article>

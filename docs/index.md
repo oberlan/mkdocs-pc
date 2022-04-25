@@ -35,6 +35,7 @@ Revisão de conceitos de programação e algoritmos. Fundamentos de análise de 
 * [An Introduction to the USA Computing Olympiad](https://darrenyao.com/usacobook/cpp.pdf)
 * [Dynamic Programming for Computing Contest](https://dp-book.com/Dynamic_Programming.pdf)
 * [Algorithms](https://jeffe.cs.illinois.edu/teaching/algorithms/book/Algorithms-JeffE.pdf)
+* [Learn C++](https://www.learncpp.com/)
 
 ## Notebooks
 

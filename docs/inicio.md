@@ -90,7 +90,7 @@ Para se aprofundar mais:
 
 ## Trabalhando com números
 
-* Inteiros: Para evitarmos [*integer overflow*](https://www.cplusplus.com/articles/DE18T05o/), use sempre `#!c++ long long` (64bits) ao invés de `#!c++ int`.
+* Inteiros: Para evitar [*integer overflow*](https://www.cplusplus.com/articles/DE18T05o/), use sempre `#!c++ long long` (64bits) ao invés de `#!c++ int`.
 * Reais: Use `#!c++ double` (64bits) ou `#!c++ long double` (80bits). Esqueça o `#!c++ float` 😅. Além disso, nunca compare dois `#!c++ double` com o operador `#!c++ ==` (é possível que os valores sejam iguais, mas não são devido a erros de precisão). Para verificar se dois `#!c++ double` use o código a seguir:
 
 ``` c++ linenums="1"
@@ -102,6 +102,8 @@ if (abs(a-b) < 1e-9) {
 ...
 ```
 
+Para saber mais: [Data Types](https://usaco.guide/general/data-types?lang=cpp)
+
 ## Simplificando o código
 
 ### Nomes de tipos
@@ -111,7 +113,11 @@ Usando o comando `#!c++ typedef` é possível dar um nome mais curto a um tipo d
 ``` c++ linenums="1"
 typedef long long ll;
 typedef vector<int> vi;
+typedef vector<ll> vll;
 typedef pair<int,int> pi;
+typedef pair<ll,ll> pll;
+typedef vector<pii> vpi;
+typedef vector<pll> vpll;
 ```
 
 ### Macros
@@ -132,4 +138,12 @@ Uma macro significa que certas palavras no código serão substituídas antes da
 #define endl '\n'
 ```
 
-Assim, por exemplo, o código `#!c++ for(long long i = 0; i < n; ++i)` pode ser simplificado por `#!c++ FOR(i, 0, n)`. 
+Assim, por exemplo, o código `#!c++ for(long long i = 0; i < n; ++i)` pode ser simplificado por `#!c++ FOR(i, 0, n)`.
+
+## Dicas e truques de C++
+
+A seguir, são listados alguns links com dicas e truques de C++ úteis para programação competitiva. Leia **todos** com atenção:
+
+* [C++ tips and tricks](https://codeforces.com/blog/entry/74684)
+* [Top 20 C++ Tricks for Competitive Programming](http://www.codingwithart.com/2020/10/top-20-c-tips-and-tricks-for.html)
+* [Truques de programação competitiva para programadores de C++](https://neps.academy/br/blog/truques-de-programacao-competitiva-para-programadores-de-c%2B%2B)
