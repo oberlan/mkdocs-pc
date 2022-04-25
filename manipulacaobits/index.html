@@ -1,0 +1,844 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Oberlan Romão">
+      
+      
+        <link rel="canonical" href="https://algoritmos.oberlan.com/manipulacaobits/">
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.9">
+    
+    
+      
+        <title>Manipulação de Bits - Programação Competitiva</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.120efc48.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.9647289d.min.css">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#manipulacao-de-bits" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Programação Competitiva" class="md-header__button md-logo" aria-label="Programação Competitiva" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programação Competitiva
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Manipulação de Bits
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Limpar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programação Competitiva" class="md-nav__button md-logo" aria-label="Programação Competitiva" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programação Competitiva
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Disciplina
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inicio/" class="md-nav__link">
+        Inicio
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Manipulação de Bits
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Manipulação de Bits
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Indice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Indice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#operadores-sobre-bits" class="md-nav__link">
+    Operadores sobre Bits
+  </a>
+  
+    <nav class="md-nav" aria-label="Operadores sobre Bits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operador-and-e" class="md-nav__link">
+    Operador AND (&amp; e &amp;=)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operador-or-inclusivo-e" class="md-nav__link">
+    Operador OR inclusivo (| e |=)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operador-or-exclusivo-e" class="md-nav__link">
+    Operador OR exclusivo (^ e ^=)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operador-not-e" class="md-nav__link">
+    Operador NOT (~ e ~=)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operador-de-deslocamento-a-esquerda-e" class="md-nav__link">
+    Operador de deslocamento à esquerda (&lt;&lt; e &lt;&lt;=)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operador-de-deslocamento-a-direita-e" class="md-nav__link">
+    Operador de deslocamento à direita (&gt;&gt; e &gt;&gt;=)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funcoes-adicionais" class="md-nav__link">
+    Funções adicionais
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alguns-truques-e-aplicacoes" class="md-nav__link">
+    Alguns truques e aplicações
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stdbitset" class="md-nav__link">
+    std::bitset
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links-adicionais" class="md-nav__link">
+    Links adicionais
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../complexidade/" class="md-nav__link">
+        Complexidade de Algoritmos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../matematica/" class="md-nav__link">
+        Matemática
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ordenacao/" class="md-nav__link">
+        Ordenação e Busca
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ed/" class="md-nav__link">
+        Estrutura de Dados
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buscaexaustiva/" class="md-nav__link">
+        Busca Exaustiva
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guloso/" class="md-nav__link">
+        Algoritmos Gulosos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pd/" class="md-nav__link">
+        Programação dinâmica
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grafos/" class="md-nav__link">
+        Grafos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strings/" class="md-nav__link">
+        Processamento de strings
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gc/" class="md-nav__link">
+        Geometria Computacional
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="manipulacao-de-bits">Manipulação de Bits</h1>
+<p>Todos os dados em um programa de computador são internamente armazenados como números binários, ou seja, uma sequencia de 0's ou 1's. Em C++ um número do tipo <code>int</code> é uma variável de 32-bits, ou seja, todo número <code>int</code> consiste de uma sequencia de 32 0's ou 1's. Por exemplo, a representação do número <code>int</code> 43 é:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="mo">00000000000000000000000000101011</span><span class="w"></span>
+</code></pre></div>
+<p>Normalmente, é usada a representação de bits com sinal de um número, o que significa que números negativos e positivos podem ser representados. Por exemplo, o <code>int</code> de C++ é um tipo com sinal, logo uma variável desse tipo pode armazenar valroes inteiros entre <span class="arithmatex">\(-2^{31}\)</span> e <span class="arithmatex">\(2^{31} - 1\)</span>. O primeiro bit de uma representação com sinal indica o sinal do número (0 para números não-negativos e 1 para números negativos). O <strong>complemento de dois</strong> é usado, o que significa que o oposto de um número é calculado primeiro invertendo todos os bits do número e depois aumentando o número em um. Por exemplo, a representação do número <code>int</code> -43 é:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="mi">11111111111111111111111111010101</span><span class="w"></span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Atenção</p>
+<p>Se um número for maior que o limite superior da representação de bits, ocorerrá um <a href="https://www.cplusplus.com/articles/DE18T05o/"><em>overflow</em></a>. Considerando uma variável do tipo <code>int</code>, o próximo número depois de <span class="arithmatex">\(2^{31} - 1\)</span> é <span class="arithmatex">\(-2^{31}\)</span>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2147483647</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">v</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// -2147483648 (3)</span>
+</code></pre></div>
+<ol>
+<li><span class="arithmatex">\(01111111111111111111111111111111_2\)</span>.</li>
+<li>Deveria ser <span class="arithmatex">\(2147483648_{10}\)</span>, mas esse valor não pode ser representado em bits usando uma variável de 32-bits.</li>
+<li><span class="arithmatex">\(10000000000000000000000000000000_2\)</span> (lembre-se que é utilizado complemento de dois).</li>
+</ol>
+</div>
+<h2 id="operadores-sobre-bits">Operadores sobre Bits</h2>
+<h3 id="operador-and-e">Operador AND (<code>&amp;</code> e <code>&amp;=</code>)</h3>
+<p>Os bits são definidos como 1 no resultado, se os bits correspondentes em ambos os operadores forem 1. Exemplos:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">a</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">  </span><span class="c1">// 00000101</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">b</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="w">  </span><span class="c1">// 00001001</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">a</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000001</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">c</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="c1">// 00001010</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">d</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="c1">// 00001100</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">c</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">8</span><span class="w">  </span><span class="c1">// 00001000</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Dica</p>
+<p>Com o operador <code>&amp;</code>, podemos verificar se um número <code>x</code> é par usando <code>x &amp; 1</code>. De forma geral, <code>x</code> é divisível por <span class="arithmatex">\(2^k\)</span> se <span class="arithmatex">\(x \&amp; (2^k − 1) = 0\)</span>.</p>
+</div>
+<h3 id="operador-or-inclusivo-e">Operador OR inclusivo (<code>|</code> e <code>|=</code>)</h3>
+<p>Os bits são definidos como 1 no resultado, se pelo menos um dos bits correspondentes em ambos os operandos for 1. Exemplos:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">a</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">  </span><span class="c1">// 00000101</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">b</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="w">  </span><span class="c1">// 00001001</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">a</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="c1">// 00001101</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">c</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="c1">// 00001010</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">d</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="c1">// 00001100</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">c</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="c1">// 00001110</span>
+</code></pre></div>
+<h3 id="operador-or-exclusivo-e">Operador OR exclusivo (<code>^</code> e <code>^=</code>)</h3>
+<p>Os bits são definidos como 1 no resultado, se exatamente um dos bits correspondentes em ambos os operandos for 1. Exemplos:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">a</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w">  </span><span class="c1">// 00000101</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">b</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="w">  </span><span class="c1">// 00001001</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">a</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="c1">// 00001100</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">c</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="c1">// 00001010</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">d</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="c1">// 00001100</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">c</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">6</span><span class="w">  </span><span class="c1">// 00000110</span>
+</code></pre></div>
+<h3 id="operador-not-e">Operador NOT (<code>~</code> e <code>~=</code>)</h3>
+<p>Produz um número onde todos os bits são invertidos, ou seja, todos os bits 0 são definidos como 1 e vice-versa. O resultado do operador NOT depende do tamanho da representação do bit, pois a operação inverte todos os bits. Por exemplo, considerando um número do tipo <code>int</code> (32-bits), o resultado será:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="w"> </span><span class="n">a</span><span class="w">   </span><span class="o">=</span><span class="w">  </span><span class="mi">5</span><span class="w"> </span><span class="c1">// 00000000 00000000 00000000 00000101</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="o">~</span><span class="n">a</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">-6</span><span class="w"> </span><span class="c1">// 11111111 11111111 11111111 11111010</span>
+</code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title">Dica</p>
+<p>A formula <code>~x = -x - 1</code> é válida. Por exemplo, <code>~5 = 6</code>.</p>
+</div>
+<h3 id="operador-de-deslocamento-a-esquerda-e">Operador de deslocamento à esquerda (<code>&lt;&lt;</code> e <code>&lt;&lt;=</code>)</h3>
+<p>Desloca os bits do primeiro operando à esquerda pelo número de bits especificado pelo segundo operando (deve ser um valor positivo): preenche a partir da direita com zero (0). Exemplos:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w">       </span><span class="c1">// 00000001 -&gt; 1</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000010 -&gt; 2</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000100 -&gt; 4</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00001000 -&gt; 8</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00010000 -&gt; 16</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w">       </span><span class="c1">// 00000111</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00001110 -&gt; 14</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w">       </span><span class="c1">// 00000111</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">c</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">3</span><span class="w">     </span><span class="c1">// 00111000 -&gt; 56</span>
+</code></pre></div>
+<h3 id="operador-de-deslocamento-a-direita-e">Operador de deslocamento à direita (<code>&gt;&gt;</code> e <code>&gt;&gt;=</code>)</h3>
+<p>Desloca os bits do primeiro operando à direita pelo número de bits especificado pelo segundo operando (deve ser um valor positivo): preenche a partir da esquerda com zero (0). Exemplos:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w">      </span><span class="c1">// 00010001 -&gt; 16</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00001010 -&gt; 8</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000100 -&gt; 4</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000010 -&gt; 2</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000001 -&gt; 1</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">// 00000000 -&gt; 0</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">56</span><span class="w">      </span><span class="c1">// 00111000</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">3</span><span class="w">  </span><span class="c1">// 00000111 -&gt; 7</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">56</span><span class="w">      </span><span class="c1">// 00111000</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">c</span><span class="w"> </span><span class="o">&gt;&gt;=</span><span class="w"> </span><span class="mi">3</span><span class="w">     </span><span class="c1">// 00000111 -&gt; 7</span>
+</code></pre></div>
+<h2 id="funcoes-adicionais">Funções adicionais</h2>
+<p>O compilador <code>g++</code> fornece as seguintes funções para contar bits:</p>
+<ul>
+<li><code>__builtin_clz(x)</code>: o número de zeros no início do número <code>int</code>;</li>
+<li><code>__builtin_ctz(x)</code>: o número de zeros no final do número <code>int</code>;</li>
+<li><code>__builtin_popcount(x)</code>: o número de uns no número <code>int</code>;;</li>
+<li><code>__builtin_parity(x)</code>: a paridade (par ou ímpar) de uns de um número <code>int</code>.;</li>
+</ul>
+<p>Veja um exemplo de utilização dessas funções:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5328</span><span class="p">;</span><span class="w"> </span><span class="c1">// 00000000000000000001010011010000</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">__builtin_clz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 19</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">__builtin_ctz</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 4</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">__builtin_popcount</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 5</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">__builtin_parity</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 1</span>
+</code></pre></div>
+</td></tr></table>
+<div class="admonition note">
+<p>Embora as funções acima sejam apenas para números <code>int</code>, também existem versões das funções que suportam <code>long</code> e <code>long long</code> bastando adicionar o sufixo <code>l</code> ou <code>ll</code> no nome das funções.</p>
+<ul>
+<li>
+<p><code>__builtin_clzl(x)</code> ou <code>__builtin_clzll(x)</code></p>
+</li>
+<li>
+<p><code>__builtin_ctzl(x)</code> ou <code>__builtin_ctzll(x)</code></p>
+</li>
+<li>
+<p><code>__builtin_popcountl(x)</code> ou <code>__builtin_popcountll(x)</code></p>
+</li>
+<li>
+<p><code>__builtin_parityl(x)</code> ou <code>__builtin_parityll(x)</code></p>
+</li>
+</ul>
+</div>
+<h2 id="alguns-truques-e-aplicacoes">Alguns truques e aplicações</h2>
+<p>Um número da forma <code>1 &lt;&lt; k</code> tem um bit na posição <code>k</code> e todos os outros bits são zero, então esse número pode ser usado para acessar bits únicos de números. Em particular, o <span class="arithmatex">\(k\)</span>-ésimo bit de um número é 1 exatamente quando <code>x &amp; (1 &lt;&lt; k)</code> não é zero. Por exemplo, para imprimir a representação de bits de um número <code>int</code> pode ser usado o seguinte código:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="o">&amp;</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Outras aplicações:</p>
+<ul>
+<li><code>x = x | (1 &lt;&lt; k)</code>: define o <span class="arithmatex">\(k\)</span>-ésimo bit de <code>x</code> para 1;</li>
+<li><code>x = x &amp; ~(1 &lt;&lt; k)</code>: define o <span class="arithmatex">\(k\)</span>-ésimo bit de <code>x</code> para 0;</li>
+<li><code>x = x ^ (1 &lt;&lt; k)</code>: inverte o <span class="arithmatex">\(k\)</span>-ésimo bit de <code>x</code>;</li>
+<li><code>x = x &amp; (x − 1)</code>: define o último bit 1 de <code>x</code> como zero;</li>
+<li><code>x = x &amp; −x</code>: define todos os bits 1 como 0, exceto o último bit 1;</li>
+<li><code>x = x | (x − 1)</code>: inverte todos os bits após o último bit 1;</li>
+<li><code>x &amp; (x − 1)</code>: se <code>x</code> for um número positivo, verifica se <code>x</code> é uma potência de dois.</li>
+</ul>
+<h2 id="stdbitset">std::bitset</h2>
+<p><a href="https://en.cppreference.com/w/cpp/utility/bitset">Bitset</a> é um contêiner da Standard Template Library do C++ que representa uma sequência de tamanho fixo de <span class="arithmatex">\(N\)</span> bits. Bitsets podem ser manipulados por operadores lógicos padrão e convertidos para inteiros ou strings. Exemplos:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span>
+<span class="normal"><a href="#__codelineno-11-19">19</a></span>
+<span class="normal"><a href="#__codelineno-11-20">20</a></span>
+<span class="normal"><a href="#__codelineno-11-21">21</a></span>
+<span class="normal"><a href="#__codelineno-11-22">22</a></span>
+<span class="normal"><a href="#__codelineno-11-23">23</a></span>
+<span class="normal"><a href="#__codelineno-11-24">24</a></span>
+<span class="normal"><a href="#__codelineno-11-25">25</a></span>
+<span class="normal"><a href="#__codelineno-11-26">26</a></span>
+<span class="normal"><a href="#__codelineno-11-27">27</a></span>
+<span class="normal"><a href="#__codelineno-11-28">28</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span><span class="w">        </span><span class="c1">// 00101010</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span><span class="w">       </span><span class="c1">// 00000000000000000000000000101010</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">32</span><span class="o">&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">(</span><span class="s">&quot;110010&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 00000000000000000000000000110010</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">to_ulong</span><span class="p">();</span><span class="w">   </span><span class="c1">// 50</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b1</span><span class="p">(</span><span class="s">&quot;0110&quot;</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b2</span><span class="p">(</span><span class="s">&quot;0011&quot;</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;b1 &amp; b2: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">b1</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// b1 &amp; b2: 0010</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;b1 | b2: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">b1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// b1 | b2: 0111</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;b1 ^ b2: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">b1</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">b2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"> </span><span class="c1">// b1 ^ b2: 0101</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">e</span><span class="p">;</span><span class="w"> </span><span class="c1">//00000000</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="n">e</span><span class="p">.</span><span class="n">set</span><span class="p">();</span><span class="w">     </span><span class="c1">//11111111</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14"></a><span class="n">e</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span><span class="w">   </span><span class="c1">//00000000</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="n">e</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span><span class="w">    </span><span class="c1">//00001000</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="n">e</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">//00000000</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="n">e</span><span class="p">.</span><span class="n">flip</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w">   </span><span class="c1">//00000001</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="n">e</span><span class="p">.</span><span class="n">flip</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">   </span><span class="c1">//00000011</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="n">e</span><span class="p">.</span><span class="n">flip</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span><span class="w">   </span><span class="c1">//10000011</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="n">e</span><span class="p">.</span><span class="n">flip</span><span class="p">();</span><span class="w">    </span><span class="c1">//01111100</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21"></a>
+<a id="__codelineno-11-22" name="__codelineno-11-22"></a><span class="n">bitset</span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f</span><span class="p">{</span><span class="mb">0b01110010</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-11-23" name="__codelineno-11-23"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">       </span><span class="c1">//01110010</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">//00111001</span>
+<a id="__codelineno-11-25" name="__codelineno-11-25"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">&gt;&gt;=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">//00011100</span>
+<a id="__codelineno-11-26" name="__codelineno-11-26"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">&gt;&gt;=</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">//00000111</span>
+<a id="__codelineno-11-27" name="__codelineno-11-27"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">&lt;&lt;=</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">//00111000</span>
+<a id="__codelineno-11-28" name="__codelineno-11-28"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">count</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 3</span>
+</code></pre></div>
+</td></tr></table>
+<p>Explore mais o contêiner através da <a href="https://en.cppreference.com/w/cpp/utility/bitset">documentação</a>.</p>
+<h2 id="links-adicionais">Links adicionais</h2>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=xXKL9YBWgCY">Bitwise Operations tutorial #1 | XOR, Shift, Subsets</a></li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=jqJ5s077OKo">C++ Bitsets in Competitive Programming</a></li>
+<li><a href="https://www.programiz.com/c-programming/bitwise-operators">C Bitwise Operators: AND, OR, XOR, Complement and Shift Operations</a></li>
+<li><a href="https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/">Bitwise Operators in C/C++ - GeeksforGeeks</a></li>
+<li><a href="https://www.geeksforgeeks.org/bits-manipulation-important-tactics/">Bits manipulation (Important tactics) - GeeksforGeeks</a></li>
+<li><a href="https://www.geeksforgeeks.org/bitwise-hacks-for-competitive-programming/">Bitwise Hacks for Competitive Programming - GeeksforGeeks</a></li>
+<li><a href="https://www.geeksforgeeks.org/bit-tricks-competitive-programming/">Bit Tricks for Competitive Programming - GeeksforGeeks</a></li>
+<li><a href="https://www.geeksforgeeks.org/bitwise-algorithms/">Bitwise Algorithms - GeeksforGeeks</a></li>
+<li><a href="https://www.geeksforgeeks.org/builtin-functions-gcc-compiler/">Builtin functions of GCC compiler - GeeksforGeeks</a></li>
+<li><a href="https://www.hackerearth.com/practice/notes/bit-manipulation/">Bit Manipulation | HackerEarth</a></li>
+<li><a href="https://neps.academy/br/course/matematica-computacional-(codcad)/lesson/manipulacao-de-bits">Manipulação de Bits | Neps Academy</a></li>
+<li><a href="https://www.geeksforgeeks.org/c-bitset-and-its-application/">C++ bitset and its application</a></li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Voltar para o topo
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Rodapé">
+      
+        
+        <a href="../inicio/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Inicio" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              Inicio
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../complexidade/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Complexidade de Algoritmos" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              Complexidade de Algoritmos
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 - 2022 Oberlan Romão
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de Transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de Transfer\u00eancia", "search.config.lang": "pt", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Buscar", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Perdido", "select.version.title": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6e54b5cd.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

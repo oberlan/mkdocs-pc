@@ -11,6 +11,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://algoritmos.oberlan.com/complexidade/</loc>
+         <lastmod>2022-04-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://algoritmos.oberlan.com/ed/</loc>
          <lastmod>2022-04-25</lastmod>
          <changefreq>daily</changefreq>
@@ -32,6 +37,11 @@
     </url>
     <url>
          <loc>https://algoritmos.oberlan.com/inicio/</loc>
+         <lastmod>2022-04-25</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://algoritmos.oberlan.com/manipulacaobits/</loc>
          <lastmod>2022-04-25</lastmod>
          <changefreq>daily</changefreq>
     </url>
