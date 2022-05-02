@@ -107,8 +107,8 @@ c <<= 3     // 00111000 -> 56
 Desloca os bits do primeiro operando à direita pelo número de bits especificado pelo segundo operando (deve ser um valor positivo): preenche a partir da esquerda com zero (0). Exemplos:
 
 ```c++
-a = 16      // 00010001 -> 16
-a = a >> 1  // 00001010 -> 8
+a = 16      // 00010000 -> 16
+a = a >> 1  // 00001000 -> 8
 a = a >> 1  // 00000100 -> 4
 a = a >> 1  // 00000010 -> 2
 a = a >> 1  // 00000001 -> 1
