@@ -1,5 +1,5 @@
 site_name: Programação Competitiva
-site_url: https://algoritmos.oberlan.com/ 
+site_url: https://pc.oberlan.com/ 
 site_author: Oberlan Romão
 
 # Copyright
@@ -11,7 +11,8 @@ nav:
   - Inicio: inicio.md
   - Manipulação de Bits: manipulacaobits.md
   - Complexidade de Algoritmos: complexidade.md
-  - Matemática: matematica.md
+  - Teoria dos Números: teorianumeros.md
+  - Combinatória: combinatoria.md
   - Ordenação e Busca: ordenacao.md
   - Estrutura de Dados: ed.md
   - Busca Exaustiva: buscaexaustiva.md
@@ -63,7 +64,9 @@ markdown_extensions:
   - def_list
   - pymdownx.arithmatex:
       generic: true
+  - md_in_html
   - admonition
+  - footnotes
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight:

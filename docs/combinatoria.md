@@ -1,3 +1,3 @@
-# Matemática
+# Combinatória
 
 Em construção...
