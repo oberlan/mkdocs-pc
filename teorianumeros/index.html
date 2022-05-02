@@ -1,0 +1,993 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Oberlan Romão">
+      
+      
+        <link rel="canonical" href="https://pc.oberlan.com/teorianumeros/">
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.9">
+    
+    
+      
+        <title>Teoria dos Números - Programação Competitiva</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.120efc48.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.9647289d.min.css">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#teoria-dos-numeros1" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Programação Competitiva" class="md-header__button md-logo" aria-label="Programação Competitiva" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Programação Competitiva
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Teoria dos Números
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Limpar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Programação Competitiva" class="md-nav__button md-logo" aria-label="Programação Competitiva" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Programação Competitiva
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Disciplina
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inicio/" class="md-nav__link">
+        Inicio
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manipulacaobits/" class="md-nav__link">
+        Manipulação de Bits
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../complexidade/" class="md-nav__link">
+        Complexidade de Algoritmos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Teoria dos Números
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Teoria dos Números
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Indice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Indice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#divisibilidade" class="md-nav__link">
+    Divisibilidade
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#numeros-primos" class="md-nav__link">
+    Números Primos
+  </a>
+  
+    <nav class="md-nav" aria-label="Números Primos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testes-de-primalidade" class="md-nav__link">
+    Testes de Primalidade
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decomposicao-em-fatores-primos" class="md-nav__link">
+    Decomposição em fatores primos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crivo-de-eratostenes" class="md-nav__link">
+    Crivo de Eratóstenes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#primo-de-mersenne" class="md-nav__link">
+    Primo de Mersenne
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algoritmo-de-euclides-mdcmmc" class="md-nav__link">
+    Algoritmo de Euclides (MDC/MMC)
+  </a>
+  
+    <nav class="md-nav" aria-label="Algoritmo de Euclides (MDC/MMC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcao-totiente-de-euler" class="md-nav__link">
+    Função totiente de Euler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aritmetica-modular" class="md-nav__link">
+    Aritmética Modular
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exponenciacao-binaria" class="md-nav__link">
+    Exponenciação Binária
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combinatoria/" class="md-nav__link">
+        Combinatória
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ordenacao/" class="md-nav__link">
+        Ordenação e Busca
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ed/" class="md-nav__link">
+        Estrutura de Dados
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buscaexaustiva/" class="md-nav__link">
+        Busca Exaustiva
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guloso/" class="md-nav__link">
+        Algoritmos Gulosos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pd/" class="md-nav__link">
+        Programação dinâmica
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grafos/" class="md-nav__link">
+        Grafos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strings/" class="md-nav__link">
+        Processamento de strings
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gc/" class="md-nav__link">
+        Geometria Computacional
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="teoria-dos-numeros1">Teoria dos Números<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h1>
+<p><strong>Teoria dos Números</strong> é um ramo da matemática que estuda os números inteiros. Dominar o maior número possível de tópicos da teoria dos números é importante, pois alguns problemas matemáticos se tornam fáceis (ou mais fáceis) se você conhecer a teoria por trás do problema.</p>
+<h2 id="divisibilidade">Divisibilidade</h2>
+<p>Um inteiro <span class="arithmatex">\(n\)</span> é divisível por um inteiro <span class="arithmatex">\(d\)</span> (denotado por <span class="arithmatex">\(d | n\)</span>.) se houver outro inteiro <span class="arithmatex">\(q\)</span> tal que <span class="arithmatex">\(n = d \times q\)</span>. Também é dito que <span class="arithmatex">\(d\)</span> é um divisor de <span class="arithmatex">\(n\)</span>. Dividindo os dois lados da igualdade <span class="arithmatex">\(n = dq\)</span> por <span class="arithmatex">\(d\)</span> tem-se uma definição quase equivalente, ou seja, que <span class="arithmatex">\(\frac{n}{d}\)</span> é um inteiro.</p>
+<div class="admonition example">
+<p class="admonition-title">Exemplo</p>
+<p>O número 12 possui 6 divisores: <span class="arithmatex">\(1~(1 \times 12 = 12), 2~(2 \times 6 = 12), 3~(3 \times 4 = 12), 4~(4 \times 3 = 12), 6~(6 \times 6 = 12)\)</span> e <span class="arithmatex">\(12~(12 \times 1 = 12)\)</span>.</p>
+</div>
+<p>O conceito de divisibilidade traz muitas questões. A primeira é como verificar se um númro é divisível por outro. Para número pequenos, que podem ser armazenados em variáveis, por exemplo, do tipo <code class="highlight"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"></span></code>, pode-se usar o operador módulo ou resto da divisão (<code>%</code>): <span class="arithmatex">\(n\)</span> é divisível por <span class="arithmatex">\(d\)</span> se e somente se <code>ǹ % d == 0</code>. Entretanto, para números inteiros grandes a solução não é tão simples. Na Seção <a href="#aritmetica-modular">Aritmética Modular</a> será discutido como implementar o operador módulo para número inteiros grandes.</p>
+<p>Outra questão é como calcular os divisores de um número. Todo inteiro <span class="arithmatex">\(n\)</span> tem pelo menos dois divisores (<span class="arithmatex">\(1\)</span> e <span class="arithmatex">\(n\)</span>). Para encontrar os outros divisores, pode-se usar o fato que qualquer divisor <span class="arithmatex">\(d\)</span> de <span class="arithmatex">\(n\)</span> deve satisfazer <span class="arithmatex">\(|d| \leq |n|\)</span>. Assim, pode-se testar se os inteiros entre <span class="arithmatex">\(1\)</span> e <span class="arithmatex">\(n\)</span> são divisores de <span class="arithmatex">\(n\)</span>, ou seja, um algoritmo <span class="arithmatex">\(O(n)\)</span>. Entretanto, sempre que tem-se um divisor <span class="arithmatex">\(d\)</span>, tem-se outro divisor <span class="arithmatex">\(q\)</span> (veja o exemplo anterior). Por exemplo, ao afirmar que <span class="arithmatex">\(3\)</span> é um divisor de <span class="arithmatex">\(12\)</span>, pois <span class="arithmatex">\(3 \times 4 = 12\)</span>, tem-se outro divisor, <span class="arithmatex">\(4\)</span>. Ou seja, os divisores vêm em pares. Veja outros exemplo:</p>
+<div class="admonition example">
+<p class="admonition-title">Exemplo</p>
+<p>O número 16 possui 5 divisores: <span class="arithmatex">\(1~(1 \times 16 = 16), 2~(2 \times 8 = 16), 4~(4 \times 4 = 16), 8~(8 \times 2 = 16)\)</span> e <span class="arithmatex">\(16~(16 \times 6 = 16)\)</span>.</p>
+</div>
+<p>Dessa forma, pode-se limitar a encontrar cada elemento desses pares. Além disso, um dos valores de cada par deve ser limitado por <span class="arithmatex">\(\sqrt n\)</span>. Por quê? Esse limite, ajuda a reduzir a complexidade do algoritmo que encontra todos os dividos de um número para <span class="arithmatex">\(O(\sqrt n)\)</span>. A função abaixo retorna um <code>vector</code> com todos os divisores de <span class="arithmatex">\(n\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">divisores</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="n">a</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">a</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">            </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">            </span><span class="n">ans</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="n">ans</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li><code>x &lt;= sqrt(n)</code> é o mesmo que <code>x*x &lt;= n</code>.</li>
+<li>Em alguns casos, é interessante ou necessário retornar os divisores ordenados</li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://cp-algorithms.com/algebra/divisors.html">Number of divisors / sum of divisors</a></li>
+<li><a href="https://usaco.guide/gold/divisibility">Divisibility</a></li>
+<li><a href="https://codeforces.com/blog/entry/22317">Counting Divisors of a Number in <span class="arithmatex">\(O(n^{\frac{1}{3}})\)</span></a></li>
+<li><a href="https://mathschallenge.net/library/number/number_of_divisors">How many divisors does a number have?</a></li>
+</ul>
+<h2 id="numeros-primos">Números Primos</h2>
+<p>Um número inteiro <span class="arithmatex">\(n &gt; 1\)</span> é chamado de <strong>número primo</strong> se e somente se possui dois divisores: <span class="arithmatex">\(1\)</span> e <span class="arithmatex">\(n\)</span>. Um número que não é primo é chamado de <strong>número composto</strong> (veja a figura abaixo). O primeiro e único número primo par é <span class="arithmatex">\(2\)</span>. Os próximos números primos são: <span class="arithmatex">\(3, 5, 7, 11, 13, \dots\)</span>. Como você deve imaginar, existe um número infinito de primos (Veja a prova <a href="https://pt.wikipedia.org/wiki/N%C3%BAmero_primo#:~:text=Existem%20infinitos%20n%C3%BAmeros%20primos.">aqui</a>).</p>
+<figure>
+<p><img src="/img/Primes-vs-composites.png" alt="Números primos e compostos" style="width:200px;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Números primos são os números naturais maiores que um que não são produtos de dois números naturais menores.(Fonte: <a href="https://pt.wikipedia.org/wiki/N%C3%BAmero_primo">Wikipédia</a>)</figcaption>
+</figure>
+<p>Número primo é um tópico importante do teoria dos números e a fonte de muitos problemas em programações competitivas. Por isso é de extrema importancia conhecer e dominar alguns algoritmos que envolvam números primos.</p>
+<h3 id="testes-de-primalidade">Testes de Primalidade</h3>
+<p>Se um número <span class="arithmatex">\(n\)</span> não é primo, então ele pode ser representado pelo produto de dois inteiros <span class="arithmatex">\(a \times b\)</span>, onde <span class="arithmatex">\(a \leq \sqrt n\)</span> ou <span class="arithmatex">\(b \leq \sqrt n\)</span>. Com isso, pode-se testar se um número é primo ou não e encontrar uma decomposição (fatoração) em fatores primos em <span class="arithmatex">\(O(\sqrt n)\)</span>. A função abaixo verifica se um dado número <span class="arithmatex">\(n\)</span> é primo ou não.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span>
+<span class="normal"><a href="#__codelineno-1-7">7</a></span>
+<span class="normal"><a href="#__codelineno-1-8">8</a></span>
+<span class="normal"><a href="#__codelineno-1-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">ehPrimo</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">x</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li><code>x &lt;= sqrt(n)</code> é o mesmo que <code>x*x &lt;= n</code>.</li>
+</ol>
+<p>Ou, alternativamente:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">isPrimeFast</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">maxP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxP</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">2</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Fonte: <a href="https://github.com/splucs/Competitive-Programming/blob/master/Macac%C3%A1rio/Math/primes.cpp">primes.cpp</a></li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://cp-algorithms.com/algebra/primality_tests.html">Primality tests</a></li>
+</ul>
+<h3 id="decomposicao-em-fatores-primos">Decomposição em fatores primos</h3>
+<p>Todo número positivo <span class="arithmatex">\(n\)</span> possui uma decomposição (fatoração) em fatores primos única: uma forma de decompor <span class="arithmatex">\(n\)</span> em um produto de números primos, ou seja:</p>
+<div class="arithmatex">\[
+n = p_1^{a_1} \times p_2^{a_2} \times \dots  \times p_k^{a_k},
+\]</div>
+<p>onde <span class="arithmatex">\(p_i\)</span> são números primos distintos e <span class="arithmatex">\(a_i\)</span> inteiros positivos.</p>
+<p>A função abaixo retorna um <code>vector</code> com a decomposição em fatores primos de <span class="arithmatex">\(n\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">factor</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">            </span><span class="n">ans</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">            </span><span class="n">n</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">ans</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Note que cada fator primo aparece no vetor o número de vezes que ele divide <span class="arithmatex">\(n\)</span>. Por exemplo, <span class="arithmatex">\(24 = 2^3 \times 3\)</span>, então o resultado da função é <span class="arithmatex">\([2,2,2,3]\)</span>.</p>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://cp-algorithms.com/algebra/factorization.html">Integer factorization</a></li>
+<li><a href="https://github.com/UnBalloon/programacao-competitiva/tree/master/Primalidade%20e%20fatora%C3%A7%C3%A3o#decomposi%C3%A7%C3%A3ofatora%C3%A7%C3%A3o-em-fatores-primos">Primalidade e fatoração</a></li>
+</ul>
+<h3 id="crivo-de-eratostenes">Crivo de Eratóstenes</h3>
+<p>O <strong>Crivo de Eratóstenes</strong> é um algoritmo para encontrar todos os números primos até um certo limite usando <span class="arithmatex">\(O(n \log \log n)\)</span> operações.</p>
+<p>A ideia do algoritmo é a seguinte: inicialmente, escreve-se todos os números entre <span class="arithmatex">\(2\)</span> e <span class="arithmatex">\(n\)</span>. Então, marca-se todos os múltiplos de <span class="arithmatex">\(2\)</span> (já que <span class="arithmatex">\(2\)</span> é o menor número primo). Em seguida, pega-se o próximo valor que não foi marcado como composto, neste caso, é o <span class="arithmatex">\(3\)</span>. Isso significa que 3 é primo. Então, marca-se todos os múltiplos de 3 como compostos. O próximo número não marcado é o <span class="arithmatex">\(5\)</span> (próximo número primo). Marca-se todos os múltiplos de <span class="arithmatex">\(5\)</span>. Este processo é repetido até <span class="arithmatex">\(n\)</span>. A animação abaixo exemplifica a execução do algoritmo para <span class="arithmatex">\(n = 120\)</span>.</p>
+<figure>
+<p><img src="/img/Sieve_of_Eratosthenes_animation.gif" alt="Crivo de Eratóstenes" style="width:400px;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Crivo de Eratóstenes: passos do algoritmo para primos abaixo de 121.(Fonte: <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Wikipédia</a>)</figcaption>
+</figure>
+<p>O código abaixo exemplifica uma possível implementação do algoritmo. Esse algoritmo possui complexidade <span class="arithmatex">\(O(n \log \log n)\)</span> (veja a prova <a href="https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html#asymptotic-analysis">aqui</a>).</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="n">crivo</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="n">primo</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">    </span><span class="n">primo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">primo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">primo</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">                </span><span class="n">primo</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">primo</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Cria um array (<a href="https://en.cppreference.com/w/cpp/container/vector">vector</a>) booleano de tamanho <span class="arithmatex">\(n + 1\)</span>, onde todas as posições são inicializadas com <code class="highlight"><span class="nb">true</span><span class="w"></span></code>.</li>
+<li>Iteramos por todos os números divisíveis pelo primo <code>i</code></li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html">Sieve of Eratosthenes</a></li>
+<li><a href="https://cp-algorithms.com/algebra/prime-sieve-linear.html">Linear Sieve</a></li>
+<li><a href="https://codeforces.com/blog/entry/54090">Math note - linear sieve</a></li>
+</ul>
+<h3 id="primo-de-mersenne">Primo de Mersenne</h3>
+<p>Número de Mersenne é todo número natural da forma <span class="arithmatex">\(M_{n}=2^{n}-1\)</span>, onde <span class="arithmatex">\(n\)</span> é um número natural. Os primeiros números Mersenne são: <span class="arithmatex">\(0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, \dots\)</span>. Um subconjunto particularmente interessante é o constituído pelos números de Mersenne que são também primos: os <strong>primos de Mersenne</strong>. Note que nem todo número de Mersenne é primo, assim como nem todo número primo é de Mersenne.</p>
+<p>Os primeiros primos de Mersenne são: <span class="arithmatex">\(M_2 = 3, M_3 = 7, M_5 = 31, M_7 = 127, M_13 = 8191, M_17 = 131071, M_19 = 524287, \dots\)</span></p>
+<p>Um resultado elementar sobre os números de Mersenne afirma que se <span class="arithmatex">\(2^{n}-1\)</span> é um número primo, então <span class="arithmatex">\(n\)</span> também é um número primo.</p>
+<h2 id="algoritmo-de-euclides-mdcmmc">Algoritmo de Euclides (MDC/MMC)</h2>
+<p>O <strong>máximo divisor comum</strong> (GCD, do inglês <em>greatest common divisor</em>) dos números <span class="arithmatex">\(a\)</span> e <span class="arithmatex">\(b\)</span>, <code>gcd(a,b)</code>, é o maior número que divide <span class="arithmatex">\(a\)</span> e <span class="arithmatex">\(b\)</span>, e o <strong>mínimo múltiplo comum</strong> (LCM, do inglês <em>least common multiple</em>) de <span class="arithmatex">\(a\)</span> e <span class="arithmatex">\(b\)</span>, <code>lcm(a,b)</code>, é o menor número que é divisível por <span class="arithmatex">\(a\)</span> e <span class="arithmatex">\(b\)</span>.</p>
+<p>O algoritmo de Euclides fornece uma maneira eficiente de encontrar o máximo divisor comum de dois números. O algoritmo é baseado na seguinte definição:</p>
+<div class="arithmatex">\[
+\gcd(a, b) = \begin{cases}a,&amp;\text{se }b = 0 \\ \gcd(b, a \bmod b),&amp;\text{caso contrário.}\end{cases}
+\]</div>
+<p>Usando essa definição, o algoritmo é facilmente implementado usando recursão:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span>
+<span class="normal"><a href="#__codelineno-5-4">4</a></span>
+<span class="normal"><a href="#__codelineno-5-5">5</a></span>
+<span class="normal"><a href="#__codelineno-5-6">6</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">gcd</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">    </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<div class="admonition tip">
+<p class="admonition-title">Dica</p>
+<p>Você pode usar a função integrada <code>__gcd(a, b)</code> do C++.</p>
+</div>
+<p>Pode-se mostrar que o algoritmo de Euclides possui complexidade <span class="arithmatex">\(O(\log n)\)</span>, onde <span class="arithmatex">\(n = min(a,b)\)</span>.</p>
+<p>O <strong>mínimo múltiplo comum</strong> (LCM) pode ser calculado da seguinte forma:</p>
+<div class="arithmatex">\[
+lcm(a, b) = \frac{a \times b}{gcd(a,b)}
+\]</div>
+<p>Para calcular o GCD ou LCM de mais de dois valores, pode-se calcular o valor de dois em dois (em qualquer ordem). Por exemplo:</p>
+<div class="arithmatex">\[
+gcd(a, b, c, d) = gcd(a, gcd(b, gcd(c, d)))
+\]</div>
+<h3 id="funcao-totiente-de-euler">Função totiente de Euler</h3>
+<p>A função totiente de Euler, também conhecida como função <span class="arithmatex">\(\phi (n)\)</span>, conta o número de inteiros entre <span class="arithmatex">\(1\)</span> e <span class="arithmatex">\(n\)</span>, no qual são <strong>coprimos</strong> de <span class="arithmatex">\(n\)</span>. Dois números são coprimos se o <a href="#algoritmo-de-euclides-mdcmmc">máximo divisor comum</a> entre eles for 1 (1 é considerado ser coprimo para qualquer número). Por exemplo, <span class="arithmatex">\(\phi (12) = 4\)</span>, pois 1, 5, 7 e 11 são coprimos de 12.</p>
+<p>Abaixo estão valores de <span class="arithmatex">\(\phi (n)\)</span> para os primeiros números inteiros positivos:</p>
+<div class="arithmatex">\[\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} \hline n &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; 5 &amp; 6 &amp; 7 &amp; 8 &amp; 9 &amp; 10 &amp; 11 &amp; 12 &amp; 13 &amp; 14 &amp; 15 &amp; 16 &amp; 17 &amp; 18 &amp; 19 &amp; 20 &amp; 21 \\ \hline \phi(n) &amp; 1 &amp; 1 &amp; 2 &amp; 2 &amp; 4 &amp; 2 &amp; 6 &amp; 4 &amp; 6 &amp; 4 &amp; 10 &amp; 4 &amp; 12 &amp; 6 &amp; 8 &amp; 8 &amp; 16 &amp; 6 &amp; 18 &amp; 8 &amp; 12 \\ \hline \end{array}\]</div>
+<p>A função abaixo calcula o valor de <span class="arithmatex">\(\phi (n)\)</span> em <span class="arithmatex">\(O(\sqrt n)\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">phi</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">                </span><span class="n">n</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://cp-algorithms.com/algebra/euclid-algorithm.html">Euclidean algorithm for computing the greatest common divisor</a></li>
+<li><a href="https://cp-algorithms.com/algebra/phi-function.html">Euler's totient function</a></li>
+</ul>
+<h2 id="aritmetica-modular">Aritmética Modular</h2>
+<p>Na <strong>aritmética modular</strong>, o conjunto de números é limitado de forma que apenas os números <span class="arithmatex">\(0,1,2,\dots,m−1\)</span> são usados, onde <span class="arithmatex">\(m\)</span> é uma constante. Cada número <span class="arithmatex">\(x\)</span> é representado pelo número <span class="arithmatex">\(x \bmod m\)</span>: o resto da divisão de <span class="arithmatex">\(x\)</span> por <span class="arithmatex">\(m\)</span>. Por exemplo, se <span class="arithmatex">\(m = 23\)</span>, em vez <span class="arithmatex">\(x = 247\)</span>, considera-se <span class="arithmatex">\(x \bmod 23 = 17\)</span>. Normalmente, <span class="arithmatex">\(m\)</span> será um primo grande, dado no problema, normalmente, <span class="arithmatex">\(10^9 + 7\)</span>. A aritmética modular é usada para evitar <a href="https://www.cplusplus.com/articles/DE18T05o/"><em>integer overflow</em></a>.</p>
+<p>As seguintes propriedades valem no cálculo do módulo:</p>
+<div class="arithmatex">\[(a+b) \bmod m = (a \bmod m + b \bmod m) \bmod m\]</div>
+<div class="arithmatex">\[(a-b) \bmod m = (a \bmod m - b \bmod m) \bmod m\]</div>
+<div class="arithmatex">\[(a \cdot b) \pmod{m} = ((a \bmod m) \cdot (b \bmod m)) \bmod m\]</div>
+<div class="arithmatex">\[a^b \bmod {m} = (a \bmod m)^b \bmod m\]</div>
+<p>O que significa que se a resposta está sendo computada por meio de adições, subtrações e multiplicações, e no final você precisa tirar o módulo dela, você pode tirar módulo em todas as operações intermediárias que isso não afetará a resposta.</p>
+<h2 id="exponenciacao-binaria">Exponenciação Binária</h2>
+<p>A <strong>exponenciação binária</strong> é um truque que permite calcular <span class="arithmatex">\(x^n\)</span> usando apenas multiplicações <span class="arithmatex">\(O(\log⁡ n)\)</span> (em vez das multiplicações <span class="arithmatex">\(O(n)\)</span> exigidas pela abordagem ingênua).</p>
+<p>Sabe-se que <span class="arithmatex">\(x^a \cdot x^b = x^{a+b}\)</span>. Em particular, <span class="arithmatex">\(x^{2b} = x^b \cdot x^b\)</span>. Logo, se o expoente <span class="arithmatex">\(n\)</span> de <span class="arithmatex">\(x^n\)</span> for par, pode-se dizer que <span class="arithmatex">\(x^n = x^{\frac{n}{2}} \cdot x^{\frac{n}{2}}\)</span>. No entanto, se <span class="arithmatex">\(n\)</span> for ímpar, tem-se algo similar: <span class="arithmatex">\(x^n = x^{\frac{n-1}{2}} \cdot x^{\frac{n-1}{2}} \cdot x\)</span>. Dessa forma, pode-se montar a seguinte recorrência:</p>
+<div class="arithmatex">\[
+x^n = \begin{cases} 1 &amp;\text{se } n = 0 \\ \left(x^{\frac{n}{2}}\right)^2 &amp;\text{se } n \text{ par}\\ \left(x^{\frac{n - 1}{2}}\right)^2 \cdot x &amp;\text{se } n \text{ impar}\\ \end{cases}
+\]</div>
+<p>Note que se <span class="arithmatex">\(n\)</span> for par, o valor <span class="arithmatex">\(x^{n/2}\)</span> deve ser calculado apenas uma vez. Isso garante que a complexidade do algoritmo seja <span class="arithmatex">\(O(\log n)\)</span>. A função abaixo calcula do valor de <span class="arithmatex">\(x^n\)</span>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span>
+<span class="normal"><a href="#__codelineno-7-7">7</a></span>
+<span class="normal"><a href="#__codelineno-7-8">8</a></span>
+<span class="normal"><a href="#__codelineno-7-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binpow</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="w">    </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Alternativamente, usando sem usar recusão e usando <a href="/manipulacaobits">manipução de bits</a>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">            </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Em alguns casos, é necessário calcular o valor de <span class="arithmatex">\(x^n \bmod m\)</span>. Sabendo que <span class="arithmatex">\((a \cdot b) \pmod{m} = ((a \bmod m) \cdot (b \bmod m)) \bmod m\)</span>, pode-se usar diretamente código anterior e apenas substituir cada multiplicação por uma multiplicação modular:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">binpow</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">%=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">            </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Deixando o valor padrão de <code>m</code> como 1, pode-se usar essa função sem passar o valor de <code>m</code> como parâmetro.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Dica</p>
+<p>Se <span class="arithmatex">\(m\)</span> é um número primo, pode-se acelerar um pouco este algoritmo calculando <span class="arithmatex">\(x^{n \bmod(m−1)}\)</span> em vez de <span class="arithmatex">\(x^n\)</span>.</p>
+</div>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://cp-algorithms.com/algebra/binary-exp.html">Binary Exponentiation</a></li>
+</ul>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>O texto dessa página são traduções e adaptações encontrados aqui: <a href="https://usaco.guide/PAPS.pdf">1</a>, <a href="https://usaco.guide/CPH.pdf">2</a>, <a href="https://cp-algorithms.com/index.html">3</a>, <a href="https://usaco.guide/gold/divisibility?lang=cpp">4</a> e <a href="https://usaco.guide/gold/modular?lang=cpp">5</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Voltar para o topo
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Rodapé">
+      
+        
+        <a href="../complexidade/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Complexidade de Algoritmos" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              Complexidade de Algoritmos
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../combinatoria/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Combinatória" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Próximo
+              </span>
+              Combinatória
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 - 2022 Oberlan Romão
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de Transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de Transfer\u00eancia", "search.config.lang": "pt", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Buscar", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Perdido", "select.version.title": "Selecione a vers\u00e3o"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6e54b5cd.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,68 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://algoritmos.oberlan.com/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/buscaexaustiva/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/buscaexaustiva/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/complexidade/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/combinatoria/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/ed/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/complexidade/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/gc/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/ed/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/grafos/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/gc/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/guloso/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/grafos/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/inicio/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/guloso/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/manipulacaobits/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/inicio/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/matematica/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/manipulacaobits/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/ordenacao/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/ordenacao/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/pd/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/pd/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://algoritmos.oberlan.com/strings/</loc>
-         <lastmod>2022-04-25</lastmod>
+         <loc>https://pc.oberlan.com/strings/</loc>
+         <lastmod>2022-05-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pc.oberlan.com/teorianumeros/</loc>
+         <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
