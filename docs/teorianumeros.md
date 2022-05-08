@@ -135,7 +135,7 @@ A ideia do algoritmo é a seguinte: inicialmente, escreve-se todos os números e
 
 <figure markdown>
 <img src="/img/Sieve_of_Eratosthenes_animation.gif" alt="Crivo de Eratóstenes" style="width:400px;display: block; margin: 0 auto;"/>
-  <figcaption style="font-size=8pt">Crivo de Eratóstenes: passos do algoritmo para primos abaixo de 121.(Fonte: <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Wikipédia</a>)</figcaption>
+  <figcaption style="font-size=8pt">Crivo de Eratóstenes: passos do algoritmo para primos abaixo de 121. (Fonte: <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Wikipédia</a>)</figcaption>
 </figure>
 
 O código abaixo exemplifica uma possível implementação do algoritmo. Esse algoritmo possui complexidade $O(n \log \log n)$ (veja a prova [aqui](https://cp-algorithms.com/algebra/sieve-of-eratosthenes.html#asymptotic-analysis)).
@@ -320,5 +320,3 @@ long long binpow(long long x, long long n, long long m = 1) { // (1)
 Complemente sua leitura e seu conhecimento:
 
 - [Binary Exponentiation](https://cp-algorithms.com/algebra/binary-exp.html)
-
-
