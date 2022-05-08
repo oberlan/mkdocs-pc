@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ordenacao-e-busca" class="md-skip">
+        <a href="#ordenacao-e-busca1" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -309,25 +309,115 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Ordenação e Busca
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Ordenação e Busca
       </a>
       
-    </li>
-  
+        
 
+<nav class="md-nav md-nav--secondary" aria-label="Indice">
+  
+  
+  
     
-      
-      
-      
-
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Indice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ordenacao" class="md-nav__link">
+    Ordenação
+  </a>
   
-    <li class="md-nav__item">
-      <a href="../ed/" class="md-nav__link">
-        Estrutura de Dados
-      </a>
+    <nav class="md-nav" aria-label="Ordenação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usando-uma-funcao-de-comparacao" class="md-nav__link">
+    Usando uma função de comparação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fazando-a-sobrecarga-do-operador" class="md-nav__link">
+    Fazando a sobrecarga do operador &lt;
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complemente-sua-leitura-e-seu-conhecimento" class="md-nav__link">
+    Complemente sua leitura e seu conhecimento
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#busca" class="md-nav__link">
+    Busca
+  </a>
+  
+    <nav class="md-nav" aria-label="Busca">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#busca-sequencial" class="md-nav__link">
+    Busca sequencial
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#busca-binaria" class="md-nav__link">
+    Busca binária
+  </a>
+  
+    <nav class="md-nav" aria-label="Busca binária">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#busca-binaria-em-funcoes-monotonicas2" class="md-nav__link">
+    Busca binária em funções monotônicas2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#two-pointers" class="md-nav__link">
+    Two-Pointers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -342,6 +432,21 @@
     <li class="md-nav__item">
       <a href="../buscaexaustiva/" class="md-nav__link">
         Busca Exaustiva
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ed/" class="md-nav__link">
+        Estrutura de Dados
       </a>
     </li>
   
@@ -436,8 +541,563 @@
                 
 
 
-<h1 id="ordenacao-e-busca">Ordenação e Busca</h1>
-<p>Em construção...</p>
+<h1 id="ordenacao-e-busca1">Ordenação e Busca<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h1>
+<h2 id="ordenacao">Ordenação</h2>
+<p>A maioria das linguagens de programação modernas implementa uma função de ordenação eficiente. Em C++, tem-se a função <a href="https://en.cppreference.com/w/cpp/algorithm/sort"><code>sort</code></a> da biblioteca <a href="https://en.cppreference.com/w/cpp/algorithm"><code>&lt;algorithm&gt;</code></a>. Veja alguns exemplos de uso desta função:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">a</span><span class="o">+</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="n">sort</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">());</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">alunos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mi">789</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Paulo&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">456</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ana&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Paulo&quot;</span><span class="p">}};</span><span class="w"></span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">sort</span><span class="p">(</span><span class="n">alunos</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">alunos</span><span class="p">.</span><span class="n">end</span><span class="p">());</span><span class="w"> </span><span class="c1">// (3)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="o">:</span><span class="w"> </span><span class="n">alunos</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="c1">// (4)</span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>[2, 3, 3, 4, 5, 5, 8]</li>
+<li>[2, 3, 3, 4, 5, 5, 8]</li>
+<li>Por padrão, um <code>pair</code> sempre é ordenado pelo campo <code>first</code>.</li>
+<li><code>{123, Paulo} {456, Ana} {789, Paulo}</code></li>
+</ol>
+<p>A ordenação padrão é a não-decrescente, mas pode-se obter a ordem inversa da seguinte forma:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">alunos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mi">789</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Paulo&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">456</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Ana&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Paulo&quot;</span><span class="p">}};</span><span class="w"></span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="n">sort</span><span class="p">(</span><span class="n">alunos</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span><span class="w"> </span><span class="n">alunos</span><span class="p">.</span><span class="n">rend</span><span class="p">());</span><span class="w"> </span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="o">:</span><span class="w"> </span><span class="n">alunos</span><span class="p">)</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li><code>{789, Paulo} {456, Ana} {123, Paulo}</code></li>
+</ol>
+<p>Para ordernarmos um <code class="highlight"><span class="k">struct</span><span class="w"></span></code> ou <code class="highlight"><span class="k">class</span><span class="w"></span></code> ou outra coleção de objetos (por exemplo, um <code>pair</code> pelo campo <code>second</code>), tem-se duas alternativas: (<span class="arithmatex">\(i\)</span>) definir uma função de comparação ou (<span class="arithmatex">\(ii\)</span>) fazer a sobrecarga do operador <code>&lt;</code>.</p>
+<p>Agora suponha que seja necessário ordenar objetos do tipo <code>Pessoa</code>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pessoa</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="k">public</span><span class="o">:</span><span class="w"> </span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">nome</span><span class="p">,</span><span class="w"> </span><span class="n">sobrenome</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">idade</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">    </span><span class="n">Pessoa</span><span class="p">(){</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">nome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">idade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">    </span><span class="n">Pessoa</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="n">_nome</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">_sobrenome</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">_idade</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">nome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_nome</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_sobrenome</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">idade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_idade</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">imprime</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">nome</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sobrenome</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">idade</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="p">};</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Construtor padrão usado quando não passamos nenhum argumento para a classe. Sempre faça o construtor padrão. Caso contrário, não será possivel fazer, por exemplo: <code class="highlight"><span class="n">Pessoa</span><span class="w"> </span><span class="n">p</span><span class="p">;</span><span class="w"> </span><span class="c1">//Chama o construtor padrão</span></code>.</li>
+</ol>
+<p>Para ordernarmos um <code class="highlight"><span class="k">struct</span><span class="w"></span></code> ou <code class="highlight"><span class="k">class</span><span class="w"></span></code> ou outra coleção de objetos (por exemplo, um <code>pair</code> pelo campo <code>second</code>), tem-se duas alternativas: (<span class="arithmatex">\(i\)</span>) definir uma função de comparação ou (<span class="arithmatex">\(ii\)</span>) fazer a sobrecarga do operador <code>&lt;</code>.</p>
+<h3 id="usando-uma-funcao-de-comparacao">Usando uma função de comparação</h3>
+<p>A primeira alternativa é definir uma função que compara dois objetos e retorna <code class="highlight"><span class="nb">true</span><span class="w"></span></code> caso o primeiro seja considerado menor que o segundo e <code class="highlight"><span class="nb">false</span><span class="w"></span></code>, caso contrário. Por exemplo,</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">compara</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Pessoa</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">Pessoa</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">nome</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">nome</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">nome</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">nome</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">sobrenome</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">sobrenome</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">p1</span><span class="p">.</span><span class="n">idade</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">idade</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">            </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">        </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>O <code class="highlight"><span class="k">const</span><span class="w"></span></code> diz ao compilador que os objetos passados para a função não serão alterados internamento. Já o <code class="highlight"><span class="o">&amp;</span><span class="w"></span></code> representa <a href="https://www.learncpp.com/cpp-tutorial/pass-by-lvalue-reference/"><strong>passagem por referência</strong></a>, uma alternativa a <a href="https://www.learncpp.com/cpp-tutorial/pass-by-address/">passagem por ponteiro</a>. Dessa forma, não passamos uma cópia dos objetos e sim referências (endereços) dos mesmos, o que torna o código mais eficiente. Por quê?</li>
+</ol>
+<p>Com a função de comparação definida, basta passá-la como argumento na função <code>sort</code>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="n">Pessoa</span><span class="w"> </span><span class="n">p1</span><span class="p">(</span><span class="s">&quot;Paulo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Roberto&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">    </span><span class="n">Pessoa</span><span class="w"> </span><span class="n">p2</span><span class="p">(</span><span class="s">&quot;Paulo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Alberto&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">    </span><span class="n">Pessoa</span><span class="w"> </span><span class="n">p3</span><span class="p">(</span><span class="s">&quot;Paulo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Roberto&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Pessoa</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lista</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="w">    </span><span class="n">lista</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p1</span><span class="p">);</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="w">    </span><span class="n">lista</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p2</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a><span class="w">    </span><span class="n">lista</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p3</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="o">:</span><span class="w"> </span><span class="n">lista</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a><span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">imprime</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">lista</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">compara</span><span class="p">);</span><span class="w"> </span><span class="c1">// (2) </span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">lista</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a><span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">imprime</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Inclui o elemento no fim do <code>vector</code>. Leia mais sobre <code>vector</code> <a href="https://en.cppreference.com/w/cpp/container/vector">aqui</a>.</li>
+<li>Usa a função <code>compara</code> para fazer a ordenação.</li>
+</ol>
+<p>Também é possivel usar uma <a href="https://www.learncpp.com/cpp-tutorial/introduction-to-lambdas-anonymous-functions/">função lambda</a> como função de comparação. Por exemplo, para ordenar um <code>pair</code> pelo campo <code>second</code> (ou usando-o como critério de desempate), pode-se fazer:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span>
+<span class="normal"><a href="#__codelineno-5-29">29</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">compara</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">p1</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">second</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">    </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">pontos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">-5</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">}};</span><span class="w"></span>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">pontos</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">pontos</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">compara</span><span class="p">);</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="o">:</span><span class="w"> </span><span class="n">pontos</span><span class="p">)</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;) &quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-16" name="__codelineno-5-16"></a>
+<a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">pontos</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">pontos</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p1</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (3)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-20" name="__codelineno-5-20"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">first</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">p1</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="p">.</span><span class="n">second</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-22" name="__codelineno-5-22"></a><span class="w">        </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-5-23" name="__codelineno-5-23"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-24" name="__codelineno-5-24"></a><span class="w">    </span><span class="p">});</span><span class="w"> </span>
+<a id="__codelineno-5-25" name="__codelineno-5-25"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">a</span><span class="o">:</span><span class="w"> </span><span class="n">pontos</span><span class="p">)</span><span class="w"> </span>
+<a id="__codelineno-5-26" name="__codelineno-5-26"></a><span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">first</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">second</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;) &quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-27" name="__codelineno-5-27"></a>
+<a id="__codelineno-5-28" name="__codelineno-5-28"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-29" name="__codelineno-5-29"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Usando a função <code>compara</code></li>
+<li><code>(-1, 10) (0, -5) (0, 0) (0, 1) (0, 2) (1, 2)</code></li>
+<li>Usando função lambda</li>
+</ol>
+<h3 id="fazando-a-sobrecarga-do-operador">Fazando a sobrecarga do operador <code>&lt;</code></h3>
+<p>Ao invés de ser difinidas funções de comparações, pode-se fazer a sobrecarga do operador <code>&lt;</code> (<code class="highlight"><span class="k">operator</span><span class="o">&lt;</span><span class="w"></span></code>). Isso é comum ao se usar <code class="highlight"><span class="k">class</span><span class="w"></span></code> ou <code class="highlight"><span class="k">struct</span><span class="w"></span></code>. Veja como ficaria ao ser considerado a classe <code>Pessoa</code>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span>
+<span class="normal"><a href="#__codelineno-6-35">35</a></span>
+<span class="normal"><a href="#__codelineno-6-36">36</a></span>
+<span class="normal"><a href="#__codelineno-6-37">37</a></span>
+<span class="normal"><a href="#__codelineno-6-38">38</a></span>
+<span class="normal"><a href="#__codelineno-6-39">39</a></span>
+<span class="normal"><a href="#__codelineno-6-40">40</a></span>
+<span class="normal"><a href="#__codelineno-6-41">41</a></span>
+<span class="normal"><a href="#__codelineno-6-42">42</a></span>
+<span class="normal"><a href="#__codelineno-6-43">43</a></span>
+<span class="normal"><a href="#__codelineno-6-44">44</a></span>
+<span class="normal"><a href="#__codelineno-6-45">45</a></span>
+<span class="normal"><a href="#__codelineno-6-46">46</a></span>
+<span class="normal"><a href="#__codelineno-6-47">47</a></span>
+<span class="normal"><a href="#__codelineno-6-48">48</a></span>
+<span class="normal"><a href="#__codelineno-6-49">49</a></span>
+<span class="normal"><a href="#__codelineno-6-50">50</a></span>
+<span class="normal"><a href="#__codelineno-6-51">51</a></span>
+<span class="normal"><a href="#__codelineno-6-52">52</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Pessoa</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="k">public</span><span class="o">:</span><span class="w"> </span>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">nome</span><span class="p">,</span><span class="w"> </span><span class="n">sobrenome</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">idade</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">    </span><span class="n">Pessoa</span><span class="p">(){</span><span class="w"> </span>
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">nome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">idade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">    </span><span class="n">Pessoa</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="n">_nome</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">_sobrenome</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">_idade</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">nome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_nome</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_sobrenome</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="w">        </span><span class="k">this</span><span class="o">-&gt;</span><span class="n">idade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_idade</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Pessoa</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p</span><span class="p">){</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nome</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">nome</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nome</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">nome</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-19" name="__codelineno-6-19"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">sobrenome</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-20" name="__codelineno-6-20"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-21" name="__codelineno-6-21"></a><span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sobrenome</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">sobrenome</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-22" name="__codelineno-6-22"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">idade</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">idade</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-23" name="__codelineno-6-23"></a><span class="w">            </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-6-24" name="__codelineno-6-24"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-25" name="__codelineno-6-25"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-26" name="__codelineno-6-26"></a><span class="w">        </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-6-27" name="__codelineno-6-27"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-28" name="__codelineno-6-28"></a>
+<a id="__codelineno-6-29" name="__codelineno-6-29"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-30" name="__codelineno-6-30"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">imprime</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">nome</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sobrenome</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">idade</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-32" name="__codelineno-6-32"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-6-33" name="__codelineno-6-33"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-6-34" name="__codelineno-6-34"></a>
+<a id="__codelineno-6-35" name="__codelineno-6-35"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-6-36" name="__codelineno-6-36"></a><span class="w">    </span><span class="n">Pessoa</span><span class="w"> </span><span class="n">p1</span><span class="p">(</span><span class="s">&quot;Paulo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Roberto&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-37" name="__codelineno-6-37"></a><span class="w">    </span><span class="n">Pessoa</span><span class="w"> </span><span class="n">p2</span><span class="p">(</span><span class="s">&quot;Paulo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Alberto&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-38" name="__codelineno-6-38"></a><span class="w">    </span><span class="n">Pessoa</span><span class="w"> </span><span class="n">p3</span><span class="p">(</span><span class="s">&quot;Paulo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Roberto&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-39" name="__codelineno-6-39"></a>
+<a id="__codelineno-6-40" name="__codelineno-6-40"></a><span class="w">    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Pessoa</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lista</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-41" name="__codelineno-6-41"></a><span class="w">    </span><span class="n">lista</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p1</span><span class="p">);</span><span class="w"> </span>
+<a id="__codelineno-6-42" name="__codelineno-6-42"></a><span class="w">    </span><span class="n">lista</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p2</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-43" name="__codelineno-6-43"></a><span class="w">    </span><span class="n">lista</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">p3</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-44" name="__codelineno-6-44"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="o">:</span><span class="w"> </span><span class="n">lista</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-45" name="__codelineno-6-45"></a><span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">imprime</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-6-46" name="__codelineno-6-46"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-47" name="__codelineno-6-47"></a><span class="w">    </span><span class="n">sort</span><span class="p">(</span><span class="n">lista</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">lista</span><span class="p">.</span><span class="n">end</span><span class="p">());</span><span class="w"> </span><span class="c1">// (2) </span>
+<a id="__codelineno-6-48" name="__codelineno-6-48"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">lista</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-49" name="__codelineno-6-49"></a><span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">imprime</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-6-50" name="__codelineno-6-50"></a>
+<a id="__codelineno-6-51" name="__codelineno-6-51"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-52" name="__codelineno-6-52"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Sobrecarga/definição do operador <code>&lt;</code> para a classe <code>Pessoa</code>. Dessa forma, é possivel fazer a comparação <code class="highlight"><span class="n">p1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">p2</span><span class="w"></span></code>, considerando que <code>p1</code> e <code>p2</code> são objetos do tipo <code>Pessoa</code>.</li>
+<li>Usa o operador <code>&lt;</code> para fazer a ordenação.</li>
+</ol>
+<h3 id="complemente-sua-leitura-e-seu-conhecimento">Complemente sua leitura e seu conhecimento</h3>
+<ul>
+<li><a href="https://usaco.guide/CPH.pdf#page=35">Competitive Programmer’s Handbook</a></li>
+<li><a href="https://csacademy.com/lesson/sorting/">Sorting (CS Academy)</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/sort">std::sort</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/partial_sort">std::partial_sort</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/stable_sort">std::stable_sort</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/nth_element">std::nth_element</a></li>
+</ul>
+<h2 id="busca">Busca</h2>
+<h3 id="busca-sequencial">Busca sequencial</h3>
+<p>A forma mais intuitiva para procurar um elemento em um <em>array</em> é usar um <em>loop</em> que percorre todos os elementos do array e parando assim que o elemento buscado é encontrado. No pior caso, é necessário percorrer todos os elementos, logo a complexidade será <span class="arithmatex">\(O(n)\)</span>. O código abaixo verifica se <code>x</code> está no <em>array</em>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">        </span><span class="c1">// x encontrado na posição i</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Em C++, pode-se usar a função <a href="https://en.cppreference.com/w/cpp/algorithm/search"><code>search</code></a>.</p>
+<h3 id="busca-binaria">Busca binária</h3>
+<p>Se os elementos do <em>array</em> estiverem ordenados, pode-se usar uma estratégia diferente e mais eficiente para realizar a busca: verifique se o elemento do meio do <em>array</em> é o elementos buscado, se for, a busca termina. Caso não seja, verique se o elemento do meio é menor que elemento buscaso, se for, repita o processo considerando apenas a segunda metade do <em>array</em>. Senão, considere a primeira metade do <em>array</em>. Assim, a cada passo da busca, o tamanho do <em>array</em> é reduzido a metade, logo, a complexidade do algoritmo é <span class="arithmatex">\(O(\log n)\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">buscaBinaria</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ini</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">meio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">fim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ini</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">meio</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">meio</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">meio</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meio</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meio</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Evite usar <code>meio = (ini + fim) / 2;</code>, já que <code>ini + fim</code> pode gerar <a href="https://www.cplusplus.com/articles/DE18T05o/"><em>integer overflow</em></a>.</li>
+<li><code>x</code> não está no vetor <code>v</code>.</li>
+</ol>
+<p>Em C++, pode-se usar a função <a href="https://en.cppreference.com/w/cpp/algorithm/binary_search">std::binary_search</a>. As funções abaixo também são úteis e baseadas na busca binária:</p>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/lower_bound">std::lower_bound</a>: retorna um ponteiro para o primeiro elemento do <em>array</em> cujo valor é pelo menos <code>x</code>;</li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/upper_bound">std::upper_bound</a>: retorna um ponteiro para o primeiro elemento do <em>array</em> cujo valor é maior que <code>x</code>;</li>
+</ul>
+<p>As funções assumem que o <em>array</em> está ordenado. Se o valor procurado não for encontrado, é retornado um ponteiro para o elemento após o último elemento do <em>array</em>. Por exemplo, o código a seguir verifica se o <em>array</em> contém um elemento com valor <code>x</code>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span>
+<span class="normal"><a href="#__codelineno-9-7">7</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="k">auto</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lower_bound</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">*</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">    </span><span class="c1">// x encontrado no indice k</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Valor encontrado na posição: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Pode-se usar a função <a href="https://en.cppreference.com/w/cpp/iterator/distance">std::distance</a> ao invés de <code>k - v.begin()</code>, ou seja, <code>distance(v.begin(), k)</code>.</li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=GU7DpgHINWQ">Binary Search tutorial (C++ and Python)</a></li>
+<li><a href="https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria">Busca Binária</a></li>
+<li><a href="https://usaco.guide/silver/binary-search">Binary Search</a></li>
+<li><a href="https://codeforces.com/edu/course/2/lesson/6">Binary Search (ITMO Academy)</a> 🤯</li>
+<li><a href="https://csacademy.com/lesson/binary_search/">Binary Search (CS Academy)</a></li>
+</ul>
+<h4 id="busca-binaria-em-funcoes-monotonicas2">Busca binária em funções monotônicas<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></h4>
+<p>Considere uma função booleana <span class="arithmatex">\(f(x)\)</span> e se deseja encontrar o valor máximo (ou mínimo) de <span class="arithmatex">\(x\)</span> tal que <span class="arithmatex">\(f(x)\)</span> seja <code class="highlight"><span class="nb">true</span><span class="w"></span></code>. Da mesma forma que a busca binária só funciona se o <em>array</em> estiver ordenado, só é possivel aplicar a busca binária em uma função <a href="https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona">monótona</a>, ou seja, é sempre não-decrescente ou sempre não-crescente.</p>
+<p>Seja <code>check(x)</code> uma função que verifica uma propriedade de <code>x</code>. Se para todo <code>x</code>, <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span></code> implica <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span></code>, ou para todo <code>x</code>, <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span></code> implica <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span></code>, então a função <code>check</code> é monótona.</p>
+<p>Suponha a função <code>check</code> abaixo que verifica se um elemento é maior ou igual a <code>x</code>.. Se <code>x = 11</code> e o vetor <code>v = [1,2,3,5, 8, 11, 12, 14, 16]</code>, então teremos o seguinte vetor de saída ao aplicarmos <code>check</code> em <code>v</code>: <code>[0,0,0,0,0,1,1,1,1,1]</code>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Dessa forma, a função <code>check</code> para essa situação é monótona e isso é relevante porque se um valor do vetor satisfizer a condição, todos os valores a direita também vão satisfazê-la, e de forma análoga, todos os valores a esquerda de um índice que não satisfaz a condição, também não vão satisfazer, e é isso que nos permite aplicar busca binária. Além disso, a função <code>check</code> só se torna monótona nesse exemplo quando o vetor está ordenado, por isso a busca binária só é feita em vetores ordenados.</p>
+<p>Como encontrar o menor valor que torna <code>check</code> verdadeiro? R. inicia-se o processo "chutanto" um intervalo onde a resposta com certeza estará. Para cada intevalo, checa-se o meio e, dependendo da resposta, descarta-se os elementos a direita ou a esquerda, mas sempre divide-se o tamanho do intervalo por 2, até que o intervalo tenha tamanho 1. Veja uma solução:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="c1">// sei que a resposta não é menos que a</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="c1">// sei que a resposta não é mais que b</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="k">while</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">){</span><span class="c1">// repita enquanto o intervalo tiver tamanho &gt; 2</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">mid</span><span class="p">)){</span><span class="w"> </span><span class="c1">// mid é válido</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="w">        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="p">;</span><span class="w"> </span><span class="c1">// como queremos minimizar a resposta, e mid é uma resposta válida</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="w">                 </span><span class="c1">//descartamos tudo a direita de mid (mas não mid)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="w">    </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="w">        </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Se mid não é válido, descartamos ele e tudo abaixo.</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-14" name="__codelineno-11-14"></a><span class="c1">// Ao final desse laço, a resposta pode estar em l ou r.</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="c1">// Queremos minimizar a resposta, então se l for válido,</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="c1">// ficaremos com l, e caso contrário,  com r</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="kt">int</span><span class="w"> </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Exemplo: Encontrar o maior valor de <span class="arithmatex">\(x \in [0, 10]\)</span> tal que <span class="arithmatex">\(x^2 \leq 30\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">val</span><span class="o">*</span><span class="n">val</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">lastTrue</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">ini</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">    </span><span class="n">ini</span><span class="o">--</span><span class="p">;</span><span class="w"> </span><span class="c1">// Se nenhum valor no intervalor for true, retorna ini - 1</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ini</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">fim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ini</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ini</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Se <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span></code> é <code class="highlight"><span class="nb">true</span><span class="w"></span></code>, então todos os números menores que <code>m</code> também serão <code class="highlight"><span class="nb">true</span><span class="w"></span></code>.</li>
+<li>Se <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span></code> é <code class="highlight"><span class="nb">false</span><span class="w"></span></code>, então todos os números maiores que <code>m</code> também serão <code class="highlight"><span class="nb">false</span><span class="w"></span></code>.</li>
+</ol>
+<h4 id="two-pointers">Two-Pointers</h4>
+<p>Na técnica chamada <a href="https://www.geeksforgeeks.org/two-pointers-technique/">Two-Pointers</a> dois "aponstadores" caminham pelo vetor. Normalmente, esses apontadores são ``colocados'' nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.</p>
+<figure>
+<p><img src="/img/two-pointer.png" alt="Two-Pointers" style="width:450px;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://afteracademy.com/blog/what-is-the-two-pointer-technique">AfterAcademy</a></figcaption>
+</figure>
+<p>Você consegue pensar em como usar esse técnica para resolver o problema de inverter os elementos de um vetor sem usar um vetor auxiliar? A ideia é simples: coloque cada apontador (digamos <code>i</code> e <code>j</code>) em uma extremidade do vetor,  ou seja, <code>i = 0</code> e <code>j = n - 1</code>, e, a cada iteração, troque os elementos que estão nas posições <code>i</code> e <code>j</code> (ou seja, <code>v[i] &lt;-&gt; v[j]</code>). Após a troca, incremente o apontador <code>i</code> e decremente o apontador <code>j</code>. Repita esse processo enquanto <code>i &lt; j</code>. A figura abaixo ilustra parte desse processo.</p>
+<figure>
+<p><img src="/img/twoPointers.png" alt="Two-Pointers" style="width:350px;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://afteracademy.com/blog/what-is-the-two-pointer-technique">AfterAcademy</a></figcaption>
+</figure>
+<p>O código abaixo ilustra essa estratégia (note a simplicidade):</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span>
+<span class="normal"><a href="#__codelineno-13-7">7</a></span>
+<span class="normal"><a href="#__codelineno-13-8">8</a></span>
+<span class="normal"><a href="#__codelineno-13-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">inverte</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="w">        </span><span class="n">swap</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="w">        </span><span class="n">j</span><span class="o">--</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>A <a href="https://en.cppreference.com/w/cpp/algorithm/reverse">std::reverse</a> também pode ser usada com o mesmo objetivo. O intuito é mostrar com a técnica Two-Pointers funciona.</li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/swap">std::swap</a></li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://codeforces.com/edu/course/2/lesson/9">Two Pointers Method (ITMO Academy)</a> 🤯</li>
+<li><a href="https://www.geeksforgeeks.org/two-pointers-technique/">Two Pointers Technique</a></li>
+<li><a href="https://afteracademy.com/blog/what-is-the-two-pointer-technique">What is the Two pointer technique?</a></li>
+</ul>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>O texto dessa página são traduções e adaptações encontrados aqui: <a href="https://usaco.guide/PAPS.pdf">1</a>, <a href="https://usaco.guide/CPH.pdf">2</a> e <a href="https://usaco.guide/silver/binary-search">3</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Conteúdo extraído de <a href="https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria">Busca Binária</a>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
               
             </article>
@@ -472,13 +1132,13 @@
       
       
         
-        <a href="../ed/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Estrutura de Dados" rel="next">
+        <a href="../buscaexaustiva/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Busca Exaustiva" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Próximo
               </span>
-              Estrutura de Dados
+              Busca Exaustiva
             </div>
           </div>
           <div class="md-footer__button md-icon">
