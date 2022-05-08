@@ -1,6 +1,6 @@
 # Ordenação e Busca[^1]
 
-[^1]: O texto dessa página são traduções e adaptações encontrados aqui: [1](https://usaco.guide/PAPS.pdf), [2](https://usaco.guide/CPH.pdf)
+[^1]: O texto dessa página são traduções e adaptações encontrados aqui: [1](https://usaco.guide/PAPS.pdf), [2](https://usaco.guide/CPH.pdf) e [3](https://usaco.guide/silver/binary-search)
 
 ## Ordenação
 
@@ -280,9 +280,72 @@ if (k != v.end() && *k == x) {
 
 Complemente sua leitura e seu conhecimento:
 
+- :fontawesome-brands-youtube: [Binary Search tutorial (C++ and Python)](https://www.youtube.com/watch?v=GU7DpgHINWQ)
 - [Busca Binária](https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria)
+- [Binary Search](https://usaco.guide/silver/binary-search)
 - [Binary Search (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/6) 🤯
 - [Binary Search (CS Academy)](https://csacademy.com/lesson/binary_search/)
+
+#### Busca binária em funções monotônicas[^2]
+
+[^2]: Conteúdo extraído de [Busca Binária](https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria)
+
+Considere uma função booleana $f(x)$ e se deseja encontrar o valor máximo (ou mínimo) de $x$ tal que $f(x)$ seja `#!c++ true`. Da mesma forma que a busca binária só funciona se o *array* estiver ordenado, só é possivel aplicar a busca binária em uma função [monótona](https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona), ou seja, é sempre não-decrescente ou sempre não-crescente.
+
+Seja `check(x)` uma função que verifica uma propriedade de `x`. Se para todo `x`, `#!c++ check(x) = true` implica `#!c++ check(x+1) = true`, ou para todo `x`, `#!c++ check(x) = false` implica `#!c++ check(x+1) = false`, então a função `check` é monótona.
+
+Suponha a função `check` abaixo que verifica se um elemento é maior ou igual a `x`.. Se `x = 11` e o vetor `v = [1,2,3,5, 8, 11, 12, 14, 16]`, então teremos o seguinte vetor de saída ao aplicarmos `check` em `v`: `[0,0,0,0,0,1,1,1,1,1]`.
+
+```c++ linenums="1"
+bool check(int val) {
+    return val >= x;
+}
+```
+
+Dessa forma, a função `check` para essa situação é monótona e isso é relevante porque se um valor do vetor satisfizer a condição, todos os valores a direita também vão satisfazê-la, e de forma análoga, todos os valores a esquerda de um índice que não satisfaz a condição, também não vão satisfazer, e é isso que nos permite aplicar busca binária. Além disso, a função `check` só se torna monótona nesse exemplo quando o vetor está ordenado, por isso a busca binária só é feita em vetores ordenados.
+
+Como encontrar o menor valor que torna `check` verdadeiro? R. inicia-se o processo "chutanto" um intervalo onde a resposta com certeza estará. Para cada intevalo, checa-se o meio e, dependendo da resposta, descarta-se os elementos a direita ou a esquerda, mas sempre divide-se o tamanho do intervalo por 2, até que o intervalo tenha tamanho 1. Veja uma solução:
+
+```c++ linenums="1"
+int l = a;// sei que a resposta não é menos que a
+int r = b;// sei que a resposta não é mais que b
+
+while(r > l+1){// repita enquanto o intervalo tiver tamanho > 2
+    int mid = l + (r - l)/2;
+    if(check(mid)){ // mid é válido
+        r = mid; // como queremos minimizar a resposta, e mid é uma resposta válida
+                 //descartamos tudo a direita de mid (mas não mid)
+    }
+    else{
+        l = mid + 1; // Se mid não é válido, descartamos ele e tudo abaixo.
+    }
+}
+// Ao final desse laço, a resposta pode estar em l ou r.
+// Queremos minimizar a resposta, então se l for válido,
+// ficaremos com l, e caso contrário,  com r
+int ans = r;
+if(check(l)) ans = l;
+```
+
+Exemplo: Encontrar o maior valor de $x \in [0, 10]$ tal que $x^2 \leq 30$.
+
+```c++ linenums="1"
+bool check(int val) {
+    return val*val <= 30;
+}
+int lastTrue(int ini, int fim) {
+    ini--; // Se nenhum valor no intervalor for true, retorna ini - 1
+    while (ini < fim) {
+        int m = ini + (fim - ini) / 2;
+        if (check(m)) ini = m; // (1)
+        else fim = m - 1; // (2)
+    }
+    return ini;
+}
+```
+
+1. Se `#!c++ check(m)` é `#!c++ true`, então todos os números menores que `m` também serão `#!c++ true`.
+2. Se `#!c++ check(m)` é `#!c++ false`, então todos os números maiores que `m` também serão `#!c++ false`.
 
 #### Two-Pointers
 
