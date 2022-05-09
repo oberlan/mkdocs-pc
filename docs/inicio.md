@@ -114,7 +114,7 @@ Usando o comando `#!c++ typedef` é possível dar um nome mais curto a um tipo d
 typedef long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vll;
-typedef pair<int,int> pi;
+typedef pair<int,int> pii;
 typedef pair<ll,ll> pll;
 typedef vector<pii> vpi;
 typedef vector<pll> vpll;
