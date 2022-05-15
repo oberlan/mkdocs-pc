@@ -1,3 +1,0 @@
-# Estrutura de Dados
-
-Em construção...

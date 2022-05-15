@@ -14,8 +14,9 @@ nav:
   - Teoria dos Números: teorianumeros.md
   - Combinatória: combinatoria.md
   - Ordenação e Busca: ordenacao.md
+  - Estrutura de Dados Básicas: edbasicas.md
+  - Estrutura de Dados Avançadas: edavancadas.md
   - Busca Exaustiva: buscaexaustiva.md
-  - Estrutura de Dados: ed.md
   - Algoritmos Gulosos: guloso.md
   - Programação dinâmica: pd.md
   - Grafos: grafos.md
@@ -82,3 +83,6 @@ extra_javascript:
   - javascripts/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+ - search
