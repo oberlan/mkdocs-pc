@@ -565,13 +565,13 @@
 <p class="admonition-title">Exemplo</p>
 <p>O número 12 possui 6 divisores: <span class="arithmatex">\(1~(1 \times 12 = 12), 2~(2 \times 6 = 12), 3~(3 \times 4 = 12), 4~(4 \times 3 = 12), 6~(6 \times 6 = 12)\)</span> e <span class="arithmatex">\(12~(12 \times 1 = 12)\)</span>.</p>
 </div>
-<p>O conceito de divisibilidade traz muitas questões. A primeira é como verificar se um númro é divisível por outro. Para número pequenos, que podem ser armazenados em variáveis, por exemplo, do tipo <code class="highlight"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"></span></code>, pode-se usar o operador módulo ou resto da divisão (<code>%</code>): <span class="arithmatex">\(n\)</span> é divisível por <span class="arithmatex">\(d\)</span> se e somente se <code>ǹ % d == 0</code>. Entretanto, para números inteiros grandes a solução não é tão simples. Na Seção <a href="#aritmetica-modular">Aritmética Modular</a> será discutido como implementar o operador módulo para número inteiros grandes.</p>
+<p>O conceito de divisibilidade traz muitas questões. A primeira é como verificar se um número é divisível por outro. Para número pequenos, que podem ser armazenados em variáveis, por exemplo, do tipo <code class="highlight"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"></span></code>, pode-se usar o operador módulo ou resto da divisão (<code>%</code>): <span class="arithmatex">\(n\)</span> é divisível por <span class="arithmatex">\(d\)</span> se e somente se <code>ǹ % d == 0</code>. Entretanto, para números inteiros grandes a solução não é tão simples. Na Seção <a href="#aritmetica-modular">Aritmética Modular</a> será discutido como implementar o operador módulo para número inteiros grandes.</p>
 <p>Outra questão é como calcular os divisores de um número. Todo inteiro <span class="arithmatex">\(n\)</span> tem pelo menos dois divisores (<span class="arithmatex">\(1\)</span> e <span class="arithmatex">\(n\)</span>). Para encontrar os outros divisores, pode-se usar o fato que qualquer divisor <span class="arithmatex">\(d\)</span> de <span class="arithmatex">\(n\)</span> deve satisfazer <span class="arithmatex">\(|d| \leq |n|\)</span>. Assim, pode-se testar se os inteiros entre <span class="arithmatex">\(1\)</span> e <span class="arithmatex">\(n\)</span> são divisores de <span class="arithmatex">\(n\)</span>, ou seja, um algoritmo <span class="arithmatex">\(O(n)\)</span>. Entretanto, sempre que tem-se um divisor <span class="arithmatex">\(d\)</span>, tem-se outro divisor <span class="arithmatex">\(q\)</span> (veja o exemplo anterior). Por exemplo, ao afirmar que <span class="arithmatex">\(3\)</span> é um divisor de <span class="arithmatex">\(12\)</span>, pois <span class="arithmatex">\(3 \times 4 = 12\)</span>, tem-se outro divisor, <span class="arithmatex">\(4\)</span>. Ou seja, os divisores vêm em pares. Veja outros exemplo:</p>
 <div class="admonition example">
 <p class="admonition-title">Exemplo</p>
 <p>O número 16 possui 5 divisores: <span class="arithmatex">\(1~(1 \times 16 = 16), 2~(2 \times 8 = 16), 4~(4 \times 4 = 16), 8~(8 \times 2 = 16)\)</span> e <span class="arithmatex">\(16~(16 \times 6 = 16)\)</span>.</p>
 </div>
-<p>Dessa forma, pode-se limitar a encontrar cada elemento desses pares. Além disso, um dos valores de cada par deve ser limitado por <span class="arithmatex">\(\sqrt n\)</span>. Por quê? Esse limite, ajuda a reduzir a complexidade do algoritmo que encontra todos os dividos de um número para <span class="arithmatex">\(O(\sqrt n)\)</span>. A função abaixo retorna um <code>vector</code> com todos os divisores de <span class="arithmatex">\(n\)</span>.</p>
+<p>Dessa forma, pode-se limitar a encontrar cada elemento desses pares. Além disso, um dos valores de cada par deve ser limitado por <span class="arithmatex">\(\sqrt n\)</span>. Por quê? Esse limite ajuda a reduzir a complexidade do algoritmo que encontra todos os divisores de um número em <span class="arithmatex">\(O(\sqrt n)\)</span>. A função abaixo retorna um <code>vector</code> com todos os divisores de <span class="arithmatex">\(n\)</span>.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
@@ -613,7 +613,7 @@
   </p>
 <figcaption style="font-size=8pt">Números primos são os números naturais maiores que um que não são produtos de dois números naturais menores.(Fonte: <a href="https://pt.wikipedia.org/wiki/N%C3%BAmero_primo">Wikipédia</a>)</figcaption>
 </figure>
-<p>Número primo é um tópico importante do teoria dos números e a fonte de muitos problemas em programações competitivas. Por isso é de extrema importancia conhecer e dominar alguns algoritmos que envolvam números primos.</p>
+<p>Número primo é um tópico importante da teoria dos números e a fonte de muitos problemas em programações competitivas. Por isso é de extrema importância conhecer e dominar alguns algoritmos que envolvam números primos.</p>
 <h3 id="testes-de-primalidade">Testes de Primalidade</h3>
 <p>Se um número <span class="arithmatex">\(n\)</span> não é primo, então ele pode ser representado pelo produto de dois inteiros <span class="arithmatex">\(a \times b\)</span>, onde <span class="arithmatex">\(a \leq \sqrt n\)</span> ou <span class="arithmatex">\(b \leq \sqrt n\)</span>. Com isso, pode-se testar se um número é primo ou não e encontrar uma decomposição (fatoração) em fatores primos em <span class="arithmatex">\(O(\sqrt n)\)</span>. A função abaixo verifica se um dado número <span class="arithmatex">\(n\)</span> é primo ou não.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
@@ -826,7 +826,7 @@ gcd(a, b, c, d) = gcd(a, gcd(b, gcd(c, d)))
 <div class="arithmatex">\[(a-b) \bmod m = (a \bmod m - b \bmod m) \bmod m\]</div>
 <div class="arithmatex">\[(a \cdot b) \pmod{m} = ((a \bmod m) \cdot (b \bmod m)) \bmod m\]</div>
 <div class="arithmatex">\[a^b \bmod {m} = (a \bmod m)^b \bmod m\]</div>
-<p>O que significa que se a resposta está sendo computada por meio de adições, subtrações e multiplicações, e no final você precisa tirar o módulo dela, você pode tirar módulo em todas as operações intermediárias que isso não afetará a resposta.</p>
+<p>O que significa que se a resposta está sendo computada por meio de adições, subtrações e multiplicações, e no final você precisa tirar o módulo dela, você pode tirar o módulo em todas as operações intermediárias que isso não afetará a resposta.</p>
 <h2 id="exponenciacao-binaria">Exponenciação Binária</h2>
 <p>A <strong>exponenciação binária</strong> é um truque que permite calcular <span class="arithmatex">\(x^n\)</span> usando apenas multiplicações <span class="arithmatex">\(O(\log⁡ n)\)</span> (em vez das multiplicações <span class="arithmatex">\(O(n)\)</span> exigidas pela abordagem ingênua).</p>
 <p>Sabe-se que <span class="arithmatex">\(x^a \cdot x^b = x^{a+b}\)</span>. Em particular, <span class="arithmatex">\(x^{2b} = x^b \cdot x^b\)</span>. Logo, se o expoente <span class="arithmatex">\(n\)</span> de <span class="arithmatex">\(x^n\)</span> for par, pode-se dizer que <span class="arithmatex">\(x^n = x^{\frac{n}{2}} \cdot x^{\frac{n}{2}}\)</span>. No entanto, se <span class="arithmatex">\(n\)</span> for ímpar, tem-se algo similar: <span class="arithmatex">\(x^n = x^{\frac{n-1}{2}} \cdot x^{\frac{n-1}{2}} \cdot x\)</span>. Dessa forma, pode-se montar a seguinte recorrência:</p>
@@ -853,7 +853,7 @@ x^n = \begin{cases} 1 &amp;\text{se } n = 0 \\ \left(x^{\frac{n}{2}}\right)^2 &a
 <a id="__codelineno-7-9" name="__codelineno-7-9"></a><span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
-<p>Alternativamente, usando sem usar recusão e usando <a href="/manipulacaobits">manipução de bits</a>:</p>
+<p>Alternativamente, sem usar recursão e usando <a href="/manipulacaobits">manipulação de bits</a>:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-8-3"> 3</a></span>

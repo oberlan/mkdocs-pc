@@ -559,7 +559,7 @@
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"> </span><span class="c1">// [3,2,5]</span>
 </code></pre></div>
 </td></tr></table>
-<p>Observer que os elementos são inseridos no fim. Então, os elementos podem ser acessados como em um array comum:</p>
+<p>Observe que os elementos são inseridos no fim. Então, os elementos podem ser acessados como em um array comum:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
 <span class="normal"><a href="#__codelineno-1-2">2</a></span>
 <span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"> </span><span class="c1">// 3</span>
@@ -618,7 +618,7 @@
 <p>Um <code>deque</code> é um array dinâmico que pode ser manipulado eficientemente em ambas as extremidades da estrutura. Como um <code>vector</code>, um <code>deque</code> fornece as funções <code>push_back</code> e <code>pop_back</code>, mas também fornece as funções <code>push_front</code> e <code>pop_front</code> que não estão disponíveis em um <code>vector</code>. veja uma exemplo:</p>
 <p>As principais funções da <code>deque</code> são:</p>
 <ul>
-<li><code>push_front(x)</code>: adiciona o elemento <code>x</code> no inicio da estrutura;</li>
+<li><code>push_front(x)</code>: adiciona o elemento <code>x</code> no início da estrutura;</li>
 <li><code>push_back(x)</code>: adiciona o elemento <code>x</code> no fim da estrutura;</li>
 <li><code>pop_front()</code>: remove o primeiro elemento da estrutura;</li>
 <li><code>pop_back()</code>: remove o último elemento da estrutura;</li>
@@ -652,7 +652,7 @@
 <li><a href="https://en.cppreference.com/w/cpp/container/deque">std::deque</a></li>
 </ul>
 <h2 id="queue">queue</h2>
-<p>A estrutura da <code>queue</code> (fila) corresponde a uma fila simples da vida real e segue a regra <em>First In First Out</em> (FIFO). Suas principais operações são: inserir um elemento no fim da fila, acessar e remover o primeiro elemento da fila. Essa operações possuem complexidade em <span class="arithmatex">\(O(1)\)</span>.</p>
+<p>A estrutura da <code>queue</code> (fila) corresponde a uma fila simples da vida real e segue a regra <em>First In First Out</em> (FIFO). Suas principais operações são: inserir um elemento no fim da fila, acessar e remover o primeiro elemento da fila. Essas operações possuem complexidade em <span class="arithmatex">\(O(1)\)</span>.</p>
 <p>As principais funções da <code>queue</code> são:</p>
 <ul>
 <li><code>push(x)</code>: adiciona o elemento <code>x</code> no fim da fila;</li>
@@ -682,7 +682,7 @@
 <li><a href="https://www.geeksforgeeks.org/queue-data-structure/">Queue Data Structure (GeeksforGeeks)</a></li>
 </ul>
 <h2 id="stack">stack</h2>
-<p>Uma <code>stack</code> (pilha) é uma estrutura muito semelhante a uma fila, mas que segue a regra <em>Last In First Out</em> (LIFO). Ou seja, ao inserir um elemento na pilha, ele é adicionando no topo e esse é o elemento que se tem acesso. Suas principais operações são: inserir um elemento no topo da pilha, acessar e remover o elemento do topo da pilha. Essa operações possuem complexidade em <span class="arithmatex">\(O(1)\)</span>.</p>
+<p>Uma <code>stack</code> (pilha) é uma estrutura muito semelhante a uma fila, mas que segue a regra <em>Last In First Out</em> (LIFO). Ou seja, ao inserir um elemento na pilha, ele é adicionado no topo e esse é o elemento que se tem acesso. Suas principais operações são: inserir um elemento no topo da pilha, acessar e remover o elemento do topo da pilha. Essas operações possuem complexidade em <span class="arithmatex">\(O(1)\)</span>.</p>
 <p>As principais funções da <code>stack</code> são:</p>
 <ul>
 <li><code>push(x)</code>: adiciona o elemento <code>x</code> no topo da pilha;</li>
@@ -841,7 +841,7 @@
 <li>Como <code>end()</code> aponta para um elemento após o último elemento, deve-se diminuir o iterador em uma unidade.</li>
 <li>Lembre-se que em um <code>set</code> todos seus elementos são distintos. Assim, a função <code>count</code> sempre retornar ou 0 (elemento não está no <code>set</code>) ou 1 (o elemento está no <code>set</code>).</li>
 </ol>
-<p>A estrutura set também fornece as funções <code>lower_bound(x)</code> e <code>upper_bound(x)</code> que retornam um iterador para o menor elemento em um <code>set</code> cujo valor é pelo menos ou maior que <code>x</code>, respectivamente. Em ambas as funções, se o elemento solicitado não existir, o valor de retorno é <code>end()</code>.</p>
+<p>A estrutura <code>set</code> também fornece as funções <code>lower_bound(x)</code> e <code>upper_bound(x)</code> que retornam um iterador para o menor elemento em um <code>set</code> cujo valor é pelo menos ou maior que <code>x</code>, respectivamente. Em ambas as funções, se o elemento solicitado não existir, o valor de retorno é <code>end()</code>.</p>
 <p>Um <code>multiset</code> é um conjunto que pode conter várias cópias do mesmo elemento. Por exemplo, o código abaixo adiciona três cópias do valor 5 ao <code>multiset</code>:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
 <span class="normal"><a href="#__codelineno-14-2">2</a></span>
@@ -1011,7 +1011,7 @@
 </ul>
 <h2 id="unordered_map-e-unordered_multimap">unordered_map e unordered_multimap</h2>
 <p>é um conjunto que consiste em pares de valores-chave</p>
-<p>Um <code>unordered_map</code> é um contêiner associativo que contém pares de valores-chave com chaves exclusivas. Já um <code>unordered_multimap</code> permite múltiplas copias das chaves. Ambas as estruturas são baseadas em tabela hash e suas operações possuem complexidade, em média, em tempo <span class="arithmatex">\(O(1)\)</span>. Internamente, os elementos não seguem nenhuma ordem. Veja um exemplo de uso das estruturas:</p>
+<p>Um <code>unordered_map</code> é um contêiner associativo que contém pares de valores-chave com chaves exclusivas. Já um <code>unordered_multimap</code> permite múltiplas cópias das chaves. Ambas as estruturas são baseadas em tabela hash e suas operações possuem complexidade, em média, em tempo <span class="arithmatex">\(O(1)\)</span>. Internamente, os elementos não seguem nenhuma ordem. Veja um exemplo de uso das estruturas:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-21-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-21-3"> 3</a></span>
