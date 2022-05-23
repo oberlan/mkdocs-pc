@@ -38,7 +38,7 @@ Outra maneira de criar um vetor é fornecer uma lista de seus elementos:
 vector<int> v = {2,4,2,5,1};
 ```
 
-Também podemos fornecer o número de elementos e seus valores iniciais:
+Também pode-se fornecer o número de elementos e seus valores iniciais:
 
 ```c++ linenums="1"
 vector<int> a(8);    // tamanho 8, valor inicial: 0
@@ -178,7 +178,7 @@ Complemente sua leitura e seu conhecimento:
 
 ## priority_queue
 
-Uma fila de prioridade (`priority_queue`) é uma estrutura semelhante a uma fila ou pilha, mas ao invés de inserções e remoções acontecerem em uma das extremidades da estrutura, o **maior** (ou **menor**) elemento é sempre retornado durante o acesso/remoção. Inserções e remoções possuem complexidade $O(\log n)$ e o acesso ao elemento de maior prioridade é $O(1)$. Uma fila de prioridade geralmente é implementada usando uma estrutura chamada [heap](https://www.geeksforgeeks.org/heap-data-structure/) que é muito mais simples do que uma árvore binária balanceada usado em um [set](#set).
+Uma fila de prioridade (`priority_queue`) é uma estrutura semelhante a uma fila ou pilha, mas ao invés de inserções e remoções acontecerem em uma das extremidades da estrutura, o **maior** (ou **menor**) elemento é sempre retornado durante o acesso/remoção. Inserções e remoções possuem complexidade $O(\log n)$ e o acesso ao elemento de maior prioridade é $O(1)$. Uma fila de prioridade geralmente é implementada usando uma estrutura chamada [heap](https://www.geeksforgeeks.org/heap-data-structure/) que é muito mais simples do que uma árvore binária balanceada usado em um [set](#set-e-multiset).
 
 As principais funções da `priority_queue` são:
 
@@ -271,7 +271,7 @@ c2.insert(5);
 cout << c2.count(5) << "\n"; // 1 (2)
 ```
 
-1. Como `end()` aponta para um elemento após o último elemento, temos que diminuir o iterador em uma unidade.
+1. Como `end()` aponta para um elemento após o último elemento, deve-se diminuir o iterador em uma unidade.
 2. Lembre-se que em um `set` todos seus elementos são distintos. Assim, a função `count` sempre retornar ou 0 (elemento não está no `set`) ou 1 (o elemento está no `set`).
 
 A estrutura set também fornece as funções `lower_bound(x)` e `upper_bound(x)` que retornam um iterador para o menor elemento em um `set` cujo valor é pelo menos ou maior que `x`, respectivamente. Em ambas as funções, se o elemento solicitado não existir, o valor de retorno é `end()`.

@@ -14,8 +14,8 @@ nav:
   - Teoria dos Números: teorianumeros.md
   - Combinatória: combinatoria.md
   - Ordenação e Busca: ordenacao.md
-  - Estrutura de Dados Básicas: edbasicas.md
-  - Estrutura de Dados Avançadas: edavancadas.md
+  - Estrutura de Dados (Parte 1): ed1.md
+  - Estrutura de Dados (Parte 2): ed2.md
   - Busca Exaustiva: buscaexaustiva.md
   - Algoritmos Gulosos: guloso.md
   - Programação dinâmica: pd.md
