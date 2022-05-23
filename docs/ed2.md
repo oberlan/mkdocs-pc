@@ -1,6 +1,6 @@
 # Estrutura de Dados
 
-Nessa parte, serão apresentados duas estruturas baseadas em árvores e uma implementação de *set* do GNU C++.  
+Nesta parte, serão apresentados duas estruturas baseadas em árvores e uma implementação de *set* do GNU C++.  
 
 ## GNU C++ Policy-Based Sets
 
@@ -19,7 +19,7 @@ Alternativamente, pode-se simplificar o código anterior da seguinte forma:
 using namespace __gnu_pbds;
 ```
 
-Após isso, é possível definir um **conjunto ordenado indexado** (entre as disponíveis, essa é a principal estrutura usada em competições de programação). Esta estrutura é como o [*set*](/ed1/#set-e-multiset), mas com a possibilidade de acessar os elemenentos de acordo com a sua posição (indece), como em um *array*. O código abaixo, define um conjunto ordenado indexado usando *template*.
+Após isso, é possível definir um **conjunto ordenado indexado** (entre as disponíveis, essa é a principal estrutura usada em competições de programação). Esta estrutura é como o [*set*](/ed1/#set-e-multiset), mas com a possibilidade de acessar os elementos de acordo com a sua posição (índice), como em um *array*. O código abaixo, define um conjunto ordenado indexado usando *template*.
 
 ```c++ linenums="1"
 template <class T> 

@@ -497,7 +497,7 @@
 
 
 <h1 id="estrutura-de-dados">Estrutura de Dados</h1>
-<p>Nessa parte, serão apresentados duas estruturas baseadas em árvores e uma implementação de <em>set</em> do GNU C++.  </p>
+<p>Nesta parte, serão apresentados duas estruturas baseadas em árvores e uma implementação de <em>set</em> do GNU C++.  </p>
 <h2 id="gnu-c-policy-based-sets">GNU C++ Policy-Based Sets</h2>
 <p>O compilador GNU g++ também suporta algumas estruturas de dados que não fazem parte da biblioteca padrão do C++. Essas estruturas são chamadas de <em>estruturas de dados baseadas em políticas</em> (<a href="http://gcc.gnu.org/onlinedocs/libstdc++/manual/policy_data_structures_design.html">Policy-Based Data Structures - PBDS</a>). Para usar essas estruturas é necessário incluir o seguinte código:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
@@ -513,7 +513,7 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">__gnu_pbds</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
-<p>Após isso, é possível definir um <strong>conjunto ordenado indexado</strong> (entre as disponíveis, essa é a principal estrutura usada em competições de programação). Esta estrutura é como o <a href="/ed1/#set-e-multiset"><em>set</em></a>, mas com a possibilidade de acessar os elemenentos de acordo com a sua posição (indece), como em um <em>array</em>. O código abaixo, define um conjunto ordenado indexado usando <em>template</em>.</p>
+<p>Após isso, é possível definir um <strong>conjunto ordenado indexado</strong> (entre as disponíveis, essa é a principal estrutura usada em competições de programação). Esta estrutura é como o <a href="/ed1/#set-e-multiset"><em>set</em></a>, mas com a possibilidade de acessar os elementos de acordo com a sua posição (índice), como em um <em>array</em>. O código abaixo, define um conjunto ordenado indexado usando <em>template</em>.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
 <span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"> </span>
 <a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="k">using</span><span class="w"> </span><span class="n">indexed_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tree</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">null_type</span><span class="p">,</span><span class="w"> </span><span class="n">less</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">rb_tree_tag</span><span class="p">,</span><span class="w"> </span><span class="n">tree_order_statistics_node_update</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>

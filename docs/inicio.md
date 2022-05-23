@@ -2,7 +2,7 @@
 
 Vamos começar apresentando alguns dos recursos da linguagem de programação C++ que são úteis na programação competitiva. Todos os comandos serão dados considerando o Linux como Sistema Operaciona. Caso esteja usando Windows, use o [CS50 IDE](https://ide.cs50.io/) ou [VSCode for CS50](https://code.cs50.io/).
 
-## Caracteristicas da linguagem
+## Características da linguagem
 
 ``` c++ linenums="1"
 #include <bits/stdc++.h> // (1)

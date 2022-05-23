@@ -24,7 +24,7 @@ v.push_back(2); // [3,2]
 v.push_back(5); // [3,2,5]
 ```
 
-Observer que os elementos são inseridos no fim. Então, os elementos podem ser acessados como em um array comum:
+Observe que os elementos são inseridos no fim. Então, os elementos podem ser acessados como em um array comum:
 
 ```c++ linenums="1"
 cout << v[0] << "\n"; // 3
@@ -88,7 +88,7 @@ Um `deque` é um array dinâmico que pode ser manipulado eficientemente em ambas
 
 As principais funções da `deque` são:
 
-- `push_front(x)`: adiciona o elemento `x` no inicio da estrutura;
+- `push_front(x)`: adiciona o elemento `x` no início da estrutura;
 - `push_back(x)`: adiciona o elemento `x` no fim da estrutura;
 - `pop_front()`: remove o primeiro elemento da estrutura;
 - `pop_back()`: remove o último elemento da estrutura;
@@ -121,7 +121,7 @@ Complemente sua leitura e seu conhecimento:
 
 ## queue
 
-A estrutura da `queue` (fila) corresponde a uma fila simples da vida real e segue a regra *First In First Out* (FIFO). Suas principais operações são: inserir um elemento no fim da fila, acessar e remover o primeiro elemento da fila. Essa operações possuem complexidade em $O(1)$.
+A estrutura da `queue` (fila) corresponde a uma fila simples da vida real e segue a regra *First In First Out* (FIFO). Suas principais operações são: inserir um elemento no fim da fila, acessar e remover o primeiro elemento da fila. Essas operações possuem complexidade em $O(1)$.
 
 As principais funções da `queue` são:
 
@@ -149,7 +149,7 @@ Complemente sua leitura e seu conhecimento:
 
 ## stack
 
-Uma `stack` (pilha) é uma estrutura muito semelhante a uma fila, mas que segue a regra *Last In First Out* (LIFO). Ou seja, ao inserir um elemento na pilha, ele é adicionando no topo e esse é o elemento que se tem acesso. Suas principais operações são: inserir um elemento no topo da pilha, acessar e remover o elemento do topo da pilha. Essa operações possuem complexidade em $O(1)$.
+Uma `stack` (pilha) é uma estrutura muito semelhante a uma fila, mas que segue a regra *Last In First Out* (LIFO). Ou seja, ao inserir um elemento na pilha, ele é adicionado no topo e esse é o elemento que se tem acesso. Suas principais operações são: inserir um elemento no topo da pilha, acessar e remover o elemento do topo da pilha. Essas operações possuem complexidade em $O(1)$.
 
 As principais funções da `stack` são:
 
@@ -274,7 +274,7 @@ cout << c2.count(5) << "\n"; // 1 (2)
 1. Como `end()` aponta para um elemento após o último elemento, deve-se diminuir o iterador em uma unidade.
 2. Lembre-se que em um `set` todos seus elementos são distintos. Assim, a função `count` sempre retornar ou 0 (elemento não está no `set`) ou 1 (o elemento está no `set`).
 
-A estrutura set também fornece as funções `lower_bound(x)` e `upper_bound(x)` que retornam um iterador para o menor elemento em um `set` cujo valor é pelo menos ou maior que `x`, respectivamente. Em ambas as funções, se o elemento solicitado não existir, o valor de retorno é `end()`.
+A estrutura `set` também fornece as funções `lower_bound(x)` e `upper_bound(x)` que retornam um iterador para o menor elemento em um `set` cujo valor é pelo menos ou maior que `x`, respectivamente. Em ambas as funções, se o elemento solicitado não existir, o valor de retorno é `end()`.
 
 Um `multiset` é um conjunto que pode conter várias cópias do mesmo elemento. Por exemplo, o código abaixo adiciona três cópias do valor 5 ao `multiset`:
 
@@ -419,7 +419,7 @@ Complemente sua leitura e seu conhecimento:
 
 é um conjunto que consiste em pares de valores-chave
 
-Um `unordered_map` é um contêiner associativo que contém pares de valores-chave com chaves exclusivas. Já um `unordered_multimap` permite múltiplas copias das chaves. Ambas as estruturas são baseadas em tabela hash e suas operações possuem complexidade, em média, em tempo $O(1)$. Internamente, os elementos não seguem nenhuma ordem. Veja um exemplo de uso das estruturas:
+Um `unordered_map` é um contêiner associativo que contém pares de valores-chave com chaves exclusivas. Já um `unordered_multimap` permite múltiplas cópias das chaves. Ambas as estruturas são baseadas em tabela hash e suas operações possuem complexidade, em média, em tempo $O(1)$. Internamente, os elementos não seguem nenhuma ordem. Veja um exemplo de uso das estruturas:
 
 ```c++ linenums="1"
 unordered_map<string,int> m;

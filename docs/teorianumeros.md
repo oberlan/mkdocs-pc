@@ -11,14 +11,14 @@ Um inteiro $n$ é divisível por um inteiro $d$ (denotado por $d | n$.) se houve
 !!! example "Exemplo"
     O número 12 possui 6 divisores: $1~(1 \times 12 = 12), 2~(2 \times 6 = 12), 3~(3 \times 4 = 12), 4~(4 \times 3 = 12), 6~(6 \times 6 = 12)$ e $12~(12 \times 1 = 12)$.
 
-O conceito de divisibilidade traz muitas questões. A primeira é como verificar se um númro é divisível por outro. Para número pequenos, que podem ser armazenados em variáveis, por exemplo, do tipo `#!c++ long long`, pode-se usar o operador módulo ou resto da divisão (`%`): $n$ é divisível por $d$ se e somente se `ǹ % d == 0`. Entretanto, para números inteiros grandes a solução não é tão simples. Na Seção [Aritmética Modular](#aritmetica-modular) será discutido como implementar o operador módulo para número inteiros grandes.
+O conceito de divisibilidade traz muitas questões. A primeira é como verificar se um número é divisível por outro. Para número pequenos, que podem ser armazenados em variáveis, por exemplo, do tipo `#!c++ long long`, pode-se usar o operador módulo ou resto da divisão (`%`): $n$ é divisível por $d$ se e somente se `ǹ % d == 0`. Entretanto, para números inteiros grandes a solução não é tão simples. Na Seção [Aritmética Modular](#aritmetica-modular) será discutido como implementar o operador módulo para número inteiros grandes.
 
 Outra questão é como calcular os divisores de um número. Todo inteiro $n$ tem pelo menos dois divisores ($1$ e $n$). Para encontrar os outros divisores, pode-se usar o fato que qualquer divisor $d$ de $n$ deve satisfazer $|d| \leq |n|$. Assim, pode-se testar se os inteiros entre $1$ e $n$ são divisores de $n$, ou seja, um algoritmo $O(n)$. Entretanto, sempre que tem-se um divisor $d$, tem-se outro divisor $q$ (veja o exemplo anterior). Por exemplo, ao afirmar que $3$ é um divisor de $12$, pois $3 \times 4 = 12$, tem-se outro divisor, $4$. Ou seja, os divisores vêm em pares. Veja outros exemplo:
 
 !!! example "Exemplo"
     O número 16 possui 5 divisores: $1~(1 \times 16 = 16), 2~(2 \times 8 = 16), 4~(4 \times 4 = 16), 8~(8 \times 2 = 16)$ e $16~(16 \times 6 = 16)$.
 
-Dessa forma, pode-se limitar a encontrar cada elemento desses pares. Além disso, um dos valores de cada par deve ser limitado por $\sqrt n$. Por quê? Esse limite, ajuda a reduzir a complexidade do algoritmo que encontra todos os dividos de um número para $O(\sqrt n)$. A função abaixo retorna um `vector` com todos os divisores de $n$.
+Dessa forma, pode-se limitar a encontrar cada elemento desses pares. Além disso, um dos valores de cada par deve ser limitado por $\sqrt n$. Por quê? Esse limite ajuda a reduzir a complexidade do algoritmo que encontra todos os divisores de um número em $O(\sqrt n)$. A função abaixo retorna um `vector` com todos os divisores de $n$.
 
 ```c++ linenums="1"
 vector<long long> divisores(long long n) {
@@ -53,7 +53,7 @@ Um número inteiro $n > 1$ é chamado de **número primo** se e somente se possu
   <figcaption style="font-size=8pt">Números primos são os números naturais maiores que um que não são produtos de dois números naturais menores.(Fonte: <a href="https://pt.wikipedia.org/wiki/N%C3%BAmero_primo">Wikipédia</a>)</figcaption>
 </figure>
 
-Número primo é um tópico importante do teoria dos números e a fonte de muitos problemas em programações competitivas. Por isso é de extrema importancia conhecer e dominar alguns algoritmos que envolvam números primos.
+Número primo é um tópico importante da teoria dos números e a fonte de muitos problemas em programações competitivas. Por isso é de extrema importância conhecer e dominar alguns algoritmos que envolvam números primos.
 
 ### Testes de Primalidade
 
@@ -255,7 +255,7 @@ $$(a \cdot b) \pmod{m} = ((a \bmod m) \cdot (b \bmod m)) \bmod m$$
 
 $$a^b \bmod {m} = (a \bmod m)^b \bmod m$$
 
-O que significa que se a resposta está sendo computada por meio de adições, subtrações e multiplicações, e no final você precisa tirar o módulo dela, você pode tirar módulo em todas as operações intermediárias que isso não afetará a resposta.
+O que significa que se a resposta está sendo computada por meio de adições, subtrações e multiplicações, e no final você precisa tirar o módulo dela, você pode tirar o módulo em todas as operações intermediárias que isso não afetará a resposta.
 
 ## Exponenciação Binária
 
@@ -281,7 +281,7 @@ long long binpow(long long x, long long n) {
 }
 ```
 
-Alternativamente, usando sem usar recusão e usando [manipução de bits](/manipulacaobits):
+Alternativamente, sem usar recursão e usando [manipulação de bits](/manipulacaobits):
 
 ```c++ linenums="1"
 long long binpow(long long x, long long n) {

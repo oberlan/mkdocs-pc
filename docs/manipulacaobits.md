@@ -1,19 +1,19 @@
 # Manipulação de Bits
 
-Todos os dados em um programa de computador são internamente armazenados como números binários, ou seja, uma sequencia de 0's ou 1's. Em C++ um número do tipo `int` é uma variável de 32-bits, ou seja, todo número `int` consiste de uma sequencia de 32 0's ou 1's. Por exemplo, a representação do número `int` 43 é:
+Todos os dados em um programa de computador são internamente armazenados como números binários, ou seja, uma sequência de 0's ou 1's. Em C++ um número do tipo `int` é uma variável de 32-bits, ou seja, todo número `int` consiste de uma sequência de 32 0's ou 1's. Por exemplo, a representação do número `int` 43 é:
 
 ```c++
 00000000000000000000000000101011
 ```
 
-Normalmente, é usada a representação de bits com sinal de um número, o que significa que números negativos e positivos podem ser representados. Por exemplo, o `int` de C++ é um tipo com sinal, logo uma variável desse tipo pode armazenar valroes inteiros entre $-2^{31}$ e $2^{31} - 1$. O primeiro bit de uma representação com sinal indica o sinal do número (0 para números não-negativos e 1 para números negativos). O **complemento de dois** é usado, o que significa que o oposto de um número é calculado primeiro invertendo todos os bits do número e depois aumentando o número em um. Por exemplo, a representação do número `int` -43 é:
+Normalmente, é usada a representação de bits com sinal de um número, o que significa que números negativos e positivos podem ser representados. Por exemplo, o `int` de C++ é um tipo com sinal, logo uma variável desse tipo pode armazenar valores inteiros entre $-2^{31}$ e $2^{31} - 1$. O primeiro bit de uma representação com sinal indica o sinal do número (0 para números não-negativos e 1 para números negativos). O **complemento de dois** é usado, o que significa que o oposto de um número é calculado primeiro invertendo todos os bits do número e depois aumentando o número em um. Por exemplo, a representação do número `int` -43 é:
 
 ```c++
 11111111111111111111111111010101
 ```
 
 !!! danger "Atenção"
-    Se um número for maior que o limite superior da representação de bits, ocorerrá um [*overflow*](https://www.cplusplus.com/articles/DE18T05o/). Considerando uma variável do tipo `int`, o próximo número depois de $2^{31} - 1$ é $-2^{31}$.
+    Se um número for maior que o limite superior da representação de bits, ocorrerá um [*overflow*](https://www.cplusplus.com/articles/DE18T05o/). Considerando uma variável do tipo `int`, o próximo número depois de $2^{31} - 1$ é $-2^{31}$.
 
     ```c++
     int v = 2147483647; // (1)
@@ -82,7 +82,7 @@ Produz um número onde todos os bits são invertidos, ou seja, todos os bits 0 s
 ```
 
 !!! hint "Dica"
-    A formula `~x = -x - 1` é válida. Por exemplo, `~5 = 6`.
+    A fórmula `~x = -x - 1` é válida. Por exemplo, `~5 = 6`.
 
 ### Operador de deslocamento à esquerda (`<<` e `<<=`)
 
