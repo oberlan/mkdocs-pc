@@ -375,11 +375,79 @@
     Fenwick (Binary Indexed) Tree
   </a>
   
+    <nav class="md-nav" aria-label="Fenwick (Binary Indexed) Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementacao" class="md-nav__link">
+    Implementação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quando-usar" class="md-nav__link">
+    Quando usar?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material-complementar" class="md-nav__link">
+    Material complementar
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#segment-tree" class="md-nav__link">
     Segment Tree
+  </a>
+  
+    <nav class="md-nav" aria-label="Segment Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consultas" class="md-nav__link">
+    Consultas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atualizacoes" class="md-nav__link">
+    Atualizações
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacao_1" class="md-nav__link">
+    Implementação
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material-complementar_1" class="md-nav__link">
+    Material complementar
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#union-find-disjoint-sets" class="md-nav__link">
+    Union-Find Disjoint Sets
   </a>
   
 </li>
@@ -611,9 +679,876 @@
 <li><a href="https://opensource.apple.com/source/llvmgcc42/llvmgcc42-2336.9/libstdc++-v3/testsuite/ext/pb_ds/example/">PBDS Examples</a></li>
 </ul>
 <h2 id="fenwick-binary-indexed-tree">Fenwick (Binary Indexed) Tree</h2>
-<p>Em construção...</p>
+<p>Considere o seguinte problema:</p>
+<div class="admonition example">
+<p>Você possui <span class="arithmatex">\(n\)</span> caixas com bolinhas de gude e deseja:</p>
+<ol>
+<li>
+<p>Adicionar bolinhas de gude a caixa <span class="arithmatex">\(i\)</span>;</p>
+</li>
+<li>
+<p>Saber a quantidade de bolinhas de gude que existem da caixa <span class="arithmatex">\(a\)</span> até a caixa <span class="arithmatex">\(b\)</span>, ou seja, a soma das bolinhas nas caixas <span class="arithmatex">\([a, a+1, a+2, \dots, b]\)</span>.</p>
+</li>
+</ol>
+</div>
+<p>O objetivo é implementar essas duas operações de forma eficiente. Esse problema é conhecido como <strong>Range Sum Queries (RSQ)</strong>.</p>
+<p>Uma abordagem ingênua, mostrada abaixo, possui <span class="arithmatex">\(O(1)\)</span> para a operação 1 e <span class="arithmatex">\(O(n)\)</span> para a 2. Se forem feitas <span class="arithmatex">\(m\)</span> operações 2, no pior caso, a complexidade de tempo será <span class="arithmatex">\(O(n*m)\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="w"> </span><span class="n">caixas</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">caixas</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// O(1)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">    </span><span class="n">caixas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">caixas</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">b</span><span class="p">){</span><span class="w"> </span><span class="c1">// O(n)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">caixas</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Para responder <em>range sum queries</em> em sequências dinâmicas com melhor complexidade é preciso usar estruturas mais sofisticadas, que permitam a atualização das somas pré-computadas de forma eficiente. Uma destas estruturas é a <strong>Binary Indexed Tree</strong> (<strong>BIT</strong> ou <strong>Fenwick Tree</strong>), proposta por <a href="https://api.semanticscholar.org/CorpusID:7519761">Peter M. Fenwick em 1994</a>. Usando BIT, ambas as operações são feitas em <span class="arithmatex">\(O(\log n)\)</span>.</p>
+<p>A ideia da BIT é que, assim como um número pode ser representado como uma soma de algumas potências de dois, uma soma cumulativa pode ser representada como uma soma de algumas somas cumulativas parciais. Para isso, cada índice <span class="arithmatex">\(i\)</span> no array de soma cumulativa é responsável pela soma cumulativa do índice <span class="arithmatex">\(i\)</span> até <span class="arithmatex">\((i - (1&lt;&lt;r) + 1)\)</span>, onde <span class="arithmatex">\(r\)</span> representa a posição do último bit 1 da representação binária de <span class="arithmatex">\(i\)</span> (o <span class="arithmatex">\(p(i) = (1&lt;&lt;r)\)</span> também pode ser visto como a maior potência de <span class="arithmatex">\(2\)</span> que divide <span class="arithmatex">\(i\)</span>). Por exemplo, o índice <span class="arithmatex">\(15_{10} = 1111_2\)</span> ficará responsável pela soma do intervalo <span class="arithmatex">\(15 - (1&lt;&lt;0) + 1 = 15 - 1 + 1\)</span> a <span class="arithmatex">\(15\)</span>. Já o índice <span class="arithmatex">\(12_{10} = 1100_2\)</span> ficará responsável pela soma do intervalo <span class="arithmatex">\(12 - (1&lt;&lt;3) + 1 = 12 - 8 + 1 = 9\)</span> a <span class="arithmatex">\(12\)</span>, e assim por diante. A tabela abaixo mostra a responsabilidade dos índices 1 a 16.</p>
+<table>
+<thead>
+<tr>
+<th align="center">Índice</th>
+<th align="center">Responsável pela soma parcial do intervalo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">16</td>
+<td align="center">[01, 16]</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center">[15, 15]</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center">[13, 14]</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="center">[13, 13]</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="center">[09, 12]</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center">[11, 11]</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">[09, 10]</td>
+</tr>
+<tr>
+<td align="center">09</td>
+<td align="center">[09, 09]</td>
+</tr>
+<tr>
+<td align="center">08</td>
+<td align="center">[01, 08]</td>
+</tr>
+<tr>
+<td align="center">07</td>
+<td align="center">[07, 07]</td>
+</tr>
+<tr>
+<td align="center">06</td>
+<td align="center">[05, 06]</td>
+</tr>
+<tr>
+<td align="center">05</td>
+<td align="center">[05, 05]</td>
+</tr>
+<tr>
+<td align="center">04</td>
+<td align="center">[01, 04]</td>
+</tr>
+<tr>
+<td align="center">03</td>
+<td align="center">[03, 03]</td>
+</tr>
+<tr>
+<td align="center">02</td>
+<td align="center">[01, 02]</td>
+</tr>
+<tr>
+<td align="center">01</td>
+<td align="center">[01, 01]</td>
+</tr>
+</tbody>
+</table>
+<p>Perceba que todo índices ímpar fica responsável por um intervalo de tamanho 1 (porquê?). Já os índices <span class="arithmatex">\(i\)</span> que são potência de 2, ficam responsáveis pelo intervalo <span class="arithmatex">\([1, i]\)</span>.</p>
+<p>Tipicamente, a Fenwick Tree é implementada usando um array (<code>vector</code>), digamos <code>ft</code>, de modo que:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"> </span>
+</code></pre></div>
+</td></tr></table>
+<p>Assim, cada posição <code>i</code> contém a soma dos valores de um intervalo do array original cujo comprimento é <code>p(i)</code> e que termina na posição <code>i</code>. Por exemplo, como <code>p(6) = 2</code>, <code>ft[6]</code> contém o valor de <code>sum(5,6)</code>. </p>
+<p>Considere o seguinte array original:</p>
+<figure>
+<p><img src="/img/FT1.png" style="width:80%;display: block; margin: 0 auto;"/></p>
+</figure>
+<p>A Fenwick Tree correspondente é a seguinte:</p>
+<figure>
+<p><img src="/img/FT2.png" style="width:80%;display: block; margin: 0 auto;"/></p>
+</figure>
+<p>A figura abaixo mostra mais claramente como cada valor na BIT corresponde a um intervalo no array original:</p>
+<figure>
+<p><img src="/img/FT3.png" style="width:80%;display: block; margin: 0 auto;"/></p>
+</figure>
+<p>Usando uma BIT, qualquer valor de <code>sum(1,i)</code> pode ser calculado em tempo <span class="arithmatex">\(O(\log n)\)</span>, pois um intervalo <span class="arithmatex">\([1,i]\)</span> sempre pode ser dividido em intervalos <span class="arithmatex">\(O(\log n)\)</span> cujas somas são armazenadas na árvore. Por exemplo, o intervalo <span class="arithmatex">\([1,7]\)</span> consiste nos seguintes intervalos:</p>
+<figure>
+<p><img src="/img/FT4.png" style="width:80%;display: block; margin: 0 auto;"/></p>
+</figure>
+<p>Assim, pode-se calcular a soma correspondente da seguinte forma:</p>
+<div class="arithmatex">\[
+sum(1,7) = sum(1,4)+sum(5,6)+sum(7,7) = 16+7+4 = 27
+\]</div>
+<p>Para calcular o valor de <span class="arithmatex">\(sum(a,b)\)</span> onde <span class="arithmatex">\(a &gt; 1\)</span>, pode-se usar o mesmo truque que usado na soma de prefixo:</p>
+<div class="arithmatex">\[
+sum(a,b) = sum(1,b)−sum(1,a−1).
+\]</div>
+<p>Como pode-se calcular tanto <span class="arithmatex">\(sum(1, b)\)</span> quanto <span class="arithmatex">\(sum(1, a−1)\)</span> em tempo <span class="arithmatex">\(O(\log n)\)</span>, a complexidade de tempo total é <span class="arithmatex">\(O(\log n)\)</span>.</p>
+<p>Além de calcular a soma parcial, também é possível/necessário atualizar o valor de uma determinada posição no array original. Após a atualização, alguns valores na BIT devem ser atualizados. Por exemplo, se o valor na posição 3 mudar, as somas dos seguintes intervalos mudam:</p>
+<figure>
+<p><img src="/img/FT5.png" style="width:80%;display: block; margin: 0 auto;"/></p>
+</figure>
+<p>Como cada elemento do array pertence a <span class="arithmatex">\(O(\log n)\)</span> intervalos na BIT, basta atualizar os <span class="arithmatex">\(O(\log n)\)</span> valores na árvore.</p>
+<h3 id="implementacao">Implementação</h3>
+<p>O primeiro passo é definir como calcular o valor de <code>p(i)</code>, ou seja, a maior potência de <span class="arithmatex">\(2\)</span> que divide <span class="arithmatex">\(i\)</span>. Este valor é conhecido como o <strong>bit menos significativo</strong>, abreviado <em>lsb</em>, da representação binária de <span class="arithmatex">\(i\)</span>. O função abaixo calcula esse valor:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span>
+<span class="normal"><a href="#__codelineno-7-6">6</a></span>
+<span class="normal"><a href="#__codelineno-7-7">7</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">p</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">bit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">bit</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">        </span><span class="o">++</span><span class="n">bit</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-7-6" name="__codelineno-7-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">bit</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Essa função possui complexidade <span class="arithmatex">\(O(\log n)\)</span>. Entretanto, usando <a href="../manipulacaobits/#alguns-truques-e-aplicacoes">manipulação de bits</a>, pode-se encontrar esse valor de forma mais eficiente. Lembre-se que um número negativo é representado usando complemento de 2, ou seja, pega-se a representação binária de <code>x</code>, inverte-se os bits e adiciona 1 (ignorando o resto final). Por exemplo, considere <code>x = 108</code> e que os valores são representados em 8 bits:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a> <span class="nv">x</span> <span class="o">=</span> <span class="m">01101100</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a>~x <span class="o">=</span> <span class="m">10010011</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a>-x <span class="o">=</span> <span class="m">10010100</span> 
+</code></pre></div>
+</td></tr></table>
+<p>Observe que os bits mais significativos que o <em>lsb</em> são diferentes para <code>x</code> e <code>-x</code>, enquanto o <em>lsb</em> e os 0s seguintes são os mesmos. Portanto, <code>x &amp; −x</code> dá a resposta desejada, ou seja: <code>x &amp; -x = 00000100</code>. Com essa estratégia, pode-se calcular o valor de <em>lsb</em>, consequentemente, o valor de <code>p(i)</code> em <span class="arithmatex">\(O(1)\)</span>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">lsb</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">-</span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li>Normalmente, essa função é feita como uma macro: <code class="highlight"><span class="cp">#define lsb(i) ((i) &amp; -(i))</span></code></li>
+</ol>
+<p>A funções a seguir calculam o valor de <span class="arithmatex">\(sum(1,i)\)</span> e <span class="arithmatex">\(sum(a, b)\)</span>, respectivamente:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-10-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-10-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-10-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-10-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-10-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-10-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-10-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-10-10">10</a></span>
+<span class="normal"><a href="#__codelineno-10-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">        </span><span class="n">s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-10-9" name="__codelineno-10-9"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-10" name="__codelineno-10-10"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="mi">-1</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-10-11" name="__codelineno-10-11"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>A seguinte função aumenta o valor do array na posição <span class="arithmatex">\(i\)</span> em <span class="arithmatex">\(x\)</span> (<span class="arithmatex">\(x\)</span> pode ser positivo ou negativo):</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Normalmente, essa função também é chamada de update</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="w">        </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Para construir a BIT a partir de um array original, uma primeira estratégia é iniciar o array <code>ft</code> com valor 0 em todas as posições. Em seguida, para cada posição <span class="arithmatex">\(i\)</span>, chama-se a função <code>add</code> passando o valor do array original como valor a ser incrementado, o que daria resultaria em <span class="arithmatex">\(O(n \log n)\)</span> operações. Veja a função abaixo:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="n">ft</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="w">          </span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span><span class="w"></span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Entretanto, note que após atualizar o valor de <code>ft[i]</code>, pode-se verificar se o "pai" de <span class="arithmatex">\(i\)</span> é menor que <span class="arithmatex">\(N\)</span> (tamanho do array). Se for, atualiza-se o "pai" também. Dessa forma, temos uma função com complexidade <span class="arithmatex">\(O(n)\)</span>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span>
+<span class="normal"><a href="#__codelineno-13-7">7</a></span>
+<span class="normal"><a href="#__codelineno-13-8">8</a></span>
+<span class="normal"><a href="#__codelineno-13-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="p">)</span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="w">    </span><span class="n">ft</span><span class="p">.</span><span class="n">assign</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="w">          </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="w">              </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Também é possível encontrar o menor índice <span class="arithmatex">\(i\)</span> tal que soma acumulativa do intervalo <span class="arithmatex">\([1..i] \geq k\)</span>. Como as somas acumulativas dos valores estão ordenadas, pode-se usar a busca binária para encontrar tal índice. Basicamente, testa-se o índice do meio <span class="arithmatex">\(m = n / 2\)</span> do intervalo inicial <span class="arithmatex">\([1..n]\)</span> e verifica se <code>sum(1, i)</code> é menor que <span class="arithmatex">\(k\)</span> ou não. Para cada valor de <span class="arithmatex">\(m\)</span>, tem-se <span class="arithmatex">\(O(\log n)\)</span> operações, logo, essa função terá complexidade <span class="arithmatex">\(O(\log n \times \log n) = O(\log^2 n)\)</span>. O código abaixo ilustra tal função:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span>
+<span class="normal"><a href="#__codelineno-14-4">4</a></span>
+<span class="normal"><a href="#__codelineno-14-5">5</a></span>
+<span class="normal"><a href="#__codelineno-14-6">6</a></span>
+<span class="normal"><a href="#__codelineno-14-7">7</a></span>
+<span class="normal"><a href="#__codelineno-14-8">8</a></span>
+<span class="normal"><a href="#__codelineno-14-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="n">ll</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="w">        </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ini</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-14-5" name="__codelineno-14-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-14-8" name="__codelineno-14-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fim</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-14-9" name="__codelineno-14-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<ol>
+<li><span class="arithmatex">\(2^{30} &gt; 10^9\)</span>, normalmente é suficiente.</li>
+</ol>
+<p>O código abaixo mostra uma implementação completa de uma BIT. Note que foi usado uma versão baseada em orientação à objetos, mas isso não é necessário.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-15-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-15-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-15-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-15-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-15-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-15-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-15-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-15-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-15-10">10</a></span>
+<span class="normal"><a href="#__codelineno-15-11">11</a></span>
+<span class="normal"><a href="#__codelineno-15-12">12</a></span>
+<span class="normal"><a href="#__codelineno-15-13">13</a></span>
+<span class="normal"><a href="#__codelineno-15-14">14</a></span>
+<span class="normal"><a href="#__codelineno-15-15">15</a></span>
+<span class="normal"><a href="#__codelineno-15-16">16</a></span>
+<span class="normal"><a href="#__codelineno-15-17">17</a></span>
+<span class="normal"><a href="#__codelineno-15-18">18</a></span>
+<span class="normal"><a href="#__codelineno-15-19">19</a></span>
+<span class="normal"><a href="#__codelineno-15-20">20</a></span>
+<span class="normal"><a href="#__codelineno-15-21">21</a></span>
+<span class="normal"><a href="#__codelineno-15-22">22</a></span>
+<span class="normal"><a href="#__codelineno-15-23">23</a></span>
+<span class="normal"><a href="#__codelineno-15-24">24</a></span>
+<span class="normal"><a href="#__codelineno-15-25">25</a></span>
+<span class="normal"><a href="#__codelineno-15-26">26</a></span>
+<span class="normal"><a href="#__codelineno-15-27">27</a></span>
+<span class="normal"><a href="#__codelineno-15-28">28</a></span>
+<span class="normal"><a href="#__codelineno-15-29">29</a></span>
+<span class="normal"><a href="#__codelineno-15-30">30</a></span>
+<span class="normal"><a href="#__codelineno-15-31">31</a></span>
+<span class="normal"><a href="#__codelineno-15-32">32</a></span>
+<span class="normal"><a href="#__codelineno-15-33">33</a></span>
+<span class="normal"><a href="#__codelineno-15-34">34</a></span>
+<span class="normal"><a href="#__codelineno-15-35">35</a></span>
+<span class="normal"><a href="#__codelineno-15-36">36</a></span>
+<span class="normal"><a href="#__codelineno-15-37">37</a></span>
+<span class="normal"><a href="#__codelineno-15-38">38</a></span>
+<span class="normal"><a href="#__codelineno-15-39">39</a></span>
+<span class="normal"><a href="#__codelineno-15-40">40</a></span>
+<span class="normal"><a href="#__codelineno-15-41">41</a></span>
+<span class="normal"><a href="#__codelineno-15-42">42</a></span>
+<span class="normal"><a href="#__codelineno-15-43">43</a></span>
+<span class="normal"><a href="#__codelineno-15-44">44</a></span>
+<span class="normal"><a href="#__codelineno-15-45">45</a></span>
+<span class="normal"><a href="#__codelineno-15-46">46</a></span>
+<span class="normal"><a href="#__codelineno-15-47">47</a></span>
+<span class="normal"><a href="#__codelineno-15-48">48</a></span>
+<span class="normal"><a href="#__codelineno-15-49">49</a></span>
+<span class="normal"><a href="#__codelineno-15-50">50</a></span>
+<span class="normal"><a href="#__codelineno-15-51">51</a></span>
+<span class="normal"><a href="#__codelineno-15-52">52</a></span>
+<span class="normal"><a href="#__codelineno-15-53">53</a></span>
+<span class="normal"><a href="#__codelineno-15-54">54</a></span>
+<span class="normal"><a href="#__codelineno-15-55">55</a></span>
+<span class="normal"><a href="#__codelineno-15-56">56</a></span>
+<span class="normal"><a href="#__codelineno-15-57">57</a></span>
+<span class="normal"><a href="#__codelineno-15-58">58</a></span>
+<span class="normal"><a href="#__codelineno-15-59">59</a></span>
+<span class="normal"><a href="#__codelineno-15-60">60</a></span>
+<span class="normal"><a href="#__codelineno-15-61">61</a></span>
+<span class="normal"><a href="#__codelineno-15-62">62</a></span>
+<span class="normal"><a href="#__codelineno-15-63">63</a></span>
+<span class="normal"><a href="#__codelineno-15-64">64</a></span>
+<span class="normal"><a href="#__codelineno-15-65">65</a></span>
+<span class="normal"><a href="#__codelineno-15-66">66</a></span>
+<span class="normal"><a href="#__codelineno-15-67">67</a></span>
+<span class="normal"><a href="#__codelineno-15-68">68</a></span>
+<span class="normal"><a href="#__codelineno-15-69">69</a></span>
+<span class="normal"><a href="#__codelineno-15-70">70</a></span>
+<span class="normal"><a href="#__codelineno-15-71">71</a></span>
+<span class="normal"><a href="#__codelineno-15-72">72</a></span>
+<span class="normal"><a href="#__codelineno-15-73">73</a></span>
+<span class="normal"><a href="#__codelineno-15-74">74</a></span>
+<span class="normal"><a href="#__codelineno-15-75">75</a></span>
+<span class="normal"><a href="#__codelineno-15-76">76</a></span>
+<span class="normal"><a href="#__codelineno-15-77">77</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp"></span>
+<a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-3" name="__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w">  </span><span class="n">ll</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="k">typedef</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vll</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-6" name="__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="cp">#define lsb(i) ((i) &amp; -(i))</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8"></a>
+<a id="__codelineno-15-9" name="__codelineno-15-9"></a><span class="k">class</span><span class="w">  </span><span class="nc">FenwickTree</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-10" name="__codelineno-15-10"></a><span class="k">private</span><span class="o">:</span><span class="w"></span>
+<a id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="w">    </span><span class="n">vll</span><span class="w"> </span><span class="n">ft</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-12" name="__codelineno-15-12"></a><span class="k">public</span><span class="o">:</span><span class="w"></span>
+<a id="__codelineno-15-13" name="__codelineno-15-13"></a><span class="w">    </span><span class="n">FenwickTree</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-14" name="__codelineno-15-14"></a><span class="w">    </span><span class="n">FenwickTree</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vll</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-15" name="__codelineno-15-15"></a>
+<a id="__codelineno-15-16" name="__codelineno-15-16"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-17" name="__codelineno-15-17"></a><span class="w">        </span><span class="n">ll</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-18" name="__codelineno-15-18"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-19" name="__codelineno-15-19"></a><span class="w">            </span><span class="n">s</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-15-20" name="__codelineno-15-20"></a><span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-15-21" name="__codelineno-15-21"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-22" name="__codelineno-15-22"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-23" name="__codelineno-15-23"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-24" name="__codelineno-15-24"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-25" name="__codelineno-15-25"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">a</span><span class="mi">-1</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-15-26" name="__codelineno-15-26"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-27" name="__codelineno-15-27"></a>
+<a id="__codelineno-15-28" name="__codelineno-15-28"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">add</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<a id="__codelineno-15-29" name="__codelineno-15-29"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="p">)</span><span class="n">ft</span><span class="p">.</span><span class="n">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-30" name="__codelineno-15-30"></a><span class="w">            </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-31" name="__codelineno-15-31"></a><span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-15-32" name="__codelineno-15-32"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-33" name="__codelineno-15-33"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-34" name="__codelineno-15-34"></a>
+<a id="__codelineno-15-35" name="__codelineno-15-35"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vll</span><span class="o">&amp;</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-36" name="__codelineno-15-36"></a><span class="w">        </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="p">)</span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-37" name="__codelineno-15-37"></a><span class="w">        </span><span class="n">ft</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-15-38" name="__codelineno-15-38"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-39" name="__codelineno-15-39"></a><span class="w">              </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-15-40" name="__codelineno-15-40"></a><span class="w">              </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-15-41" name="__codelineno-15-41"></a><span class="w">                  </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lsb</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ft</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-15-42" name="__codelineno-15-42"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-43" name="__codelineno-15-43"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-44" name="__codelineno-15-44"></a>
+<a id="__codelineno-15-45" name="__codelineno-15-45"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-46" name="__codelineno-15-46"></a><span class="w">        </span><span class="n">ll</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ll</span><span class="p">)</span><span class="n">ft</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-47" name="__codelineno-15-47"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-48" name="__codelineno-15-48"></a><span class="w">            </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">fim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ini</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-49" name="__codelineno-15-49"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-50" name="__codelineno-15-50"></a><span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-51" name="__codelineno-15-51"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-52" name="__codelineno-15-52"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">fim</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-53" name="__codelineno-15-53"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-15-54" name="__codelineno-15-54"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-15-55" name="__codelineno-15-55"></a>
+<a id="__codelineno-15-56" name="__codelineno-15-56"></a>
+<a id="__codelineno-15-57" name="__codelineno-15-57"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-15-58" name="__codelineno-15-58"></a><span class="w">    </span><span class="c1">//          1  2  3  4  5  6  7  8</span>
+<a id="__codelineno-15-59" name="__codelineno-15-59"></a><span class="w">    </span><span class="n">vll</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">};</span><span class="w"> </span><span class="c1">// Indice 0 não é utilizado</span>
+<a id="__codelineno-15-60" name="__codelineno-15-60"></a><span class="w">    </span><span class="n">FenwickTree</span><span class="w"> </span><span class="n">ft</span><span class="p">(</span><span class="n">f</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-15-61" name="__codelineno-15-61"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// ft[8] = 29</span>
+<a id="__codelineno-15-62" name="__codelineno-15-62"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// ft[3] + ft[2] = 4 + 4 = 8</span>
+<a id="__codelineno-15-63" name="__codelineno-15-63"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// ft[7] + ft[6] + ft[4] = 16 + 7 + 4 = 27</span>
+<a id="__codelineno-15-64" name="__codelineno-15-64"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// sum(1, 4) - sum(1, 1) = ft[4] - ft[1] = 16 - 1 = 15</span>
+<a id="__codelineno-15-65" name="__codelineno-15-65"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// sum(1, 8) - sum(1, 5) = ft[8] - (ft[5] + ft[4]) = 29 - (6 + 16) = 7</span>
+<a id="__codelineno-15-66" name="__codelineno-15-66"></a><span class="w">    </span><span class="n">ft</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w">                   </span><span class="c1">// Aumenta em duas unidades o valor da posição 8</span>
+<a id="__codelineno-15-67" name="__codelineno-15-67"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// ft[8] = 31</span>
+<a id="__codelineno-15-68" name="__codelineno-15-68"></a><span class="w">    </span><span class="n">ft</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">-2</span><span class="p">);</span><span class="w">                  </span><span class="c1">// Reduz em duas unidades o valor da posição 8</span>
+<a id="__codelineno-15-69" name="__codelineno-15-69"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// ft[8] = 29</span>
+<a id="__codelineno-15-70" name="__codelineno-15-70"></a><span class="w">    </span><span class="n">ft</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="n">f</span><span class="p">[</span><span class="mi">8</span><span class="p">]);</span><span class="w">               </span><span class="c1">// Zera o valor da posição 8</span>
+<a id="__codelineno-15-71" name="__codelineno-15-71"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// ft[8] = 27</span>
+<a id="__codelineno-15-72" name="__codelineno-15-72"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// Indice 2, sum(1, 2) == 4, que é &gt;= 4</span>
+<a id="__codelineno-15-73" name="__codelineno-15-73"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// Indice 3, sum(1, 3) == 8, que é &gt;= 8</span>
+<a id="__codelineno-15-74" name="__codelineno-15-74"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">ft</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Indice 7, sum(1, 7) == 27, que é &gt;= 25</span>
+<a id="__codelineno-15-75" name="__codelineno-15-75"></a>
+<a id="__codelineno-15-76" name="__codelineno-15-76"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-15-77" name="__codelineno-15-77"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<h3 id="quando-usar">Quando usar?</h3>
+<p>Para utilizar uma árvore de Fenwick para realizar a operação <span class="arithmatex">\(\odot\)</span> em um intervalo de índices <span class="arithmatex">\([i,j]\)</span> da sequência <span class="arithmatex">\(a_k\)</span>, é necessário que esta operação tenha duas propriedades:</p>
+<ol>
+<li>
+<p>Associatividade: para quaisquer <span class="arithmatex">\(x, y, z \in a_k\)</span>, deve valer que: <span class="arithmatex">\((x \odot y)\odot z = x \odot (y \odot z)\)</span>;</p>
+</li>
+<li>
+<p>Invertibilidade: para qualquer <span class="arithmatex">\(x \in a_k\)</span>, deve existir um valor <span class="arithmatex">\(y\)</span> tal que <span class="arithmatex">\(x\odot y = I\)</span>, onde <span class="arithmatex">\(I\)</span> é o elemento neutro/identidade da operação <span class="arithmatex">\(\odot\)</span>.</p>
+</li>
+</ol>
+<p>Como exemplos de operações que têm ambas propriedades tem-se a adição e a multiplicação de racionais, a adição de matrizes e o ou exclusivo (xor).</p>
+<h3 id="material-complementar">Material complementar</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/binary-indexed-tree-or-fenwick-tree-2/">Binary Indexed Tree or Fenwick Tree (GeeksforGeeks)</a></li>
+<li><a href="https://cp-algorithms.com/data_structures/fenwick.html">Fenwick Tree</a></li>
+<li><a href="https://www.topcoder.com/thrive/articles/Binary%20Indexed%20Trees">Binary Indexed Trees (Topcoder)</a></li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=uSFzHCZ4E-8">Fenwick Tree (Binary Index Tree) - Quick Tutorial and Source Code Explanation</a></li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=v_wj_mOAlig">Tutorial: Binary Indexed Tree (Fenwick Tree)</a></li>
+<li><a href="https://visualgo.net/en/fenwicktree">Binary Indexed (Fenwick) Tree - VisuAlgo</a></li>
+</ul>
 <h2 id="segment-tree">Segment Tree</h2>
+<p><strong>Segment tree</strong> (Árvore de Segmento ou <em>SegTree</em>) é outra estrutura de dados para lidar com problemas de consulta em intervalos. O que torna as SegTrees poderosas é sua capacidade de fazer atualização e consulta em intervalos com complexidade <span class="arithmatex">\(O(\log n)\)</span>, além do tipo da consulta ser bem abrangente. Entretanto, comparada a BIT, uma SegTree requer mais memória e é um pouco mais difícil de implementar.</p>
+<p>A ideia da SegTree é a seguinte: cria-se uma árvore de forma que cada nó representa a informação que deseja-se saber a respeito de um segmento do vetor (por exemplo, a soma). Cada nó (exceto as folhas) possui dois filhos, um filho representa a metade esquerda do intervalo e o outro, a metade direita. Esse processo repete-se (recursivamente) até que os intervalos atinjam tamanho 1. Assim, considerando o <em>Range Sum Queries</em> (RSQ), o nó raíz da árvore armazena a soma de todo o array, ou seja, a soma do segmento <span class="arithmatex">\(a[0 \dots n-1]\)</span>. Em seguida, essa segmento é dividido em dois: o filho da esquerda fica responsável pelo calcular/armazenar a soma da metade da esquerda do segmento (ou seja, <span class="arithmatex">\(a[0 \dots n/2]\)</span>) e o filho da direita responsável pela metade da direita do segmento (ou seja, <span class="arithmatex">\(a[n/2+1 \dots n-1]\)</span>). Cada um desses nós é novamente dividido e calcula-se a soma de cada novo intervalo. Repete-se o processo até todos os segmentos atingirem tamanho 1. Nesse <a href="https://visualgo.net/en/segmenttree">link</a> você encontra uma demonstração visual de como a SegTree funciona.</p>
+<p>Veja uma representação visual de uma SegTree para o array <code>a = [1,3,−2,8,−7]</code>:</p>
+<figure>
+<p><img src="/img/sum-segment-tree.png" alt="SegTree" style="width:80%;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://cp-algorithms.com/data_structures/segment_tree.html">Algorithms for Competitive Programming</a></figcaption>
+</figure>
+<p>Note que o primeiro nível da árvore contém um único nó (a raiz), o segundo nível contém 2 nós, no terceiro contém 4, e assim por diante, até que o número de nós alcance <span class="arithmatex">\(n\)</span>. Portanto, o número de nós, no pior caso, pode ser estimado pela soma <span class="arithmatex">\(1+2+4+\cdots+2^{\lceil \log_2 n \rceil}=2^{ \lceil \log_2 n \rceil+1} &lt; 4n\)</span>.</p>
+<h3 id="consultas">Consultas</h3>
+<p>Suponha que deseja-se fazer uma consulta (por exemplo, calcular a soma, valor mínimo/máximo, etc.) no intervalo <span class="arithmatex">\(l\)</span> e <span class="arithmatex">\(r\)</span>, ou seja, deseja-se fazer um consulta no segmento <span class="arithmatex">\(a[l \dots r]\)</span>. Para isso, deve-se percorrer a árvore de segmentos e usar os valores pré-computados dos segmentos. Considere que a consulta esteja no vértice que cobre o segmento <span class="arithmatex">\(a[tl \dots tr]\)</span>. Existem três possibilidades:</p>
+<ol>
+<li>
+<p>O nó está fora do intervalo de interesse, ou seja, <code class="highlight"><span class="n">tr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tl</span><span class="w"></span></code>. Retorne um valor neutro que não afete a cunsulta (por exemplo, se a operação for a soma, retorne 0);</p>
+</li>
+<li>
+<p>O nó está completamente incluído no intervalos de interesse, ou seja, <code class="highlight"><span class="n">tl</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">r</span><span class="w"></span></code>. Retorne a informação armazenada no nó;</p>
+</li>
+<li>
+<p>O nó está parcialmente contido no intervalo de interesse, ou seja, <code class="highlight"><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">tl</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">tl</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span></code>. Então, a consulta continua nos nós filhos.</p>
+</li>
+</ol>
+<!-- 1. O segmento $a[l \dots r]$ é igual ao segmento correspondente do nó atual, ou seja, $a[l \dots r]=a[tl \dots tr]$. Neste caso, retorne o valor pré-computado que está armazenado no nó;
+
+2. O segmento da consulta está completamente no domínio do filho esquerdo ou direito.
+
+3. -->
+
+<p>A figura abaixo ilustra esse processo para encontrar a soma do segmento <span class="arithmatex">\(a[2 \dots 4]\)</span> para o array <code>a = [1,3,−2,8,−7]</code>. Os nós coloridos serão visitados e usa-se os valores pré-calculados dos nós verdes. Assim, o resultado será <span class="arithmatex">\(−2 + 1=−1\)</span>. O número de nós visitados é proporcional à altura da árvore, ou seja, <span class="arithmatex">\(O(\log n)\)</span>.</p>
+<figure>
+<p><img src="/img/sum-segment-tree-query.png" alt="SegTree Query" style="width:80%;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://cp-algorithms.com/data_structures/segment_tree.html">Algorithms for Competitive Programming</a></figcaption>
+</figure>
+<h3 id="atualizacoes">Atualizações</h3>
+<p>Fazer uma atualização no array original (por exemplo, fazer <code>a[i] = x</code>) implica que a SegTree também deve ter alguns nós atualizados, de modo que ela corresponda ao novo array modificado. Perceba que cada nível de uma SegTree forma uma partição do array. Portanto, um elemento <code>a[i]</code> apenas contribui para <strong>um</strong> segmento de cada nível. Assim, apenas <span class="arithmatex">\(O(\log n)\)</span> nós necessitam ser atualizadas.</p>
+<p>A atualização dos elementos pode ser facilmente implementada usando uma função recursiva. A função passa pelo nó atual da árvore e recursivamente chama a si mesma com um dos dois nós filhos (aquele que contém <code>a[i]</code> em seu segmento) e, em seguida, recalcula seu valor.</p>
+<p>Considerando a SegTree do array <code>a = [1,3,−2,8,−7]</code>, ao fazer <code>a[2] = 3</code>, os nós verdes são os nós visitados e atualizados.</p>
+<figure>
+<p><img src="/img/sum-segment-tree-update.png" alt="SegTree Update" style="width:80%;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://cp-algorithms.com/data_structures/segment_tree.html">Algorithms for Competitive Programming</a></figcaption>
+</figure>
+<h3 id="implementacao_1">Implementação</h3>
+<p>A primeira função a ser analisada/implementada é a <code>build</code>, responsável por criar a SegTree. Assim como na BIT, aqui também pode-se usar um array para armazenar os nós da SegTree (considere que o array se chama <code>st</code>). O índice 0 é a raíz e os filhos da esquerda e direita do índice <span class="arithmatex">\(i\)</span> são os índices <span class="arithmatex">\(2 \times i + 1\)</span> e <span class="arithmatex">\(2 \times i + 2\)</span>, respectivamente.</p>
+<p>A raiz da SegTree representa o segmento completo <code>[0, n-1]</code> do array <code>A</code>. Para cada segmento <code>[L, R]</code> armazenado no índice <span class="arithmatex">\(i\)</span>, onde <code>L != R</code>, o segmento é dividido no sub-segmento <code>[L, (L+R)/2]</code> (armazenado no índice <span class="arithmatex">\(2 \times i + 1\)</span>) e sub-segmento <code>[(L+R)/2 + 1, R]</code> (armazenado no índice <span class="arithmatex">\(2 \times i + 2\)</span>). Essa divisão continua até que o segmento tenha tamanho 1 (isto é, <code>L == R</code>), o que indica que chegou-se em um nó folha e, pela definição de SegTree, esse nó deve receber o valor correspondente de <code>A</code>, ou seja, <code>st[i] = A[L]</code> ou <code>st[i] = A[R]</code>.</p>
+<p>A função <code>build</code> abaixo ilustra o processo de construção de uma SegTree a partir do array <code>A</code>. Perceba que foi usada a função <code>funcao</code> para fazer a atualização dos nós da árvore. Nesse exemplo, a SegTree será responsável por realizar a soma dos elementos (RSQ).</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-16-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-16-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-16-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-16-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-16-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-16-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-16-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-16-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-16-10">10</a></span>
+<span class="normal"><a href="#__codelineno-16-11">11</a></span>
+<span class="normal"><a href="#__codelineno-16-12">12</a></span>
+<span class="normal"><a href="#__codelineno-16-13">13</a></span>
+<span class="normal"><a href="#__codelineno-16-14">14</a></span>
+<span class="normal"><a href="#__codelineno-16-15">15</a></span>
+<span class="normal"><a href="#__codelineno-16-16">16</a></span>
+<span class="normal"><a href="#__codelineno-16-17">17</a></span>
+<span class="normal"><a href="#__codelineno-16-18">18</a></span>
+<span class="normal"><a href="#__codelineno-16-19">19</a></span>
+<span class="normal"><a href="#__codelineno-16-20">20</a></span>
+<span class="normal"><a href="#__codelineno-16-21">21</a></span>
+<span class="normal"><a href="#__codelineno-16-22">22</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="cp">#define filhoEsq(i) (2*(i) + 1)</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="cp">#define filhoDir(i) (2*(i) + 2)</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">funcao</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Função usada na SegTree: soma</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-16-7" name="__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-16-9" name="__codelineno-16-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-16-10" name="__codelineno-16-10"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-16-11" name="__codelineno-16-11"></a><span class="w">    </span><span class="c1">//Nó (folha) que deve conter o valor de A[L] ou A[R]</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-16-13" name="__codelineno-16-13"></a><span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">L</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-16-14" name="__codelineno-16-14"></a><span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-16-15" name="__codelineno-16-15"></a><span class="w">        </span><span class="c1">//Recursivamente constroi-se a SegTree</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16"></a><span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">L</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-16-17" name="__codelineno-16-17"></a><span class="w">        </span><span class="n">build</span><span class="p">(</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w">     </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-16-18" name="__codelineno-16-18"></a><span class="w">        </span><span class="n">build</span><span class="p">(</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-16-19" name="__codelineno-16-19"></a><span class="w">        </span><span class="c1">//Após atualizar o valor dos nós filhos de &#39;i&#39;, atualiza-se o valor do nó &#39;i&#39;</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20"></a><span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">funcao</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">i</span><span class="p">)],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">i</span><span class="p">)]);</span><span class="w"></span>
+<a id="__codelineno-16-21" name="__codelineno-16-21"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-16-22" name="__codelineno-16-22"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>A próxima função a ser analisada/implementada é a <code>query</code>, responsável por fazer as consultas. Ao analisar o nó <span class="arithmatex">\(i\)</span>, responsável pelo intervalo <code>[tl, tr]</code>, como explicado na seção <a href="#atualizações">Atualizações</a>, existem três possibilidades. O código abaixo mostra uma implementação da função <code>query</code>, ela recebe como parâmetros informações sobre o nó/segmento atual (ou seja, o índice <span class="arithmatex">\(i\)</span> e os limites <span class="arithmatex">\(tl\)</span> e <span class="arithmatex">\(tr\)</span>) e também os limites da consulta, <span class="arithmatex">\(l\)</span> e <span class="arithmatex">\(r\)</span>. Para fazer uma consulta no intervalo <code>[l, r]</code>, a função deve ser chamada da seguinte forma: <code>query(0, 0, n - 1, l, r)</code>, onde <code>n</code> representa o número de elementos de <code>A</code>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-17-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-17-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-17-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-17-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-17-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-17-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-17-10">10</a></span>
+<span class="normal"><a href="#__codelineno-17-11">11</a></span>
+<span class="normal"><a href="#__codelineno-17-12">12</a></span>
+<span class="normal"><a href="#__codelineno-17-13">13</a></span>
+<span class="normal"><a href="#__codelineno-17-14">14</a></span>
+<span class="normal"><a href="#__codelineno-17-15">15</a></span>
+<span class="normal"><a href="#__codelineno-17-16">16</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">r</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="w">    </span><span class="c1">//O nó i está fora do intervalo de interesse.</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="w">    </span><span class="c1">//Retorne o elemento neutro que não afeta a consulta.</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tl</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Elemento neutro da RSQ</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="w">    </span><span class="c1">// O nó i está completamente incluído no intervalo de interesse. </span>
+<a id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="w">    </span><span class="c1">// Retorne a informação contida no nó.</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">tl</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-17-10" name="__codelineno-17-10"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-17-11" name="__codelineno-17-11"></a>
+<a id="__codelineno-17-12" name="__codelineno-17-12"></a><span class="w">    </span><span class="c1">// Se a execução chegou nesse ponto, significa que o nó i está parcialmente </span>
+<a id="__codelineno-17-13" name="__codelineno-17-13"></a><span class="w">    </span><span class="c1">// contido no intervalo de interesse. Então, continua-se a procura nos nós filhos.</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tl</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-17-15" name="__codelineno-17-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">funcao</span><span class="p">(</span><span class="n">query</span><span class="p">(</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">),</span><span class="w"> </span><span class="n">query</span><span class="p">(</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">));</span><span class="w"></span>
+<a id="__codelineno-17-16" name="__codelineno-17-16"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>A função <code>update</code> é responsável por fazer atualizações no array <code>A</code> e, consequentemente, na SegTree. O código abaixo mostra uma implementação da função <code>update</code>, ela recebe como parâmetros informações sobre o nó/segmento atual (ou seja, o índice <span class="arithmatex">\(no\)</span> e os limites <span class="arithmatex">\(tl\)</span> e <span class="arithmatex">\(tr\)</span>), o índice <span class="arithmatex">\(i\)</span> que se deseja atualizar e o novo valor a ser armazenado na posição <span class="arithmatex">\(i\)</span>. Para fazer <code>A[i] = x</code>, a função deve ser chamada da seguinte forma: <code>update(0, 0, n - 1, i, x);</code>, onde <code>n</code> representa o número de elementos de <code>A</code>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-18-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-18-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-18-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-18-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-18-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-18-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-18-10">10</a></span>
+<span class="normal"><a href="#__codelineno-18-11">11</a></span>
+<span class="normal"><a href="#__codelineno-18-12">12</a></span>
+<span class="normal"><a href="#__codelineno-18-13">13</a></span>
+<span class="normal"><a href="#__codelineno-18-14">14</a></span>
+<span class="normal"><a href="#__codelineno-18-15">15</a></span>
+<span class="normal"><a href="#__codelineno-18-16">16</a></span>
+<span class="normal"><a href="#__codelineno-18-17">17</a></span>
+<span class="normal"><a href="#__codelineno-18-18">18</a></span>
+<span class="normal"><a href="#__codelineno-18-19">19</a></span>
+<span class="normal"><a href="#__codelineno-18-20">20</a></span>
+<span class="normal"><a href="#__codelineno-18-21">21</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">no</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">novoValor</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="w">    </span><span class="c1">// Índice cujo valor deve ser atualizado</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">tl</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">novoValor</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="w">        </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">novoValor</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-18-6" name="__codelineno-18-6"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-18-7" name="__codelineno-18-7"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-18-8" name="__codelineno-18-8"></a>
+<a id="__codelineno-18-9" name="__codelineno-18-9"></a><span class="w">    </span><span class="c1">// O intervalo não contem o índice a ser atualizado</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">tl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-18-11" name="__codelineno-18-11"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-18-12" name="__codelineno-18-12"></a>
+<a id="__codelineno-18-13" name="__codelineno-18-13"></a><span class="w">    </span><span class="c1">// O intervalo contém o índice, mas deve-se chegar no nó específico. </span>
+<a id="__codelineno-18-14" name="__codelineno-18-14"></a><span class="w">    </span><span class="c1">// O processo é repetido recursivamente nos filhos.</span>
+<a id="__codelineno-18-15" name="__codelineno-18-15"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tl</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-18-16" name="__codelineno-18-16"></a><span class="w">    </span><span class="n">update</span><span class="p">(</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w">    </span><span class="n">tl</span><span class="p">,</span><span class="w">  </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">novoValor</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-18-17" name="__codelineno-18-17"></a><span class="w">    </span><span class="n">update</span><span class="p">(</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">novoValor</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-18-18" name="__codelineno-18-18"></a>
+<a id="__codelineno-18-19" name="__codelineno-18-19"></a><span class="w">    </span><span class="c1">// Após atualizar os filhos (esquerdo ou direito), deve-se atualizar o valor do nó.</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20"></a><span class="w">    </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">funcao</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">)],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">)]);</span><span class="w"></span>
+<a id="__codelineno-18-21" name="__codelineno-18-21"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>O código abaixo mostra uma implementação completa de uma SegTree. Note que foi usado uma versão baseada em orientação à objetos, mas isso não é necessário.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-19-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-19-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-19-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-19-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-19-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-19-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-19-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-19-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-19-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-19-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-19-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-19-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-19-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-19-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-19-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-19-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-19-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-19-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-19-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-19-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-19-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-19-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-19-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-19-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-19-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-19-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-19-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-19-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-19-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-19-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-19-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-19-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-19-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-19-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-19-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-19-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-19-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-19-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-19-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-19-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-19-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-19-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-19-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-19-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-19-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-19-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-19-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-19-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-19-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-19-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-19-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-19-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-19-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-19-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-19-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-19-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-19-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-19-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-19-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-19-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-19-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-19-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-19-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-19-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-19-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-19-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-19-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-19-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-19-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-19-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-19-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-19-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-19-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-19-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-19-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-19-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-19-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-19-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-19-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-19-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-19-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-19-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-19-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-19-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-19-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-19-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-19-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-19-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-19-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-19-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-19-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-19-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-19-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-19-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-19-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-19-100">100</a></span>
+<span class="normal"><a href="#__codelineno-19-101">101</a></span>
+<span class="normal"><a href="#__codelineno-19-102">102</a></span>
+<span class="normal"><a href="#__codelineno-19-103">103</a></span>
+<span class="normal"><a href="#__codelineno-19-104">104</a></span>
+<span class="normal"><a href="#__codelineno-19-105">105</a></span>
+<span class="normal"><a href="#__codelineno-19-106">106</a></span>
+<span class="normal"><a href="#__codelineno-19-107">107</a></span>
+<span class="normal"><a href="#__codelineno-19-108">108</a></span>
+<span class="normal"><a href="#__codelineno-19-109">109</a></span>
+<span class="normal"><a href="#__codelineno-19-110">110</a></span>
+<span class="normal"><a href="#__codelineno-19-111">111</a></span>
+<span class="normal"><a href="#__codelineno-19-112">112</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp"></span>
+<a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-3" name="__codelineno-19-3"></a>
+<a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w">  </span><span class="n">ll</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="k">typedef</span><span class="w"> </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ll</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vll</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-6" name="__codelineno-19-6"></a>
+<a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="cp">#define filhoEsq(i) (2*(i) + 1)</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8"></a><span class="cp">#define filhoDir(i) (2*(i) + 2)</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9"></a>
+<a id="__codelineno-19-10" name="__codelineno-19-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">SegTree</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-11" name="__codelineno-19-11"></a><span class="k">private</span><span class="o">:</span><span class="w"></span>
+<a id="__codelineno-19-12" name="__codelineno-19-12"></a><span class="w">    </span><span class="n">vll</span><span class="w"> </span><span class="n">st</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-13" name="__codelineno-19-13"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-14" name="__codelineno-19-14"></a>
+<a id="__codelineno-19-15" name="__codelineno-19-15"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">el_neutro</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-16" name="__codelineno-19-16"></a>
+<a id="__codelineno-19-17" name="__codelineno-19-17"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="nf">funcao</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Função usada na SegTree: soma</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-19" name="__codelineno-19-19"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-20" name="__codelineno-19-20"></a>
+<a id="__codelineno-19-21" name="__codelineno-19-21"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">no</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">r</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-19-22" name="__codelineno-19-22"></a><span class="w">        </span><span class="c1">//O nó está fora do intervalo de interesse. </span>
+<a id="__codelineno-19-23" name="__codelineno-19-23"></a><span class="w">        </span><span class="c1">//Retorne o elemento neutro que não afeta a consulta.</span>
+<a id="__codelineno-19-24" name="__codelineno-19-24"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tl</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-25" name="__codelineno-19-25"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">el_neutro</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-26" name="__codelineno-19-26"></a>
+<a id="__codelineno-19-27" name="__codelineno-19-27"></a><span class="w">        </span><span class="c1">// O nó está completamente incluído no intervalo de interesse. </span>
+<a id="__codelineno-19-28" name="__codelineno-19-28"></a><span class="w">        </span><span class="c1">// Retorne a informação contida no nó.</span>
+<a id="__codelineno-19-29" name="__codelineno-19-29"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">tl</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-30" name="__codelineno-19-30"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-19-31" name="__codelineno-19-31"></a>
+<a id="__codelineno-19-32" name="__codelineno-19-32"></a><span class="w">        </span><span class="c1">// Se chegarmos aqui, é porque esse nó está parcialmente contido no intervalo de interesse. </span>
+<a id="__codelineno-19-33" name="__codelineno-19-33"></a><span class="w">        </span><span class="c1">// Então, continuamos procurando nos filhos.</span>
+<a id="__codelineno-19-34" name="__codelineno-19-34"></a><span class="w">        </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tl</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-35" name="__codelineno-19-35"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">funcao</span><span class="p">(</span><span class="n">query</span><span class="p">(</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w"> </span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">),</span><span class="w"> </span><span class="n">query</span><span class="p">(</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">));</span><span class="w"></span>
+<a id="__codelineno-19-36" name="__codelineno-19-36"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-37" name="__codelineno-19-37"></a>
+<a id="__codelineno-19-38" name="__codelineno-19-38"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">no</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">novoValor</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-19-39" name="__codelineno-19-39"></a><span class="w">        </span><span class="c1">// Chegamos no índice que queremos atualizar o valor</span>
+<a id="__codelineno-19-40" name="__codelineno-19-40"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">tl</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-19-41" name="__codelineno-19-41"></a><span class="w">            </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">novoValor</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-42" name="__codelineno-19-42"></a><span class="w">            </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">novoValor</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-43" name="__codelineno-19-43"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-44" name="__codelineno-19-44"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-45" name="__codelineno-19-45"></a>
+<a id="__codelineno-19-46" name="__codelineno-19-46"></a><span class="w">        </span><span class="c1">// O intervalo que estamos não contem o índice que queremos atualizar, retorne</span>
+<a id="__codelineno-19-47" name="__codelineno-19-47"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">tl</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">tr</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-48" name="__codelineno-19-48"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-49" name="__codelineno-19-49"></a>
+<a id="__codelineno-19-50" name="__codelineno-19-50"></a><span class="w">        </span><span class="c1">// O intervalo contém o índice, mas temos que chegar no nó específico. </span>
+<a id="__codelineno-19-51" name="__codelineno-19-51"></a><span class="w">        </span><span class="c1">// Repetimos o processo recursivamente nos filhos.</span>
+<a id="__codelineno-19-52" name="__codelineno-19-52"></a><span class="w">        </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">tr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tl</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-53" name="__codelineno-19-53"></a><span class="w">        </span><span class="n">update</span><span class="p">(</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w">    </span><span class="n">tl</span><span class="p">,</span><span class="w">  </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">novoValor</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-54" name="__codelineno-19-54"></a><span class="w">        </span><span class="n">update</span><span class="p">(</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tr</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">novoValor</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-55" name="__codelineno-19-55"></a>
+<a id="__codelineno-19-56" name="__codelineno-19-56"></a><span class="w">        </span><span class="c1">// Após atualizar o filho (esquerdo ou direito), precisamos atualizar o valor do nó.</span>
+<a id="__codelineno-19-57" name="__codelineno-19-57"></a><span class="w">        </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">funcao</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">)],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">)]);</span><span class="w"></span>
+<a id="__codelineno-19-58" name="__codelineno-19-58"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-59" name="__codelineno-19-59"></a>
+<a id="__codelineno-19-60" name="__codelineno-19-60"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">no</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-61" name="__codelineno-19-61"></a><span class="w">        </span><span class="c1">//Chegamos no nó que deve conter o valor de A[L] ou A[R]</span>
+<a id="__codelineno-19-62" name="__codelineno-19-62"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-19-63" name="__codelineno-19-63"></a><span class="w">            </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="n">L</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-19-64" name="__codelineno-19-64"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-65" name="__codelineno-19-65"></a><span class="w">            </span><span class="c1">//Recursivamente construimos a SegTree</span>
+<a id="__codelineno-19-66" name="__codelineno-19-66"></a><span class="w">            </span><span class="n">ll</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">L</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">R</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">L</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-67" name="__codelineno-19-67"></a><span class="w">            </span><span class="n">build</span><span class="p">(</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w">     </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-68" name="__codelineno-19-68"></a><span class="w">            </span><span class="n">build</span><span class="p">(</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-69" name="__codelineno-19-69"></a><span class="w">            </span><span class="n">st</span><span class="p">[</span><span class="n">no</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">funcao</span><span class="p">(</span><span class="n">st</span><span class="p">[</span><span class="n">filhoEsq</span><span class="p">(</span><span class="n">no</span><span class="p">)],</span><span class="w"> </span><span class="n">st</span><span class="p">[</span><span class="n">filhoDir</span><span class="p">(</span><span class="n">no</span><span class="p">)]);</span><span class="w"></span>
+<a id="__codelineno-19-70" name="__codelineno-19-70"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-71" name="__codelineno-19-71"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-72" name="__codelineno-19-72"></a>
+<a id="__codelineno-19-73" name="__codelineno-19-73"></a><span class="k">public</span><span class="o">:</span><span class="w"></span>
+<a id="__codelineno-19-74" name="__codelineno-19-74"></a><span class="w">    </span><span class="n">SegTree</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="n">st</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">A</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">n</span><span class="p">){}</span><span class="w"></span>
+<a id="__codelineno-19-75" name="__codelineno-19-75"></a><span class="w">    </span><span class="n">SegTree</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">vll</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<a id="__codelineno-19-76" name="__codelineno-19-76"></a><span class="w">        </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-77" name="__codelineno-19-77"></a><span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-78" name="__codelineno-19-78"></a><span class="w">        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-19-79" name="__codelineno-19-79"></a><span class="w">        </span><span class="n">build</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span>
+<a id="__codelineno-19-80" name="__codelineno-19-80"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-81" name="__codelineno-19-81"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">query</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w">  </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-82" name="__codelineno-19-82"></a><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-83" name="__codelineno-19-83"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-19-84" name="__codelineno-19-84"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">update</span><span class="p">(</span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">x</span><span class="p">){</span><span class="w"></span>
+<a id="__codelineno-19-85" name="__codelineno-19-85"></a><span class="w">      </span><span class="n">update</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-86" name="__codelineno-19-86"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span>
+<a id="__codelineno-19-87" name="__codelineno-19-87"></a><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-19-88" name="__codelineno-19-88"></a>
+<a id="__codelineno-19-89" name="__codelineno-19-89"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-19-90" name="__codelineno-19-90"></a><span class="w">    </span><span class="c1">//       0  1  2  3  4  5  6  7  8</span>
+<a id="__codelineno-19-91" name="__codelineno-19-91"></a><span class="w">    </span><span class="n">vll</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-19-92" name="__codelineno-19-92"></a><span class="w">    </span><span class="n">SegTree</span><span class="w"> </span><span class="n">st</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-19-93" name="__codelineno-19-93"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 29</span>
+<a id="__codelineno-19-94" name="__codelineno-19-94"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 0</span>
+<a id="__codelineno-19-95" name="__codelineno-19-95"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 8</span>
+<a id="__codelineno-19-96" name="__codelineno-19-96"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 27</span>
+<a id="__codelineno-19-97" name="__codelineno-19-97"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 15</span>
+<a id="__codelineno-19-98" name="__codelineno-19-98"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 7</span>
+<a id="__codelineno-19-99" name="__codelineno-19-99"></a>
+<a id="__codelineno-19-100" name="__codelineno-19-100"></a><span class="w">    </span><span class="n">st</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w">                 </span><span class="c1">// A[0] += 10</span>
+<a id="__codelineno-19-101" name="__codelineno-19-101"></a>
+<a id="__codelineno-19-102" name="__codelineno-19-102"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 39</span>
+<a id="__codelineno-19-103" name="__codelineno-19-103"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 10</span>
+<a id="__codelineno-19-104" name="__codelineno-19-104"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 18</span>
+<a id="__codelineno-19-105" name="__codelineno-19-105"></a>
+<a id="__codelineno-19-106" name="__codelineno-19-106"></a><span class="w">    </span><span class="n">st</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span><span class="w">                  </span><span class="c1">// A[8] += 7;</span>
+<a id="__codelineno-19-107" name="__codelineno-19-107"></a>
+<a id="__codelineno-19-108" name="__codelineno-19-108"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 9</span>
+<a id="__codelineno-19-109" name="__codelineno-19-109"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 46</span>
+<a id="__codelineno-19-110" name="__codelineno-19-110"></a>
+<a id="__codelineno-19-111" name="__codelineno-19-111"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-19-112" name="__codelineno-19-112"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<!-- ### Atualizações em intervalos -->
+
+<!-- <https://github.com/stevenhalim/cpbook-code/blob/master/ch2/ourown/segmenttree_ds.cpp> -->
+
+<h3 id="material-complementar_1">Material complementar</h3>
+<ul>
+<li><a href="https://csacademy.com/lesson/segment_trees/">Segment Tree (CS Academy)</a></li>
+<li><a href="https://cp-algorithms.com/data_structures/segment_tree.html">Segment Tree</a></li>
+<li><a href="https://codeforces.com/edu/course/2/lesson/4">Segment Tree, part 1 (ITMO Academy)</a> 🤯</li>
+<li><a href="https://codeforces.com/edu/course/2/lesson/5">Segment Tree, part 2 (ITMO Academy)</a> 🤯</li>
+<li><a href="https://github.com/UnBalloon/programacao-competitiva/tree/master/Segment%20Trees%20(%C3%81rvores%20de%20segmento)">Segment Trees</a></li>
+<li><a href="https://visualgo.net/en/segmenttree">Segment Tree - VisuAlgo</a></li>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=xztU7lmDLv8">Segment Tree Data Structure - Min Max Queries</a></li>
+</ul>
+<h2 id="union-find-disjoint-sets">Union-Find Disjoint Sets</h2>
 <p>Em construção...</p>
+<!-- <https://github.com/stevenhalim/cpbook-code/blob/master/ch2/ourown/unionfind_ds.cpp> -->
 
               
             </article>
