@@ -869,7 +869,7 @@ Uma estratégia natural seria construir um grafo e, a cada atualização, inclui
 Um **conjunto disjunto**, também chamado **union-find**, é uma estrutura de dados que opera com um conjunto particionado em vários subconjuntos disjuntos. As duas principais operações dessa estrutura são:
 
 - `find`: Dado um elemento particular do conjunto, a função identifica o subconjunto do elemento. Para isso, a função retorna o representante do conjunto.
-- `union`: Une dois subconjuntos em um único subconjunto.
+- `join`: Une dois subconjuntos em um único subconjunto.
 
 Um conjunto disjunto funciona representando cada componente conectado como uma árvore, onde a raiz de cada árvore é o representante do componente. O pai de cada nó é outro nó no mesmo componente. Considere o exemplo dos amigos jogando para ver como a estrutura funciona. Suponha que existam 6 amigos jogando. Inicialmente, não há alianças, então cada nó é a raiz de uma árvore (os amigos são numerados de 0 a 5):
 
@@ -950,17 +950,17 @@ bool sameSet(ll a, ll b) {
 }
 ```
 
-A função `union` une os conjuntos que contêm os elementos `a` e `b`.
+A função `join` une os conjuntos que contêm os elementos `a` e `b`.
 <!-- A função primeiro encontra os representantes dos conjuntos e, em seguida, conecta o conjunto menor ao conjunto maior. -->
 
 ```c++ linenums="1"
-void union(ll a, ll b) { 
+void join(ll a, ll b) { 
     pai[find(a)] = find(b);
 }
 ```
 
 <!-- ```c++ linenums="1"
-void union(ll a, ll b) { 
+void join(ll a, ll b) { 
     ll c = find(a); 
     ll d = find(b); 
     if(c != d)
@@ -970,7 +970,7 @@ void union(ll a, ll b) {
 
 #### Otimizações do Union-Find
 
-A primeira otimização do algoritmo, conhecida como *[Path Compression](https://cp-algorithms.com/data_structures/disjoint_set_union.html#path-compression-optimization)*, está na busca do representante de um elemento, ou seja, na função `find`. Observe que se a função `find` for eficiente, a função `union` também se torna eficiente.  Note que o que gasta tempo na função são as chamadas recursivas da função que precisam passar por todos os ancestrais de um determinado elemento. Porém, pode-se usar um princípio da Programação Dinâmica: evitar o recálculo! Uma vez que calculado o representante de um elemento `x` (ou seja, `find(x)`), pode-se salvá-lo diretamente como seu pai (`pai[x]=find(x);`). Assim, nas próximas vezes que for calculado o valor de `find(x)`, a função retornará seu representante rapidamente, pois ele já estará salvo em `pai[x]`, o que evita a necessidade de percorrer todos os ancestrais que estavam entre `x` e o representante. Para fazer essa otimização basta que, na hora de  o valor de `find(x)` for retornado, o mesmo seja salvo em `pai[x]`. Segue a implementação da função `find` otimizada:
+A primeira otimização do algoritmo, conhecida como *[Path Compression](https://cp-algorithms.com/data_structures/disjoint_set_union.html#path-compression-optimization)*, está na busca do representante de um elemento, ou seja, na função `find`. Observe que se a função `find` for eficiente, a função `join` também se torna eficiente.  Note que o que gasta tempo na função são as chamadas recursivas da função que precisam passar por todos os ancestrais de um determinado elemento. Porém, pode-se usar um princípio da Programação Dinâmica: evitar o recálculo! Uma vez que calculado o representante de um elemento `x` (ou seja, `find(x)`), pode-se salvá-lo diretamente como seu pai (`pai[x]=find(x);`). Assim, nas próximas vezes que for calculado o valor de `find(x)`, a função retornará seu representante rapidamente, pois ele já estará salvo em `pai[x]`, o que evita a necessidade de percorrer todos os ancestrais que estavam entre `x` e o representante. Para fazer essa otimização basta que, na hora de  o valor de `find(x)` for retornado, o mesmo seja salvo em `pai[x]`. Segue a implementação da função `find` otimizada:
 
 ```c++ linenums="1"
 ll find(ll x) { 
@@ -981,7 +981,7 @@ ll find(ll x) {
 }
 ```
 
-Outra otimizaçao, conhecida como *[Union by size](https://cp-algorithms.com/data_structures/disjoint_set_union.html#union-by-size-rank)*, altera a forma como é feita a união dos conjuntos. Na primeira implementação da função `union`, o segundo conjunto sempre é anexado ao primeiro, o que pode levar a árvores degeneradas. Nessa otimização, o menor conjunto (menor número de elementos) é unido ao maior conjunto. Segue a implementação da função `union` otimizada:
+Outra otimizaçao, conhecida como *[Union by size](https://cp-algorithms.com/data_structures/disjoint_set_union.html#union-by-size-rank)*, altera a forma como é feita a união dos conjuntos. Na primeira implementação da função `join`, o segundo conjunto sempre é anexado ao primeiro, o que pode levar a árvores degeneradas. Nessa otimização, o menor conjunto (menor número de elementos) é unido ao maior conjunto. Segue a implementação da função `join` otimizada:
 
 ```c++ linenums="1"
 vll pai;
@@ -993,7 +993,7 @@ void init(ll N) {
     iota(pai.begin(), pai.end(), 0); 
 }
 
-void union(ll a, ll b) { 
+void join(ll a, ll b) { 
     a = find(a);
     b = find(b);
     if (a != b) {
