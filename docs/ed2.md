@@ -628,13 +628,13 @@ int main() {
     cout << st.query(2, 4) << "\n";   // 15
     cout << st.query(6, 8) << "\n";   // 7
 
-    st.update(0, 10);                 // A[0] += 10
+    st.update(0, 10);                 // A[0] = 10
 
     cout << st.query(0, 8) << "\n";   // 39
     cout << st.query(0, 0) << "\n";   // 10
     cout << st.query(0, 3) << "\n";   // 18
 
-    st.update(8, 7);                  // A[8] += 7;
+    st.update(8, 7);                  // A[8] = 7;
 
     cout << st.query(8, 8) << "\n";   // 9
     cout << st.query(0, 8) << "\n";   // 46
@@ -643,22 +643,376 @@ int main() {
 }
 ```
 
-<!-- ### Atualizações em intervalos -->
+### Atualizações em Intervalos (Lazy Propagation)
 
-<!-- <https://github.com/stevenhalim/cpbook-code/blob/master/ch2/ourown/segmenttree_ds.cpp> -->
+Como visto, a função `update` atualiza apenas uma posição do array, mas em alguns casos é necessário alterar o valor de um intervalo do array, por exemplo, alterar os elementos da posição $l$ a $r$ para $x$. Uma estratégia ingênua é chamar a função `update` para cada posição do array (complexidade $O(n)$). Note que se for necessário alterar todos os elementos do array, uma alternativa é alterar apenas a raiz e postergar a atualização dos outros nós. Dessa forma, os nós filhos são atualizados somente quando for realmente necessário. Esse processo é conhecido como **Lazy Propagation**. É importante destacar que, para implementar *lazy propagation*, cada tipo de SegTree vai requerer uma implementação um pouco diferente, por isso, será importante entender como essa estratégia funciona.
+
+Na SegTree com *Lazy Propagation*, cada segmento (nó) terá também um valor **lazy** associado. Uma atualização dividirá o segmento da mesma forma feita anteriormente e definirá o valor `lazy` em cada segmento alcançado. Assim, sempre que um nó for analisado, seja por meio de uma atualização ou uma consulta, uma função, `propagate`, será chamada. Essa função fica responsável por atualizar a informação no segmento atual e passar o valor `lazy` para seus filhos.
+
+Considere o problema de saber a soma dos elementos de um intervalo e que uma atualização de intervalo significa alterar o valor de todos os elementos do intervalo para um determinado valor. Para isso é necessário, além do vetor que armazena a SegTree, outros dois vetores: `lazy` e `marked`. O vetor `lazy` fica responsável por armazenar o valor do segmento que ainda não foi propagado para os nós filhos. Já o vetor `marked` (vetor booleano) indica se há uma atualização para ser feita no nó.
+
+A função de propagação (`propagate`) é a função que atualiza o valor de um nó e posterga a atualização para os filhos. Essa função deve ser chamada toda vez que um nó for analisado (seja por uma atualização ou uma consulta). O código abaixo ilustra essa função.
+
+```c++ linenums="1"
+void propagate(ll p, ll L, ll R) { // (1)
+    // Verifica se o nó precisa ser atualizado
+    if (marked[p]) {
+        // O valor do nó será: número de elementos que esse intervalo representa vezes o novo valor de cada elemento do intervalo
+        st[p] = (R - L + 1) * lazy[p];
+        // Se o nó não for uma folha, propague a atualização para os filhos.
+        if (L != R) {
+            lazy[filhoDir(p)] = lazy[filhoEsq(p)] = lazy[p];
+            marked[filhoDir(p)] = marked[filhoEsq(p)] = true;
+        }
+        // Não é mais necessário atualizar esse nó
+        marked[p] = false;
+    }
+}
+```
+
+1. Parâmetros:
+    - `p`: nó atual
+    - `L`: limite inferior do intervalo que `p` representa (inclusivo)
+    - `R`: limite superior do intervalo que `p` representa (inclusivo)
+
+A função abaixo altera o valor dos elementos do intervalo `[l, r]` para `novoValor`.
+
+```c++ linenums="1"
+void update(ll no, ll tl, ll tr, ll l, ll r, ll novoValor) { // (1)
+    // Chegamos no índice que queremos atualizar o valor
+    if (tl >= l and tr <= r) {
+        lazy[no] = novoValor;
+        marked[no] = true;
+        propagate(no, tl, tr);
+        return;
+    }
+
+    // O intervalo que estamos não contem o índice que queremos atualizar, retorne
+    if (tl > r or tr < l)
+        return;
+    
+    // O intervalo contém o índice, mas temos que chegar no nó específico. 
+    // Repetimos o processo recursivamente nos filhos.
+    ll m = tl + (tr - tl) / 2;
+    update(filhoEsq(no),    tl,  m, l, r, novoValor);
+    update(filhoDir(no), m + 1, tr, l, r, novoValor);
+
+    // Após atualizar o filho (esquerdo ou direito), precisamos atualizar o valor do nó.
+    st[no] = funcao(st[filhoEsq(no)], st[filhoDir(no)]);
+}
+```
+
+1. Parâmetros:
+    - `no`: nó atual
+    - `tl`: limite inferior do intervalo que `no` representa (inclusivo)
+    - `tr`: limite superior do intervalo que `no` representa (inclusivo)
+    - `l`: limite inferior do intervalo que se deseja atualizar no vetor
+    - `r`: limite superior do intervalo que se deseja atualizar no vetor
+    - `novoValor`:  novo valor dos elementos no intervalo
+
+Versão final da classe SegTree com alguns exemplos de utilização:
+
+```c++ linenums="1"
+#include <bits/stdc++.h>
+using namespace std;
+ 
+typedef long long  ll;
+typedef vector<ll> vll;
+
+#define filhoEsq(i) (2*(i) + 1)
+#define filhoDir(i) (2*(i) + 2)
+
+class SegTree {
+private:
+    vll st, lazy;
+    vector<bool> marked;
+    ll size;
+
+    ll funcao(ll a, ll b) { // Função usada na SegTree: soma
+        return a + b;
+    }
+
+    void propagate(ll p, ll L, ll R) {
+        if (marked[p]) {
+            // O valor do nó será: número de elementos que esse intervalo representa vezes o novo valor de cada elemento do intervalo
+            st[p] = lazy[p] * (R - L + 1);
+            if (L != R) {
+                lazy[filhoDir(p)] = lazy[filhoEsq(p)] = lazy[p];
+                marked[filhoDir(p)] = marked[filhoEsq(p)] = true;
+            }
+            marked[p] = false;
+        }
+    }
+
+    ll query(ll no, ll tl, ll tr, ll l, ll r){
+        //Precisamos propagar a possível atualização do nó
+        propagate(no, tl, tr);
+
+        //O nó está fora do intervalo de interesse. Retorne o elemento neutro que não afeta a consulta.
+        if(tr < l || r < tl)
+            return 0;
+
+        // O nó está completamente incluído no intervalo de interesse. Retorne a informação contida no nó.
+        if(tl >= l and tr <= r)
+            return st[no];
+
+        // Se chegarmos aqui, é porque esse nó está parcialmente contido no intervalo de interesse. Então, continuamos procurando nos filhos.
+        ll m = tl + (tr - tl) / 2;
+        return funcao(query(filhoEsq(no), tl, m, l, r), query(filhoDir(no), m + 1, tr, l, r));
+    }
+
+    void update(ll no, ll tl, ll tr, ll l, ll r, ll novoValor){
+        // Chegamos no índice que queremos atualizar o valor
+        if (tl >= l and tr <= r) {
+            lazy[no] = novoValor;
+            marked[no] = true;
+            propagate(no, tl, tr);
+            return;
+        }
+
+        // O intervalo que estamos não contem o índice que queremos atualizar, retorne
+        if (tl > r or tr < l)
+            return;
+        
+        // O intervalo contém o índice, mas temos que chegar no nó específico. Repetimos o processo recursivamente nos filhos.
+        ll m = tl + (tr - tl) / 2;
+        update(filhoEsq(no),    tl,  m, l, r, novoValor);
+        update(filhoDir(no), m + 1, tr, l, r, novoValor);
+
+        // Após atualizar o filho (esquerdo ou direito), precisamos atualizar o valor do nó.
+        st[no] = funcao(st[filhoEsq(no)], st[filhoDir(no)]);
+    }
+
+    void build(ll no, ll L, ll R, const vll &A) {
+     //Chegamos no nó que deve conter o valor de A[L] ou A[R]
+     if (L == R)
+      st[no] = A[L];
+     else {
+      //Recursivamente construimos a SegTree
+      ll m = L + (R - L) / 2;
+      build(filhoEsq(no),     L, m, A);
+      build(filhoDir(no), m + 1, R, A);
+      st[no] = funcao(st[filhoEsq(no)], st[filhoDir(no)]);
+     }
+    }
+
+public:
+    SegTree(ll n) : st(4 * n, 0), lazy(4 * n, 0), marked(4 * n, false), size(n) {}
+    SegTree(const vll &a) {
+        size = a.size();
+        st.resize(4 * size, 0);
+        lazy.resize(4 * size, 0);
+        marked.resize(4 * size, false);
+        build(0, 0, size - 1, a); 
+ }
+    ll query(ll l, ll  r) {
+     return query(0, 0, size - 1, l, r);
+    }
+    void update(ll i, ll x){
+     update(0, 0, size - 1, i, i, x);
+    }
+    void update(ll l, ll r, ll x){
+     update(0, 0, size - 1, l, r, x);
+    }
+};
+
+int main() {
+    SegTree st(10);
+    st.update(0, 4, 1);
+    cout << st.query(0, 4) << "\n";   // 5
+    cout << st.query(5, 9) << "\n";   // 0
+    cout << st.query(0, 9) << "\n";   // 5
+    cout << st.query(0, 0) << "\n";   // 1
+    cout << st.query(5, 5) << "\n";   // 0
+
+    st.update(5, 9, 2);
+    cout << st.query(0, 4) << "\n"; // 5
+    cout << st.query(5, 9) << "\n"; // 10
+    cout << st.query(0, 9) << "\n"; // 15
+    cout << st.query(0, 0) << "\n"; // 1
+    cout << st.query(5, 5) << "\n"; // 2
+
+    st.update(0, 9, 1);
+    cout << st.query(0, 4) << "\n"; // 5
+    cout << st.query(5, 9) << "\n"; // 5
+    cout << st.query(0, 9) << "\n"; // 10
+    cout << st.query(0, 0) << "\n"; // 1
+    cout << st.query(5, 5) << "\n"; // 1
+
+    st.update(5, 20);
+    cout << st.query(0, 4) << "\n"; // 5
+    cout << st.query(5, 9) << "\n"; // 24
+    cout << st.query(0, 9) << "\n"; // 29
+    cout << st.query(0, 0) << "\n"; // 1
+    cout << st.query(5, 5) << "\n"; // 20
+
+    return 0;
+}
+```
 
 ### Material complementar
 
+- ⭐️ [Segment Tree, part 1 (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/4) 🤯
+- ⭐️ [Segment Tree, part 2 (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/5) 🤯
+- ⭐️ [Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html)
 - [Segment Tree (CS Academy)](https://csacademy.com/lesson/segment_trees/)
-- [Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html)
-- [Segment Tree, part 1 (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/4) 🤯
-- [Segment Tree, part 2 (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/5) 🤯
 - [Segment Trees](https://github.com/UnBalloon/programacao-competitiva/tree/master/Segment%20Trees%20(%C3%81rvores%20de%20segmento))
 - [Segment Tree - VisuAlgo](https://visualgo.net/en/segmenttree)
 - :fontawesome-brands-youtube: [Segment Tree Data Structure - Min Max Queries](https://www.youtube.com/watch?v=xztU7lmDLv8)
 
-## Union-Find Disjoint Sets
+## Disjoint Set Union (DSU)
 
-Em construção...
+Para entender DSU, considere o seguinte problema (extraído desse [link](https://csacademy.com/lesson/disjoint_data_sets/)): suponha que exista um grupo de $N$ amigos em um jogo. Inicialmente, cada um deles joga contra todos os outros. Conforme o jogo avança, alianças são formadas entre eles. A relação de aliança é transitiva, o que significa que se $A$ e $B$ são aliados e $B$ e $C$ são aliados, então $A$ e $C$ também são aliados. Você sabe quando as alianças são formadas. Em certos momentos você precisa saber se dois amigos em particular estão no mesmo time ou não.
+
+Uma estratégia natural seria construir um grafo e, a cada atualização, incluir uma nova aresta ligando dois vertices do grafo. Para cada consulta pode-se realizar um percurso no grafo (usando [Busca em Largura](https://cp-algorithms.com/graph/breadth-first-search.html) ou [Busca em Profundidade](https://cp-algorithms.com/graph/depth-first-search.html)) começando no nó $A$ e verificando se o nó $B$ é visitado. Adicionar uma aresta é muito rápido, mas as consultas são lentas. Uma estratégia mais eficiente para resolver esse problema é usar **Disjoint Set Union**.
+
+Um **conjunto disjunto**, também chamado **union-find**, é uma estrutura de dados que opera com um conjunto particionado em vários subconjuntos disjuntos. As duas principais operações dessa estrutura são:
+
+- `find`: Dado um elemento particular do conjunto, a função identifica o subconjunto do elemento. Para isso, a função retorna o representante do conjunto.
+- `union`: Une dois subconjuntos em um único subconjunto.
+
+Um conjunto disjunto funciona representando cada componente conectado como uma árvore, onde a raiz de cada árvore é o representante do componente. O pai de cada nó é outro nó no mesmo componente. Considere o exemplo dos amigos jogando para ver como a estrutura funciona. Suponha que existam 6 amigos jogando. Inicialmente, não há alianças, então cada nó é a raiz de uma árvore (os amigos são numerados de 0 a 5):
+
+<figure markdown>
+<svg width="350px" height="60px" style="margin: 1.5em auto; display: block; height: 60px; width: 350px;"><g width="350" height="60" style="margin: 1.5em auto; display: block;"><g></g><g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="30" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="30" y="30" style="user-select: none;">0</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="30" style="user-select: none;">1</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="150" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="150" y="30" style="user-select: none;">2</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="210" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="210" y="30" style="user-select: none;">3</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="270" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="270" y="30" style="user-select: none;">4</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="330" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="330" y="30" style="user-select: none;">5</text></g></g></g></svg>
+<figcaption style="font-size=8pt">Fonte: <a href="https://csacademy.com/lesson/disjoint_data_sets/">Disjoint-set Data Structures</a></figcaption>
+</figure>
+
+Em seguida, suponha que 1 e 3 se tornem aliados. Considere que o nó 1 seja escolhido como representante:
+
+<figure markdown>
+<svg width="300px" height="140px" style="margin: 1.5em auto; display: block; height: 140px; width: 300px;"><g width="300" height="140" style="margin: 1.5em auto; display: block;"><g><g><path d="M 90 120 L 90 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 90 120 L 90 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (90 48.099998474121094) rotate(270)"></path></g></g><g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="30" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="30" y="30" style="user-select: none;">0</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="30" style="user-select: none;">1</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="150" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="150" y="30" style="user-select: none;">2</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="120" style="user-select: none;">3</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="210" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="210" y="30" style="user-select: none;">4</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="270" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="270" y="30" style="user-select: none;">5</text></g></g></g></svg>
+<figcaption style="font-size=8pt">Fonte: <a href="https://csacademy.com/lesson/disjoint_data_sets/">Disjoint-set Data Structures</a></figcaption>
+</figure>
+
+Então 2 e 4 se tornam aliados:
+
+<figure markdown>
+<svg width="230px" height="140px" style="margin: 1.5em auto; display: block; height: 140px; width: 230px;"><g width="230" height="140" style="margin: 1.5em auto; display: block;"><g><g><path d="M 90 120 L 90 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 90 120 L 90 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (90 48.099998474121094) rotate(270)"></path></g><g><path d="M 150 120 L 150 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 150 120 L 150 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (150 48.099998474121094) rotate(270)"></path></g></g><g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="30" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="30" y="30" style="user-select: none;">0</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="30" style="user-select: none;">1</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="150" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="150" y="30" style="user-select: none;">2</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="120" style="user-select: none;">3</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="150" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="150" y="120" style="user-select: none;">4</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="210" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="210" y="30" style="user-select: none;">5</text></g></g></g></svg>
+<figcaption style="font-size=8pt">Fonte: <a href="https://csacademy.com/lesson/disjoint_data_sets/">Disjoint-set Data Structures</a></figcaption>
+</figure>
+
+Os amigos 0 e 5 são os próximos. Considere que 5 seja escolhido como representante:
+
+<figure markdown>
+<svg width="180px" height="140px" style="margin: 1.5em auto; display: block; height: 140px; width: 180px;"><g width="180" height="140" style="margin: 1.5em auto; display: block;"><g><g><path d="M 30 120 L 30 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 30 120 L 30 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (30 48.099998474121094) rotate(270)"></path></g><g><path d="M 90 120 L 90 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 90 120 L 90 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (90 48.099998474121094) rotate(270)"></path></g><g><path d="M 150 120 L 150 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 150 120 L 150 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (150 48.099998474121094) rotate(270)"></path></g></g><g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="150" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="150" y="120" style="user-select: none;">0</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="30" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="30" y="30" style="user-select: none;">1</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="30" style="user-select: none;">2</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="30" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="30" y="120" style="user-select: none;">3</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="90" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="90" y="120" style="user-select: none;">4</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="150" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="150" y="30" style="user-select: none;">5</text></g></g></g></svg>
+<figcaption style="font-size=8pt">Fonte: <a href="https://csacademy.com/lesson/disjoint_data_sets/">Disjoint-set Data Structures</a></figcaption>
+</figure>
+
+Finalmente, uma aliança é formada entre 4 e 3. Nesse caso, é preciso pegar a raiz de uma árvore e anexá-la como filho da raiz da outra árvore:
+
+<figure markdown>
+<svg width="200px" height="230px" style="margin: 1.5em auto; display: block; height: 230px; width: 200px;"><g width="200" height="230" style="margin: 1.5em auto; display: block;"><g><g><path d="M 30 120 L 70 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 30 120 L 70 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (62.68950653076172 46.4486083984375) rotate(293.9623763093689)"></path></g><g><path d="M 110 210 L 110 120" fill="none" stroke-width="2" stroke="black"></path><path d="M 110 210 L 110 120" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (110 138.10000610351562) rotate(270)"></path></g><g><path d="M 170 120 L 170 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 170 120 L 170 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (170 48.099998474121094) rotate(270)"></path></g><g><path d="M 110 120 L 70 30" fill="none" stroke-width="2" stroke="black"></path><path d="M 110 120 L 70 30" opacity="0" fill="none" stroke-width="30" stroke="black"></path><path stroke="black" fill="black" d="M -15 7.5 L 0 0 L -15 -7.5 Z" transform="translate (77.31049346923828 46.4486083984375) rotate(246.03660971083696)"></path></g></g><g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="170" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="170" y="120" style="user-select: none;">0</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="70" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="70" y="30" style="user-select: none;">1</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="110" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="110" y="120" style="user-select: none;">2</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="30" cy="120"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="30" y="120" style="user-select: none;">3</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="110" cy="210"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="110" y="210" style="user-select: none;">4</text></g><g fixed="false" style="cursor: pointer;"><circle stroke-width="2" fill="white" stroke="black" r="18" cx="170" cy="30"></circle><text font-size="14" dy=".35em" text-anchor="middle" stroke-width="1" fill="black" stroke="black" x="170" y="30" style="user-select: none;">5</text></g></g></g></svg>
+<figcaption style="font-size=8pt">Fonte: <a href="https://csacademy.com/lesson/disjoint_data_sets/">Disjoint-set Data Structures</a></figcaption>
+</figure>
+
+### Implementação
+
+A estrutura DSU pode ser implementada usando arrays. Na implementação a seguir, o array `pai` contém para cada elemento o próximo elemento do encadeamento ou o próprio elemento se ele for um representante. Inicialmente, cada elemento pertence a um conjunto distinto:
+
+```c++ linenums="1"
+vll pai;
+
+void init(ll N) {
+    pai.resize(N + 1);
+    iota(pai.begin(), pai.end(), 0); // (1)
+}
+```
+
+1. [std:iota](https://en.cppreference.com/w/cpp/algorithm/iota)
+
+A função `find` retorna o representante do elemento `x`. O representante pode ser encontrado seguindo o encadeamento que começa em `x`. O código abaixo ilustra essa operação, note que a complexidade da função é $O(n)$:
+
+```c++ linenums="1"
+ll find(ll x) { 
+    if(x == pai[x]) 
+        return x;
+    else
+        return find(pai[x]); 
+}
+```
+
+<!-- Alternativamente, pode-se fazer uma versão iterativa:
+
+```c++ linenums="1"
+ll find(ll x) { 
+    while (x != pai[x]) 
+        x = pai[x];
+    return x;
+}
+``` -->
+
+A função `sameSet` verifica se os elementos `a` e `b` pertencem ao mesmo conjunto. Isso pode ser feito facilmente usando a função `find`:
+
+```c++ linenums="1"
+bool sameSet(ll a, ll b) {
+    return find(a) == find(b);
+}
+```
+
+A função `union` une os conjuntos que contêm os elementos `a` e `b`.
+<!-- A função primeiro encontra os representantes dos conjuntos e, em seguida, conecta o conjunto menor ao conjunto maior. -->
+
+```c++ linenums="1"
+void union(ll a, ll b) { 
+    pai[find(a)] = find(b);
+}
+```
+
+<!-- ```c++ linenums="1"
+void union(ll a, ll b) { 
+    ll c = find(a); 
+    ll d = find(b); 
+    if(c != d)
+        pai[d] = c; 
+}
+``` -->
+
+#### Otimizações do Union-Find
+
+A primeira otimização do algoritmo, conhecida como *[Path Compression](https://cp-algorithms.com/data_structures/disjoint_set_union.html#path-compression-optimization)*, está na busca do representante de um elemento, ou seja, na função `find`. Observe que se a função `find` for eficiente, a função `union` também se torna eficiente.  Note que o que gasta tempo na função são as chamadas recursivas da função que precisam passar por todos os ancestrais de um determinado elemento. Porém, pode-se usar um princípio da Programação Dinâmica: evitar o recálculo! Uma vez que calculado o representante de um elemento `x` (ou seja, `find(x)`), pode-se salvá-lo diretamente como seu pai (`pai[x]=find(x);`). Assim, nas próximas vezes que for calculado o valor de `find(x)`, a função retornará seu representante rapidamente, pois ele já estará salvo em `pai[x]`, o que evita a necessidade de percorrer todos os ancestrais que estavam entre `x` e o representante. Para fazer essa otimização basta que, na hora de  o valor de `find(x)` for retornado, o mesmo seja salvo em `pai[x]`. Segue a implementação da função `find` otimizada:
+
+```c++ linenums="1"
+ll find(ll x) { 
+    if(x == pai[x]) 
+        return x;
+    else
+        return pai[x] = find(pai[x]); 
+}
+```
+
+Outra otimizaçao, conhecida como *[Union by size](https://cp-algorithms.com/data_structures/disjoint_set_union.html#union-by-size-rank)*, altera a forma como é feita a união dos conjuntos. Na primeira implementação da função `union`, o segundo conjunto sempre é anexado ao primeiro, o que pode levar a árvores degeneradas. Nessa otimização, o menor conjunto (menor número de elementos) é unido ao maior conjunto. Segue a implementação da função `union` otimizada:
+
+```c++ linenums="1"
+vll pai;
+vll tamanho;
+
+void init(ll N) {
+    pai.resize(N + 1);
+    tamanho.resize(N + 1, 1);
+    iota(pai.begin(), pai.end(), 0); 
+}
+
+void union(ll a, ll b) { 
+    a = find(a);
+    b = find(b);
+    if (a != b) {
+        if (tamanho[a] < tamanho[b])
+            swap(a, b);
+        pai[b] = a;
+        tamanho[a] += tamanho[b];
+    }
+}
+```
+
+### Material complementar
+
+- ⭐️ [Disjoint Sets Union](https://codeforces.com/edu/course/2/lesson/7) 🤯
+- ⭐️ [Disjoint Set Union](https://cp-algorithms.com/data_structures/disjoint_set_union.html)
+- ⭐️ [Union-Find (Neps Academy)](https://neps.academy/br/course/10/lesson/261)
+- [Disjoint-set Data Structures (CSAcademy)](https://csacademy.com/lesson/disjoint_data_sets/)
+- [Disjoint Set Data Structures (GeeksforGeeks)](https://www.geeksforgeeks.org/disjoint-set-data-structures/)
+
+<!-- https://noic.com.br/materiais-informatica/curso/data-structures-02/ -->
 
 <!-- <https://github.com/stevenhalim/cpbook-code/blob/master/ch2/ourown/unionfind_ds.cpp> -->
