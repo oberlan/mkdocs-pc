@@ -855,6 +855,8 @@ int main() {
 - ⭐️ [Segment Tree, part 1 (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/4) 🤯
 - ⭐️ [Segment Tree, part 2 (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/5) 🤯
 - ⭐️ [Segment Tree](https://cp-algorithms.com/data_structures/segment_tree.html)
+- ⭐️ [Segment Tree (Árvore de Segmentos)](https://noic.com.br/informatica/curso-noic/data-structures-04/)
+- ⭐️ [Segment Tree com Lazy Propagation](https://noic.com.br/materiais-informatica/curso/data-structures-05/)
 - [Segment Tree (CS Academy)](https://csacademy.com/lesson/segment_trees/)
 - [Segment Trees](https://github.com/UnBalloon/programacao-competitiva/tree/master/Segment%20Trees%20(%C3%81rvores%20de%20segmento))
 - [Segment Tree - VisuAlgo](https://visualgo.net/en/segmenttree)
