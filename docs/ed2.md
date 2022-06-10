@@ -679,6 +679,9 @@ A função abaixo altera o valor dos elementos do intervalo `[l, r]` para `novoV
 
 ```c++ linenums="1"
 void update(ll no, ll tl, ll tr, ll l, ll r, ll novoValor) { // (1)
+    //Precisamos propagar a possível atualização do nó
+    propagate(no, tl, tr);
+
     // Chegamos no índice que queremos atualizar o valor
     if (tl >= l and tr <= r) {
         lazy[no] = novoValor;
