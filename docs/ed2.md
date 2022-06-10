@@ -762,6 +762,9 @@ private:
     }
 
     void update(ll no, ll tl, ll tr, ll l, ll r, ll novoValor){
+        //Precisamos propagar a possível atualização do nó
+        propagate(no, tl, tr);
+        
         // Chegamos no índice que queremos atualizar o valor
         if (tl >= l and tr <= r) {
             lazy[no] = novoValor;
