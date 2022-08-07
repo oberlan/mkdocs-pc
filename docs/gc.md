@@ -192,13 +192,17 @@ double distToLineSegment(const Ponto &p, onst  Ponto &a, const  Ponto &b, Ponto 
 }
 ```
 
-## Circulos
+## Círculos
 
-Em construção...
+Leia o conteúdo da seção 7.2.3 deste [livro](https://usaco.guide/CP2.pdf#page=197).
 
 ## Triângulos
 
-Em construção...
+Leia o conteúdo da seção 7.2.4 deste [livro](https://usaco.guide/CP2.pdf#page=199).
+
+## Quadriláteros
+
+Leia o conteúdo da seção 7.2.5 deste [livro](https://usaco.guide/CP2.pdf#page=201).
 
 ## Polígonos
 
