@@ -1,6 +1,6 @@
 # Busca Exaustiva (Recursão + Backtracking)[^1]
 
-[^1]: O texto dessa página são traduções e adaptações encontrados aqui: [1](https://usaco.guide/CPH.pdf)
+[^1]: Os textos dessa página são traduções e adaptações encontrados nesse link: [1](https://usaco.guide/CPH.pdf)
 
 Uma **busca exaustiva** ou **busca completa** tem por objetivo gerar todas as soluções possíveis para um determinado problema usando **força bruta** e então selecionar a melhor solução ou contar o número de soluções, dependendo do problema.
 

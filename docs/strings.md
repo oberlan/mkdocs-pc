@@ -4,6 +4,13 @@ A resolução de problemas envolvendo cadeia de caracteres (ou simplesmente *str
 
 Nesta seção, diferente das outras, por simplicidade alguns algoritmos serão implementados (também) em Python.
 
+Leituras fortemente recomendadas:
+
+- [Strings](https://github.com/SuprDewd/T-414-AFLV/blob/master/11_strings/aflv_11_strings.pdf)
+- [Capítulo 14](https://usaco.guide/PAPS.pdf#page=243) do livro "Principles of Algorithmic Problem Solving"
+- [Capítulo 6](https://usaco.guide/CP2.pdf#page=167) do livro "Competitive Programming"
+- [Capítulo 26](https://usaco.guide/CPH.pdf#page=275) do livro "Competitive Programmer’s Handbook"
+
 ## Terminologia
 
 - Uma **substring** é uma sequência de caracteres consecutivos em uma string. Usa-se a notação `s[a...b]` para se referir a uma substring de `s` que começa na posição `a` e termina na posição `b`. Uma string de tamanho $n$ tem $n ( n + 1)/2$ substrings. Por exemplo, as substrings de `ABCD` são `A`, `B`, `C`, `D`, `AB`, `BC`, `CD`, `ABC`, `BCD` e `ABCD`.
