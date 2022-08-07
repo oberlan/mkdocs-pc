@@ -414,9 +414,102 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Processamento de strings
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Processamento de strings
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Indice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Indice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#terminologia" class="md-nav__link">
+    Terminologia
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressao-regular" class="md-nav__link">
+    Expressão Regular
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#processamento-de-string-com-programacao-dinamica" class="md-nav__link">
+    Processamento de String com Programação Dinâmica
+  </a>
+  
+    <nav class="md-nav" aria-label="Processamento de String com Programação Dinâmica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distancia-de-edicao" class="md-nav__link">
+    Distância de Edição
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maior-subsequencia-comum" class="md-nav__link">
+    Maior Subsequência Comum
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#busca-em-string-string-matching" class="md-nav__link">
+    Busca em String (String Matching)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#string-hashing" class="md-nav__link">
+    String Hashing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#array-de-sufixo" class="md-nav__link">
+    Array de Sufixo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#palindromo" class="md-nav__link">
+    Palindromo
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -452,7 +545,589 @@
 
 
 <h1 id="processamento-de-strings">Processamento de Strings</h1>
+<p>A resolução de problemas envolvendo cadeia de caracteres (ou simplesmente <em>strings</em>) se tornou um importante domínio no estudo de algoritmos. Estes problemas ocorrem, principalmente, no processamento de texto, como verificação ortográfica e busca de substrings específicos ou de padrões mais gerais (<em>pattern matching</em>). Por exemplo, o padrão <code>ABC</code> ocorre duas vezes na string <code>ABABCBABC</code>.</p>
+<p>Nesta seção, diferente das outras, por simplicidade alguns algoritmos serão implementados (também) em Python.</p>
+<h2 id="terminologia">Terminologia</h2>
+<ul>
+<li>
+<p>Uma <strong>substring</strong> é uma sequência de caracteres consecutivos em uma string. Usa-se a notação <code>s[a...b]</code> para se referir a uma substring de <code>s</code> que começa na posição <code>a</code> e termina na posição <code>b</code>. Uma string de tamanho <span class="arithmatex">\(n\)</span> tem <span class="arithmatex">\(n ( n + 1)/2\)</span> substrings. Por exemplo, as substrings de <code>ABCD</code> são <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>AB</code>, <code>BC</code>, <code>CD</code>, <code>ABC</code>, <code>BCD</code> e <code>ABCD</code>.</p>
+</li>
+<li>
+<p>Uma <strong>subsequência</strong> é uma sequência de caracteres (não necessariamente consecutivos) em uma string em sua ordem original. Uma string de tamanho <span class="arithmatex">\(n\)</span> tem <span class="arithmatex">\(2^n − 1\)</span> subsequências. Por exemplo, as subsequências de <code>ABCD</code> são <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>AB</code>, <code>AC</code>, <code>AD</code>, <code>BC</code>, <code>BD</code>, <code>CD</code>, <code>ABC</code>, <code>ABD</code>, <code>ACD</code>, <code>BCD</code> e <code>ABCD</code>.</p>
+</li>
+<li>
+<p>Um <strong>prefixo</strong> é uma substring que começa no início de uma string e um <strong>sufixo</strong> é uma substring que termina no final de uma string. Por exemplo, os prefixos de <code>ABCD</code> são <code>A</code>, <code>AB</code>, <code>ABC</code> e <code>ABCD</code>, e os sufixos de <code>ABCD</code> são <code>D</code>, <code>CD</code>, <code>BCD</code> e <code>ABCD</code>.</p>
+</li>
+<li>
+<p>Uma string <span class="arithmatex">\(w\)</span> é um <strong>anagrama</strong> de uma string <span class="arithmatex">\(v\)</span> se existir uma permutação das caracteres que transformam <span class="arithmatex">\(w\)</span> em <span class="arithmatex">\(v\)</span>. Por exemplo, os anagramas de <code>alegria</code> são <code>alergia</code>, <code>alegrai</code>, <code>alergia</code>, <code>regalia</code>,<code>galeria</code>. O código abaixo ilustra uma forma de gerar todos os anagramas de uma lista de palavras.</p>
+</li>
+</ul>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">def</span> <span class="nf">anagrama</span><span class="p">(</span><span class="n">palavras</span><span class="p">):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># dicionário com a &#39;assinatura&#39; das palavras</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="k">for</span> <span class="n">palavra</span> <span class="ow">in</span> <span class="n">palavras</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>        <span class="c1"># agrupa as palavras de acordo com a assinatura </span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">palavra</span><span class="p">))</span> <span class="c1"># calcula a assinatura da palavra</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>            <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">palavra</span><span class="p">)</span> <span class="c1"># adiciona a palavra a uma assinatura já existente</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>            <span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">palavra</span><span class="p">]</span> <span class="c1"># cria uma nova assinatura e adiciona sua primeira palavra</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="c1"># retorna os anagramas, ignorando grupos de tamanho 1</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="k">return</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+</td></tr></table>
+<h2 id="expressao-regular">Expressão Regular</h2>
+<p>Alguns problemas de processamento de string são facilmente resolvidos usando expressão regular (Regex). Tanto <a href="https://en.cppreference.com/w/cpp/regex">C++</a> quanto <a href="https://docs.python.org/3/library/re.html">Python</a> possuem bibliotecas para lidar com expressões regulares.</p>
+<p>Material complementar:</p>
+<ul>
+<li><a href="https://linuxhint.com/regular-expression-basics-cpp/">Regular Expression Basics in C++</a></li>
+<li><a href="https://realpython.com/regex-python/">Regular Expressions: Regexes in Python (Part 1)</a></li>
+<li><a href="https://realpython.com/regex-python-part-2/">Regular Expressions: Regexes in Python (Part 2)</a></li>
+<li><a href="https://ic.unicamp.br/~mc102/aulas/aula15.pdf">Expressões Regulares</a></li>
+</ul>
+<h2 id="processamento-de-string-com-programacao-dinamica">Processamento de String com Programação Dinâmica</h2>
+<p>Dois problemas clássicos de processamento de string que usam programação dinâmica são alinhamento de string (distância de edição) e maior subsequência comum.</p>
+<h3 id="distancia-de-edicao">Distância de Edição</h3>
+<p>O problema <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Distância de Edição</a> (também conhecido como Alinhamento de String ou <em>Levenshtein Distance</em>) é definido da seguinte forma: Dadas duas strings <span class="arithmatex">\(x\)</span> e <span class="arithmatex">\(y\)</span>, deseja-se saber o mínimo de operações (inserção, exclusão ou substituição) que são necessárias para transformar <span class="arithmatex">\(x\)</span> em <span class="arithmatex">\(y\)</span>. Por exemplo, a distância de edição entre as palavras inglesas <code>kitten</code> e <code>sitting</code> é 3, já que com apenas 3 edições conseguimos transformar uma palavra na outra e não há maneira de o fazer com menos de três edições:</p>
+<ol>
+<li>kitten</li>
+<li>sitten (substituição de 'k' por 's')</li>
+<li>sittin (substituição de 'e' por 'i')</li>
+<li>sitting (inserção de 'g' no final)</li>
+</ol>
+<p>Uma primeira estratégia (ingênua) é tentar, recursivamente, todas as possibilidades (inserir, remover, substituir):</p>
+<div class="arithmatex">\[
+D(a, b, n, m) = \begin{cases}
+                n, &amp; \text{se $m = 0$}\\
+                m, &amp; \text{se $n = 0$}\\
+                D(a, b, n - 1, m - 1) &amp; \text{se $a[n - 1] = b[m - 1]$}\\
+                1 + \min \begin{cases}
+                            D(a, b, n, m - 1) \\
+                            D(a, b, n - 1, m) \\
+                            D(a, b, n - 1, m - 1)
+                         \end{cases} &amp; \text{caso contrário.}
+                \end{cases}
+\]</div>
+<p>Um código que implementa esta relação de recorrência terá complexidade <span class="arithmatex">\(O(3^m)\)</span>. O pior caso acontece quando nenhum dos caracteres de duas strings são iguais. Neste caso, tem-se varias sobreposições de subproblemas. Assim, usar programação dinâmica é o melhor caminho. O código abaixo (extraida <a href="https://www.geeksforgeeks.org/edit-distance-dp-5/">daqui</a>) mostra uma implementação do algoritmo de distância de edição usando programação dinâmica. A complexidade do código é <span class="arithmatex">\(O(nm)\)</span>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">C++</label><label for="__tabbed_1_2">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">),</span><span class="w"> </span><span class="n">z</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">distanciaEdicao</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">        </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">        </span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;=</span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="w">    </span><span class="c1">// Remover</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="w">                                   </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">],</span><span class="w">    </span><span class="c1">// Inserir</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="w">                                   </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">]);</span><span class="w"> </span><span class="c1">// Substituir</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="w">            </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="mi">-1</span><span class="p">][</span><span class="n">j</span><span class="mi">-1</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">def</span> <span class="nf">distanciaEdicao</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a>    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a>            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a>            <span class="k">elif</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a>            <span class="k">elif</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span>    <span class="c1"># Remover</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a>                                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>    <span class="c1"># Inserir</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a>                                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># Substituir   </span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a>            <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">]</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+</div>
+<p>Os links abaixo são fundamentais para entender melhor como o algoritmo funciona.</p>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/edit-distance-dp-5/">Edit Distance (GeeksforGeeks)</a></li>
+<li><a href="https://web.stanford.edu/class/cs124/lec/med.pdf">Definion of Minimum Edit Distance</a></li>
+</ul>
+<h3 id="maior-subsequencia-comum">Maior Subsequência Comum</h3>
+<p>O problema da <strong>Maior Subsequência Comum</strong> (<em>Longest Common Subsequence</em> - LCS) é definido da seguinte forma: Dadas duas strings <span class="arithmatex">\(A\)</span> e <span class="arithmatex">\(B\)</span>, qual é a subsequência comum mais longa entre elas. Lembrando que uma subsequência é uma sequência que aparece na mesma ordem relativa, mas não necessariamente consecutiva. Por exemplo, <code class="highlight"><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ACAATCC&quot;</span><span class="w"></span></code> e <code class="highlight"><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;AGCATGC&quot;</span><span class="w"></span></code> têm LCS de comprimento 5, ou seja, <code class="highlight"><span class="s">&quot;ACATC&quot;</span><span class="w"></span></code>.</p>
+<p>O código abaixo (extraida <a href="https://www.geeksforgeeks.org/longest-common-subsequence-dp-4/">daqui</a>) mostra uma implementação do algoritmo para encontrar o tamanho da maior subsequência comum usando programação dinâmica. A complexidade do código é <span class="arithmatex">\(O(nm)\)</span>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">C++</label><label for="__tabbed_2_2">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">lcs</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"></span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="w">            </span><span class="k">else</span><span class="w"></span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">                </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span><span class="w"></span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">m</span><span class="p">];</span><span class="w"> </span><span class="c1">// O código em Python mostra como gerar a string contendo o LCS.</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span>
+<span class="normal"><a href="#__codelineno-4-15">15</a></span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span>
+<span class="normal"><a href="#__codelineno-4-17">17</a></span>
+<span class="normal"><a href="#__codelineno-4-18">18</a></span>
+<span class="normal"><a href="#__codelineno-4-19">19</a></span>
+<span class="normal"><a href="#__codelineno-4-20">20</a></span>
+<span class="normal"><a href="#__codelineno-4-21">21</a></span>
+<span class="normal"><a href="#__codelineno-4-22">22</a></span>
+<span class="normal"><a href="#__codelineno-4-23">23</a></span>
+<span class="normal"><a href="#__codelineno-4-24">24</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="k">def</span> <span class="nf">lcs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a>    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a>            <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a>            <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a>                <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">])</span>    
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a>    <span class="c1"># Gera a solução. </span>
+<a id="__codelineno-4-12" name="__codelineno-4-12"></a>    <span class="c1"># Caso precise apenas do tamanho do string, basta retornar dp[n][m]</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13"></a>    <span class="n">sol</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a>    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15"></a>    <span class="k">while</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16"></a>        <span class="k">if</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17"></a>            <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18"></a>        <span class="k">elif</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19"></a>            <span class="n">j</span><span class="o">-=</span> <span class="mi">1</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21"></a>            <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22"></a>            <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23"></a>            <span class="n">sol</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24"></a>    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sol</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+</div>
+<p>Os links abaixo são fundamentais para entender melhor como o algoritmo funciona.</p>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/longest-common-subsequence-dp-4/">Longest Common Subsequence (GeeksforGeeks)</a></li>
+<li><a href="https://algorithmist.com/wiki/Longest_common_subsequence">Longest common subsequence</a></li>
+</ul>
+<h2 id="busca-em-string-string-matching">Busca em String (String Matching)</h2>
+<p>Busca em string (também conhecido como <em>string matching</em>) é um problema de encontrar o indice (ou indices) de uma dada (sub)string (chamada de padrão <code>P</code>) de uma string (chamada de texto <code>T</code>). Por exemplo, considerando que <code class="highlight"><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;STEVEN EVENT&quot;</span><span class="w"></span></code>. Se <code class="highlight"><span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;EVE&quot;</span><span class="w"></span></code>, então as respostas são os indices 2 e 7. Se <code class="highlight"><span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;EVENT&quot;</span><span class="w"></span></code>, então a resposta é apenas o índice 7. Se <code class="highlight"><span class="n">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;EVENING&quot;</span><span class="w"></span></code>, então o algoritmo deve retornar que não encontrou o padrão <code>P</code> no texto <code>T</code>.</p>
+<p>Um algoritmo ingênuo (veja abaixo) consegue resolver esse problema com complexidade <span class="arithmatex">\(O(nm)\)</span>, onde <span class="arithmatex">\(n\)</span> é o tamanho do texto <code>T</code> e <span class="arithmatex">\(m\)</span> o tamanho de padrão <code>P</code>.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">busca</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">P</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">T</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">P</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"></span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="w">        </span><span class="kt">bool</span><span class="w"> </span><span class="n">achou</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">T</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">P</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">                </span><span class="n">achou</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">achou</span><span class="p">)</span><span class="w"> </span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">            </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;P encontrado no indice &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+<p>Com o intuito de melhorar a complexidade do algoritmo anterior, <a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth, Morris e Pratt</a> propuseram um algoritmo mais eficiente (chamado de <em>KMP Algorithm</em>) que faz uso das informações obtidas nas comparações dos caracteres anteriores, especialmente aqueles que são iguais. Este <a href="http://jovilab.sinaapp.com/visualization/algorithms/strings/kmp">link</a> mostra uma animação do funcionamento do Algoritmo KMP. Você pode encontrar a implementação e a explicação detalhada do algoritmo KMP <a href="https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/">aqui</a>, <a href="https://usaco.guide/PAPS.pdf#page=249">aqui</a> e <a href="https://usaco.guide/CP2.pdf#page=172">aqui</a>.</p>
+<p>Os links abaixo detalham mais sobre busca em string e explicam outros algoritmos não descritos aqui.</p>
+<ul>
+<li>⭐️ <a href="https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/">KMP Algorithm for Pattern Searching (GeeksforGeeks)</a></li>
+<li>⭐️ <a href="https://github.com/SuprDewd/T-414-AFLV/blob/master/11_strings/aflv_11_strings.pdf">Strings</a></li>
+<li>⭐️ <a href="https://www.geeksforgeeks.org/applications-of-string-matching-algorithms/">Applications of String Matching Algorithms (GeeksforGeeks)</a></li>
+<li>⭐️ <a href="https://usaco.guide/PAPS.pdf#page=249">String Matching</a></li>
+<li>⭐️ <a href="https://www.ime.usp.br/~pf/estruturas-de-dados/aulas/kmp.html">Algoritmo KMP para busca de substring</a></li>
+<li><a href="https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/">Aho-Corasick Algorithm for Pattern Searching (GeeksforGeeks)</a></li>
+<li><a href="https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/">Rabin-Karp Algorithm for Pattern Searching (GeeksforGeeks)</a></li>
+<li><a href="https://cp-algorithms.com/string/prefix-function.html">Prefix function. Knuth–Morris–Pratt algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/String-searching_algorithm">String-searching algorithm</a></li>
+<li><a href="https://www.geeksforgeeks.org/trie-insert-and-search/">Trie (GeeksforGeeks)</a></li>
+</ul>
+<h2 id="string-hashing">String Hashing</h2>
 <p>Em construção...</p>
+<h2 id="array-de-sufixo">Array de Sufixo</h2>
+<p>Basicamente, array de sufixo (<em>Suffix Array</em>) é um array que contém inteiros indicando os índices iniciais dos sufixos de uma determinada string, após os sufixos serem ordenados. Lembrando que o <span class="arithmatex">\(i\)</span>-ésimo sufixo de uma string <span class="arithmatex">\(s\)</span> de tamanho <span class="arithmatex">\(n\)</span> é a substring <span class="arithmatex">\(s[i…n−1]\)</span>. Por exemplo, os sufixos de <code class="highlight"><span class="n">S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="w"></span></code> são:</p>
+<div class="arithmatex">\[
+\begin{array}{|c|l|}
+\hline
+i &amp; \textbf{sufixo} \\ \hline
+0 &amp; banana \\
+1 &amp; anana  \\
+2 &amp; nana   \\
+3 &amp; ana    \\
+4 &amp; na     \\
+5 &amp; a \\ \hline
+\end{array}
+\]</div>
+<p>Após de ordenar essas strings, tem-se:</p>
+<div class="arithmatex">\[
+\begin{array}{|c|l|}
+\hline
+i &amp; \textbf{sufixo} \\ \hline
+5 &amp; a \\
+3 &amp; ana \\
+1 &amp; anana   \\
+0 &amp; banana   \\
+4 &amp; na \\
+2 &amp; nana \\ \hline
+\end{array}
+\]</div>
+<p>Portanto, o array de sufixos de <span class="arithmatex">\(S\)</span> será <span class="arithmatex">\([5, 3, 1, 0, 4, 2]\)</span>.</p>
+<p>Um método simples para construir um array de sufixos é fazer um array de todos os sufixos e então ordenar o array. O código abaixo ilustra este procedimento.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">C++</label><label for="__tabbed_3_2">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span>
+<span class="normal"><a href="#__codelineno-6-3">3</a></span>
+<span class="normal"><a href="#__codelineno-6-4">4</a></span>
+<span class="normal"><a href="#__codelineno-6-5">5</a></span>
+<span class="normal"><a href="#__codelineno-6-6">6</a></span>
+<span class="normal"><a href="#__codelineno-6-7">7</a></span>
+<span class="normal"><a href="#__codelineno-6-8">8</a></span>
+<span class="normal"><a href="#__codelineno-6-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kt">char</span><span class="w"> </span><span class="n">S</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">S</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="n">vi</span><span class="w"> </span><span class="nf">SA</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="n">iota</span><span class="p">(</span><span class="n">SA</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">SA</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="n">sort</span><span class="p">(</span><span class="n">SA</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">SA</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// o &amp; permite o acesso a variável externa S</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">strcmp</span><span class="p">(</span><span class="n">S</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-6-7" name="__codelineno-6-7"></a><span class="p">});</span><span class="w"></span>
+<a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">i</span><span class="o">:</span><span class="w"> </span><span class="n">SA</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">S</span> <span class="o">=</span> <span class="s2">&quot;banana&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="n">SA</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="p">))]</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="n">SA</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">SA</span><span class="p">)</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+</div>
+<p>A ordenação possui complexidade <span class="arithmatex">\(O(n \log ⁡n)\)</span> e como comparar duas strings é <span class="arithmatex">\(O(n)\)</span>, a complexidade final do algoritmo será <span class="arithmatex">\(O(n^2 \log ⁡n)\)</span>. Pode-se melhor esta complexidade alterando o método de ordenação (usando <a href="https://www.geeksforgeeks.org/radix-sort/">Radix Sort</a>, por exemplo). Essa versão otimizada terá complexidade <span class="arithmatex">\(O(n \log n)\)</span>. Você pode encontrar a explicação e implementação <a href="https://www.geeksforgeeks.org/suffix-array-set-2-a-nlognlogn-algorithm/">aqui</a>, <a href="https://usaco.guide/CP2.pdf#page=185">aqui</a> e <a href="https://cp-algorithms.com/string/suffix-array.html#on-log-n-approach">aqui</a>.</p>
+<p>Os links abaixo exemplificam várias aplicações do array de sufixo:</p>
+<ul>
+<li><a href="https://usaco.guide/CP2.pdf#page=186">Applications of Suffix Array</a></li>
+<li><a href="https://cp-algorithms.com/string/suffix-array.html#applications">Suffix Array - Applications</a></li>
+<li><a href="https://web.stanford.edu/class/cs97si/suffix-array.pdf#page=7">Suffix arrays – Applications in contest problems</a></li>
+</ul>
+<p>Material Complementar:</p>
+<ul>
+<li>⭐️ <a href="https://codeforces.com/edu/course/2/lesson/2">Suffix Array</a> 🤯</li>
+<li>⭐️ <a href="https://www.youtube.com/watch?v=YkUu6azN4BI">Array de Sufixos</a></li>
+<li>⭐️ <a href="https://www.geeksforgeeks.org/suffix-array-set-1-introduction/">Suffix Array</a></li>
+<li><a href="https://cp-algorithms.com/string/suffix-array.html">Suffix Array</a></li>
+<li><a href="https://www.topcoder.com/thrive/articles/suffix-array-lcp-and-finding-unique-substring">Suffix Array (TopCoder)</a></li>
+<li><a href="https://web.stanford.edu/class/cs97si/suffix-array.pdf">Suffix arrays - a programming contest approach</a></li>
+</ul>
+<h2 id="palindromo">Palindromo</h2>
+<p>Palíndromos são palavras ou frases que podem ser lidas da esquerda para a direita ou da direita para a esquerda. Por exemplo, <code>ovo</code>, <code>radar</code>, <code>123321</code>, <code>a base do teto desaba</code>, <code>Socorram-me, subi no ônibus em Marrocos</code>, <code>anotaram a data da maratona</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">C++</label><label for="__tabbed_4_2">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">6</a></span>
+<span class="normal"><a href="#__codelineno-8-7">7</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">isPalindrome</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">l</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">    </span><span class="n">FOR</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">l</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">i</span><span class="p">])</span><span class="w"> </span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span>
+<span class="normal"><a href="#__codelineno-9-7">7</a></span>
+<span class="normal"><a href="#__codelineno-9-8">8</a></span>
+<span class="normal"><a href="#__codelineno-9-9">9</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="k">def</span> <span class="nf">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">):</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a>        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">l</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">i</span><span class="p">]:</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a>            <span class="k">return</span> <span class="kc">False</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a>    <span class="k">return</span> <span class="kc">True</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="c1">#Ou usando fatiamento</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="k">def</span> <span class="nf">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a>    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="n">l</span><span class="p">:</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">l</span><span class="p">:</span><span class="n">r</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+</div>
+<p>Uma variante comum de problemas de palíndromos envolve contar o número de substrings de uma string <span class="arithmatex">\(s\)</span> que são palíndromos. Uma solução ingênua (mostrada abaixo) faz uma busca completa com complexidade <span class="arithmatex">\(O(n^3)\)</span>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">C++</label><label for="__tabbed_5_2">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span>
+<span class="normal"><a href="#__codelineno-10-6">6</a></span>
+<span class="normal"><a href="#__codelineno-10-7">7</a></span>
+<span class="normal"><a href="#__codelineno-10-8">8</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">countPalindrome</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"> </span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">                </span><span class="o">++</span><span class="n">resp</span><span class="w"></span>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">resp</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-8" name="__codelineno-10-8"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span>
+<span class="normal"><a href="#__codelineno-11-7">7</a></span>
+<span class="normal"><a href="#__codelineno-11-8">8</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="k">def</span> <span class="nf">countPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>    <span class="n">resp</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a>            <span class="k">if</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a>                <span class="n">resp</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a>    <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+</div>
+<p>Perceba que muitos subproblemas (substrings) serão sobrepostos. Assim, pode-se criar uma matriz para armazenar o substring <span class="arithmatex">\(s[l..r]\)</span> de forma que este substring só seja computado uma vez. Desta forma, teremos uma solução que usa programação dinâmica com complexidade <span class="arithmatex">\(O(n^2)\)</span>. Os códigos abaixo (extraido <a href="https://www.geeksforgeeks.org/count-palindrome-sub-strings-string/">daqui</a>) ilustram esta estratégia.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">C++</label><label for="__tabbed_6_2">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span>
+<span class="normal"><a href="#__codelineno-12-13">13</a></span>
+<span class="normal"><a href="#__codelineno-12-14">14</a></span>
+<span class="normal"><a href="#__codelineno-12-15">15</a></span>
+<span class="normal"><a href="#__codelineno-12-16">16</a></span>
+<span class="normal"><a href="#__codelineno-12-17">17</a></span>
+<span class="normal"><a href="#__codelineno-12-18">18</a></span>
+<span class="normal"><a href="#__codelineno-12-19">19</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="mi">1001</span><span class="p">][</span><span class="mi">1001</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">isPalindrome</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">ll</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span><span class="w"></span>
+<a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"></span>
+<a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="kt">int</span><span class="w"> </span><span class="nf">countPalindromes</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="w">    </span><span class="n">ll</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-13" name="__codelineno-12-13"></a><span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">dp</span><span class="p">));</span><span class="w"></span>
+<a id="__codelineno-12-14" name="__codelineno-12-14"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-12-15" name="__codelineno-12-15"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<a id="__codelineno-12-16" name="__codelineno-12-16"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"> </span>
+<a id="__codelineno-12-17" name="__codelineno-12-17"></a><span class="w">                </span><span class="o">++</span><span class="n">resp</span><span class="w"></span>
+<a id="__codelineno-12-18" name="__codelineno-12-18"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">resp</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-19" name="__codelineno-12-19"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+</div>
+<div class="tabbed-block">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-13-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-13-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-13-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-13-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-13-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-13-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-13-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-13-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-13-10">10</a></span>
+<span class="normal"><a href="#__codelineno-13-11">11</a></span>
+<span class="normal"><a href="#__codelineno-13-12">12</a></span>
+<span class="normal"><a href="#__codelineno-13-13">13</a></span>
+<span class="normal"><a href="#__codelineno-13-14">14</a></span>
+<span class="normal"><a href="#__codelineno-13-15">15</a></span>
+<span class="normal"><a href="#__codelineno-13-16">16</a></span>
+<span class="normal"><a href="#__codelineno-13-17">17</a></span>
+<span class="normal"><a href="#__codelineno-13-18">18</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="n">dp</span> <span class="o">=</span> <span class="p">[[</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1001</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1001</span><span class="p">)]</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="k">def</span> <span class="nf">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a>    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">j</span><span class="p">:</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a>        <span class="k">return</span> <span class="mi">1</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a>    <span class="k">if</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a>        <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a>    <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a>    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a>        <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10"></a>    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11"></a><span class="k">def</span> <span class="nf">countPalindromes</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12"></a>    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13"></a>    <span class="n">resp</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15"></a>        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16"></a>            <span class="k">if</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17"></a>                <span class="n">resp</span> <span class="o">+=</span> <span class="mi">1</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18"></a>    <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div>
+</td></tr></table>
+</div>
+</div>
+</div>
+<p>Outro problema comum é encontrar o maior palindromo que pode ser gerado deletando zero ou mais caracteres de uma string. Por exemplo: <code class="highlight"><span class="s">&quot;ADAM&quot;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;ADA&quot;</span><span class="w"></span></code> (tamanho 3, deletando <code class="highlight"><span class="s">&quot;M&quot;</span><span class="w"></span></code>), <code class="highlight"><span class="s">&quot;RACEF1CARFAST&quot;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;RACECAR&quot;</span><span class="w"></span></code> (tamanho 7, deletando <code class="highlight"><span class="s">&quot;F1&quot;</span><span class="w"></span></code> e <code class="highlight"><span class="s">&quot;FAST&quot;</span><span class="w"></span></code>). Novamente, a solução desse problema pode ser obtida usando programação dinâmica:</p>
+<ul>
+<li>Seja <span class="arithmatex">\(len(l, r)\)</span> o tamanho do maior palindromo da string <span class="arithmatex">\(S[l..r]\)</span>.</li>
+<li>Casos bases:<ul>
+<li>Se <span class="arithmatex">\(l = r\)</span>, então <span class="arithmatex">\(len(l, r) = 1\)</span>;</li>
+<li>Se <span class="arithmatex">\(l + 1 = r\)</span>, então <span class="arithmatex">\(len(l, r) = 2\)</span> se <span class="arithmatex">\(S[l] = S[r]\)</span> ou 1, caso contrário.</li>
+</ul>
+</li>
+<li>Recorrencia:<ul>
+<li>Se <span class="arithmatex">\(S[l] = S[r]\)</span>, então <span class="arithmatex">\(len(l, r) = 2 + len(l + 1, r - 1)\)</span>;</li>
+<li>Senão, <span class="arithmatex">\(len(l, r) = \max(len(l, r - 1), len(l + 1, r))\)</span></li>
+</ul>
+</li>
+</ul>
+<p>Material Complementar:</p>
+<ul>
+<li><a href="https://www.hackerrank.com/topics/manachers-algorithm">Manacher's Algorithm</a></li>
+<li><a href="https://cp-algorithms.com/string/manacher.html">Manacher's Algorithm - Finding all sub-palindromes in <span class="arithmatex">\(O(n)\)</span></a></li>
+<li><a href="https://codeforces.com/blog/entry/12143">Manacher's algorithm and code readability</a></li>
+<li><a href="https://codeforces.com/blog/entry/13959">Palindromic tree: behind the scenes</a></li>
+<li><a href="http://adilet.org/blog/palindromic-tree/">Palindromic tree</a></li>
+</ul>
 
               
             </article>
@@ -527,7 +1202,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.top", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de Transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de Transfer\u00eancia", "search.config.lang": "pt", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Buscar", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Perdido", "select.version.title": "Selecione a vers\u00e3o"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "toc.integrate", "navigation.top", "content.code.annotate", "content.tabs.link"], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copiado para \u00e1rea de Transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de Transfer\u00eancia", "search.config.lang": "pt", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Buscar", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Perdido", "select.version.title": "Selecione a vers\u00e3o"}}</script>
     
     
       <script src="../assets/javascripts/bundle.6e54b5cd.min.js"></script>
