@@ -13,7 +13,8 @@ nav:
   - Complexidade de Algoritmos: complexidade.md
   - Teoria dos Números: teorianumeros.md
   - Combinatória: combinatoria.md
-  - Ordenação e Busca: ordenacao.md
+  - Ordenação: ordenacao.md
+  - Busca: busca.md
   - Estrutura de Dados (Parte 1): ed1.md
   - Estrutura de Dados (Parte 2): ed2.md
   - Busca Exaustiva: buscaexaustiva.md

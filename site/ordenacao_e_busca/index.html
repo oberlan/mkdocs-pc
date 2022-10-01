@@ -10,14 +10,14 @@
         <meta name="author" content="Oberlan Romão">
       
       
-        <link rel="canonical" href="https://pc.oberlan.com/ordenacao/">
+        <link rel="canonical" href="https://pc.oberlan.com/ordenacao_e_busca/">
       
       <link rel="icon" href="../assets/logo.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.4.3">
     
     
       
-        <title>Ordenação - Programação Competitiva</title>
+        <title>Ordenação e Busca[^1] - Programação Competitiva</title>
       
     
     
@@ -109,7 +109,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ordenacao1" class="md-skip">
+        <a href="#ordenacao-e-busca1" class="md-skip">
           Pular para conteúdo
         </a>
       
@@ -142,7 +142,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ordenação
+              Ordenação e Busca[^1]
             
           </span>
         </div>
@@ -340,66 +340,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Ordenação
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ordenacao/" class="md-nav__link">
         Ordenação
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Indice">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Indice
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usando-uma-funcao-de-comparacao" class="md-nav__link">
-    Usando uma função de comparação
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fazando-a-sobrecarga-do-operador" class="md-nav__link">
-    Fazando a sobrecarga do operador &lt;
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#complemente-sua-leitura-e-seu-conhecimento" class="md-nav__link">
-    Complemente sua leitura e seu conhecimento
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -553,7 +498,8 @@
                 
 
 
-<h1 id="ordenacao1">Ordenação<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h1>
+<h1 id="ordenacao-e-busca1">Ordenação e Busca<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></h1>
+<h2 id="ordenacao">Ordenação</h2>
 <p>A maioria das linguagens de programação modernas implementa uma função de ordenação eficiente. Em C++, tem-se a função <a href="https://en.cppreference.com/w/cpp/algorithm/sort"><code>sort</code></a> da biblioteca <a href="https://en.cppreference.com/w/cpp/algorithm"><code>&lt;algorithm&gt;</code></a>. Veja alguns exemplos de uso desta função:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
@@ -894,11 +840,204 @@
 <li><a href="https://en.cppreference.com/w/cpp/algorithm/stable_sort">std::stable_sort</a></li>
 <li><a href="https://en.cppreference.com/w/cpp/algorithm/nth_element">std::nth_element</a></li>
 </ul>
+<h2 id="busca">Busca</h2>
+<h3 id="busca-sequencial">Busca sequencial</h3>
+<p>A forma mais intuitiva para procurar um elemento em um <em>array</em> é usar um <em>loop</em> que percorre todos os elementos do array e parando assim que o elemento buscado é encontrado. No pior caso, é necessário percorrer todos os elementos, logo a complexidade será <span class="arithmatex">\(O(n)\)</span>. O código abaixo verifica se <code>x</code> está no <em>array</em>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span>
+<span class="normal"><a href="#__codelineno-7-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="w">        </span><span class="c1">// x encontrado na posição i</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-7-5" name="__codelineno-7-5"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>Em C++, pode-se usar a função <a href="https://en.cppreference.com/w/cpp/algorithm/search"><code>search</code></a>.</p>
+<h3 id="busca-binaria">Busca binária</h3>
+<p>Se os elementos do <em>array</em> estiverem ordenados, pode-se usar uma estratégia diferente e mais eficiente para realizar a busca: verifique se o elemento do meio do <em>array</em> é o elementos buscado, se for, a busca termina. Caso não seja, verique se o elemento do meio é menor que elemento buscaso, se for, repita o processo considerando apenas a segunda metade do <em>array</em>. Senão, considere a primeira metade do <em>array</em>. Assim, a cada passo da busca, o tamanho do <em>array</em> é reduzido a metade, logo, a complexidade do algoritmo é <span class="arithmatex">\(O(\log n)\)</span>.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-8-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-8-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-8-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-8-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-8-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-8-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-8-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-8-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-8-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">buscaBinaria</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ini</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">meio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">fim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ini</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">meio</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">meio</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">meio</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meio</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meio</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li>Evite usar <code>meio = (ini + fim) / 2;</code>, já que <code>ini + fim</code> pode gerar <a href="https://www.cplusplus.com/articles/DE18T05o/"><em>integer overflow</em></a>.</li>
+<li><code>x</code> não está no vetor <code>v</code>.</li>
+</ol>
+<p>Em C++, pode-se usar a função <a href="https://en.cppreference.com/w/cpp/algorithm/binary_search">std::binary_search</a>. As funções abaixo também são úteis e baseadas na busca binária:</p>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/lower_bound">std::lower_bound</a>: retorna um ponteiro para o primeiro elemento do <em>array</em> cujo valor é pelo menos <code>x</code>;</li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/upper_bound">std::upper_bound</a>: retorna um ponteiro para o primeiro elemento do <em>array</em> cujo valor é maior que <code>x</code>;</li>
+</ul>
+<p>As funções assumem que o <em>array</em> está ordenado. Se o valor procurado não for encontrado, é retornado um ponteiro para o elemento após o último elemento do <em>array</em>. Por exemplo, o código a seguir verifica se o <em>array</em> contém um elemento com valor <code>x</code>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span>
+<span class="normal"><a href="#__codelineno-9-4">4</a></span>
+<span class="normal"><a href="#__codelineno-9-5">5</a></span>
+<span class="normal"><a href="#__codelineno-9-6">6</a></span>
+<span class="normal"><a href="#__codelineno-9-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">};</span><span class="w"></span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="k">auto</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lower_bound</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">*</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">    </span><span class="c1">// x encontrado no indice k</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">    </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Valor encontrado na posição: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li>Pode-se usar a função <a href="https://en.cppreference.com/w/cpp/iterator/distance">std::distance</a> ao invés de <code>k - v.begin()</code>, ou seja, <code>distance(v.begin(), k)</code>.</li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg></span> <a href="https://www.youtube.com/watch?v=GU7DpgHINWQ">Binary Search tutorial (C++ and Python)</a></li>
+<li><a href="https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria">Busca Binária</a></li>
+<li><a href="https://usaco.guide/silver/binary-search">Binary Search</a></li>
+<li><a href="https://codeforces.com/edu/course/2/lesson/6">Binary Search (ITMO Academy)</a> 🤯</li>
+<li><a href="https://csacademy.com/lesson/binary_search/">Binary Search (CS Academy)</a></li>
+</ul>
+<h4 id="busca-binaria-em-funcoes-monotonicas2">Busca binária em funções monotônicas<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></h4>
+<p>Considere uma função booleana <span class="arithmatex">\(f(x)\)</span> e se deseja encontrar o valor máximo (ou mínimo) de <span class="arithmatex">\(x\)</span> tal que <span class="arithmatex">\(f(x)\)</span> seja <code class="highlight"><span class="nb">true</span><span class="w"></span></code>. Da mesma forma que a busca binária só funciona se o <em>array</em> estiver ordenado, só é possivel aplicar a busca binária em uma função <a href="https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona">monótona</a>, ou seja, é sempre não-decrescente ou sempre não-crescente.</p>
+<p>Seja <code>check(x)</code> uma função que verifica uma propriedade de <code>x</code>. Se para todo <code>x</code>, <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span></code> implica <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span></code>, ou para todo <code>x</code>, <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span></code> implica <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span></code>, então a função <code>check</code> é monótona.</p>
+<p>Suponha a função <code>check</code> abaixo que verifica se um elemento é maior ou igual a <code>x</code>.. Se <code>x = 11</code> e o vetor <code>v = [1,2,3,5, 8, 11, 12, 14, 16]</code>, então teremos o seguinte vetor de saída ao aplicarmos <code>check</code> em <code>v</code>: <code>[0,0,0,0,0,1,1,1,1,1]</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>Dessa forma, a função <code>check</code> para essa situação é monótona e isso é relevante porque se um valor do vetor satisfizer a condição, todos os valores a direita também vão satisfazê-la, e de forma análoga, todos os valores a esquerda de um índice que não satisfaz a condição, também não vão satisfazer, e é isso que nos permite aplicar busca binária. Além disso, a função <code>check</code> só se torna monótona nesse exemplo quando o vetor está ordenado, por isso a busca binária só é feita em vetores ordenados.</p>
+<p>Como encontrar o menor valor que torna <code>check</code> verdadeiro? R. inicia-se o processo "chutanto" um intervalo onde a resposta com certeza estará. Para cada intevalo, checa-se o meio e, dependendo da resposta, descarta-se os elementos a direita ou a esquerda, mas sempre divide-se o tamanho do intervalo por 2, até que o intervalo tenha tamanho 1. Veja uma solução:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-11-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-11-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-11-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-11-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-11-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-11-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-11-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-11-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-11-10">10</a></span>
+<span class="normal"><a href="#__codelineno-11-11">11</a></span>
+<span class="normal"><a href="#__codelineno-11-12">12</a></span>
+<span class="normal"><a href="#__codelineno-11-13">13</a></span>
+<span class="normal"><a href="#__codelineno-11-14">14</a></span>
+<span class="normal"><a href="#__codelineno-11-15">15</a></span>
+<span class="normal"><a href="#__codelineno-11-16">16</a></span>
+<span class="normal"><a href="#__codelineno-11-17">17</a></span>
+<span class="normal"><a href="#__codelineno-11-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="c1">// sei que a resposta não é menos que a</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="c1">// sei que a resposta não é mais que b</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="k">while</span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">){</span><span class="c1">// repita enquanto o intervalo tiver tamanho &gt; 2</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">mid</span><span class="p">)){</span><span class="w"> </span><span class="c1">// mid é válido</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="w">        </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="p">;</span><span class="w"> </span><span class="c1">// como queremos minimizar a resposta, e mid é uma resposta válida</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="w">                 </span><span class="c1">//descartamos tudo a direita de mid (mas não mid)</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="w">    </span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="w">        </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Se mid não é válido, descartamos ele e tudo abaixo.</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-11-14" name="__codelineno-11-14"></a><span class="c1">// Ao final desse laço, a resposta pode estar em l ou r.</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="c1">// Queremos minimizar a resposta, então se l for válido,</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="c1">// ficaremos com l, e caso contrário,  com r</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="kt">int</span><span class="w"> </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-11-18" name="__codelineno-11-18"></a><span class="k">if</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="w"> </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">;</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>Exemplo: Encontrar o maior valor de <span class="arithmatex">\(x \in [0, 10]\)</span> tal que <span class="arithmatex">\(x^2 \leq 30\)</span>.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-12-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-12-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-12-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-12-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-12-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-12-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-12-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-12-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-12-10">10</a></span>
+<span class="normal"><a href="#__codelineno-12-11">11</a></span>
+<span class="normal"><a href="#__codelineno-12-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">val</span><span class="o">*</span><span class="n">val</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">lastTrue</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">ini</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">    </span><span class="n">ini</span><span class="o">--</span><span class="p">;</span><span class="w"> </span><span class="c1">// Se nenhum valor no intervalor for true, retorna ini - 1</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ini</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">fim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-12-7" name="__codelineno-12-7"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">fim</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ini</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-8" name="__codelineno-12-8"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="w"> </span><span class="n">ini</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9"></a><span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">fim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-12-11" name="__codelineno-12-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ini</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-12-12" name="__codelineno-12-12"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li>Se <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span></code> é <code class="highlight"><span class="nb">true</span><span class="w"></span></code>, então todos os números menores que <code>m</code> também serão <code class="highlight"><span class="nb">true</span><span class="w"></span></code>.</li>
+<li>Se <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span></code> é <code class="highlight"><span class="nb">false</span><span class="w"></span></code>, então todos os números maiores que <code>m</code> também serão <code class="highlight"><span class="nb">false</span><span class="w"></span></code>.</li>
+</ol>
+<h4 id="two-pointers">Two-Pointers</h4>
+<p>Na técnica chamada <a href="https://www.geeksforgeeks.org/two-pointers-technique/">Two-Pointers</a> dois "aponstadores" caminham pelo vetor. Normalmente, esses apontadores são ``colocados'' nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.</p>
+<figure>
+<p><img src="/img/two-pointer.png" alt="Two-Pointers" style="width:450px;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://afteracademy.com/blog/what-is-the-two-pointer-technique">AfterAcademy</a></figcaption>
+</figure>
+<p>Você consegue pensar em como usar esse técnica para resolver o problema de inverter os elementos de um vetor sem usar um vetor auxiliar? A ideia é simples: coloque cada apontador (digamos <code>i</code> e <code>j</code>) em uma extremidade do vetor,  ou seja, <code>i = 0</code> e <code>j = n - 1</code>, e, a cada iteração, troque os elementos que estão nas posições <code>i</code> e <code>j</code> (ou seja, <code>v[i] &lt;-&gt; v[j]</code>). Após a troca, incremente o apontador <code>i</code> e decremente o apontador <code>j</code>. Repita esse processo enquanto <code>i &lt; j</code>. A figura abaixo ilustra parte desse processo.</p>
+<figure>
+<p><img src="/img/twoPointers.png" alt="Two-Pointers" style="width:350px;display: block; margin: 0 auto;"/>
+  </p>
+<figcaption style="font-size=8pt">Fonte: <a href="https://afteracademy.com/blog/what-is-the-two-pointer-technique">AfterAcademy</a></figcaption>
+</figure>
+<p>O código abaixo ilustra essa estratégia (note a simplicidade):</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span>
+<span class="normal"><a href="#__codelineno-13-2">2</a></span>
+<span class="normal"><a href="#__codelineno-13-3">3</a></span>
+<span class="normal"><a href="#__codelineno-13-4">4</a></span>
+<span class="normal"><a href="#__codelineno-13-5">5</a></span>
+<span class="normal"><a href="#__codelineno-13-6">6</a></span>
+<span class="normal"><a href="#__codelineno-13-7">7</a></span>
+<span class="normal"><a href="#__codelineno-13-8">8</a></span>
+<span class="normal"><a href="#__codelineno-13-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">inverte</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a><span class="w">        </span><span class="n">swap</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span><span class="w"> </span><span class="c1">// (2)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a><span class="w">        </span><span class="n">j</span><span class="o">--</span><span class="p">;</span><span class="w"></span>
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li>A <a href="https://en.cppreference.com/w/cpp/algorithm/reverse">std::reverse</a> também pode ser usada com o mesmo objetivo. O intuito é mostrar com a técnica Two-Pointers funciona.</li>
+<li><a href="https://en.cppreference.com/w/cpp/algorithm/swap">std::swap</a></li>
+</ol>
+<p>Complemente sua leitura e seu conhecimento:</p>
+<ul>
+<li><a href="https://codeforces.com/edu/course/2/lesson/9">Two Pointers Method (ITMO Academy)</a> 🤯</li>
+<li><a href="https://www.geeksforgeeks.org/two-pointers-technique/">Two Pointers Technique</a></li>
+<li><a href="https://afteracademy.com/blog/what-is-the-two-pointer-technique">What is the Two pointer technique?</a></li>
+</ul>
 <div class="footnote">
 <hr />
 <ol>
 <li id="fn:1">
 <p>O texto dessa página são traduções e adaptações encontrados aqui: <a href="https://usaco.guide/PAPS.pdf">1</a>, <a href="https://usaco.guide/CPH.pdf">2</a> e <a href="https://usaco.guide/silver/binary-search">3</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Conteúdo extraído de <a href="https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria">Busca Binária</a>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -922,42 +1061,6 @@
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Rodapé" >
-      
-        
-        <a href="../combinatoria/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Combinatória" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Anterior
-              </span>
-              Combinatória
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../busca/" class="md-footer__link md-footer__link--next" aria-label="Próximo: Busca" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Próximo
-              </span>
-              Busca
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

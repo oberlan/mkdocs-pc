@@ -4,8 +4,10 @@
 
 A **Geometria Computacional** é mais um tópico que aparece com frequência em programação competitiva. Por exemplo, calcular a área de um polígo; verificar se um determinado ponto está dentro ou fora de um polígono; verificar se existe interseção entre dois segmentos de reta; etc. Assim, nesta seção, serão apresentados alguns algoritmos e estratégias para responder essas e outras perguntas.
 
-Leituras fortemente recomendadas:
+Leituras e aulas fortemente recomendadas:
 
+- ⭐️ :fontawesome-brands-youtube: [Geometria (Summer School 2020)](https://www.youtube.com/watch?v=eLCm1gKBe3c)
+- ⭐️ :fontawesome-brands-youtube: [Introdução à Geometria Computacional (Unesp)](https://www.youtube.com/watch?v=n0EtjkQK_QU)
 - [Geometry](https://github.com/SuprDewd/T-414-AFLV/blob/master/12_geometry/aflv_12_geometry.pdf)
 - [Capítulo 7](https://usaco.guide/CP2.pdf#page=191) do livro "Competitive Programming"
 - [Capítulo 29](https://usaco.guide/CPH.pdf#page=275) do livro "Competitive Programmer’s Handbook"
@@ -18,7 +20,7 @@ O objeto mais simples em geometría computacional é o **Ponto**. No espaço Euc
 ``` c++ linenums="1"
 #define EPS 1e-9
 #define DEG2RAD(d) (d)*M_PI / 180.0
-#define RAD2DEG(r) (r)*180.0 / M_PIs
+#define RAD2DEG(r) (r)*180.0 / M_PI
 
 struct Ponto {
     double x, y;
@@ -43,7 +45,7 @@ struct Ponto {
         return hypot(x, y); // (1)
     }
     Ponto normaliza() {
-        return Ponto(x,y)*(1.0/norm());
+        return Ponto(x,y)*(1.0/norma());
     }
     double angulo() { return atan2(y, x); }
     double anguloPolar() {
@@ -110,11 +112,11 @@ Linha pontosParaLinha(const Ponto &p1, const Ponto &p2) {
 }
 
 bool saoParalelas(const Linha &l1, const Linha &l2) {
-    return (fabs(l1.a-l2.a) < EPS) && (fabs(l1.b-l2.b) < EPS);
+    return (fabs(l1.a - l2.a) < EPS) && (fabs(l1.b - l2.b) < EPS);
 }
 
 bool saoIguais(const Linha &l1, const Linha &l2) {
-    return saoParalelas(l1 ,l2) && (fabs(l1.c - l2.c) < EPS);
+    return saoParalelas(l1, l2) && (fabs(l1.c - l2.c) < EPS);
 }
 
 // Verifica se há interseção entre as linhas 'l1' e 'l2'. 
@@ -167,7 +169,7 @@ double norm_sq(const Vetor &v) {
 
 // Retorna a distância de 'p' até a linha definida pelos pontos 'a' e 'b'.
 // O ponto mais próximo é armazenado no parâmetro 'c'.
-double distToLine(const Ponto &p,  const Ponto &a,  const Ponto &b,  Ponto &c) {
+double distToLine(const Ponto &p, const Ponto &a, const Ponto &b,  Ponto &c) {
     vec ap = paraVetor(a, p), ab = paraVetor(a, b);
     double u = dot(ap, ab) / norm_sq(ab);
     // Formula: c = a + u*ab
@@ -177,7 +179,7 @@ double distToLine(const Ponto &p,  const Ponto &a,  const Ponto &b,  Ponto &c) {
 
 // Retorna a distância de 'p' ao segmento de linha 'ab' definido pelos pontos 'a' e 'b'.
 // O ponto mais próximo é armazenado no parâmetro 'c'.
-double distToLineSegment(const Ponto &p, onst  Ponto &a, const  Ponto &b, Ponto &c) {
+double distToLineSegment(const Ponto &p, const Ponto &a, const Ponto &b, Ponto &c) {
     vec ap = paraVetor(a, p), ab = paraVetor(a, b);
     double u = dot(ap, ab) / norm_sq(ab);
     if (u < 0.0) {                 
