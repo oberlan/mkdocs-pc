@@ -412,15 +412,15 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#two-pointers" class="md-nav__link">
     Two-Pointers
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -637,10 +637,10 @@
 <li><a href="https://codeforces.com/edu/course/2/lesson/6">Binary Search (ITMO Academy)</a> 🤯</li>
 <li><a href="https://csacademy.com/lesson/binary_search/">Binary Search (CS Academy)</a></li>
 </ul>
-<h4 id="busca-binaria-em-funcoes-monotonicas2">Busca binária em funções monotônicas<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></h4>
+<h3 id="busca-binaria-em-funcoes-monotonicas2">Busca binária em funções monotônicas<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup></h3>
 <p>Considere uma função booleana <span class="arithmatex">\(f(x)\)</span> e se deseja encontrar o valor máximo (ou mínimo) de <span class="arithmatex">\(x\)</span> tal que <span class="arithmatex">\(f(x)\)</span> seja <code class="highlight"><span class="nb">true</span><span class="w"></span></code>. Da mesma forma que a busca binária só funciona se o <em>array</em> estiver ordenado, só é possivel aplicar a busca binária em uma função <a href="https://pt.wikipedia.org/wiki/Fun%C3%A7%C3%A3o_mon%C3%B3tona">monótona</a>, ou seja, é sempre não-decrescente ou sempre não-crescente.</p>
 <p>Seja <code>check(x)</code> uma função que verifica uma propriedade de <code>x</code>. Se para todo <code>x</code>, <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span></code> implica <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span></code>, ou para todo <code>x</code>, <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span></code> implica <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span></code>, então a função <code>check</code> é monótona.</p>
-<p>Suponha a função <code>check</code> abaixo que verifica se um elemento é maior ou igual a <code>x</code>. Se <code>x = 11</code> e o vetor <code>v = [1,2,3,5, 8, 11, 12, 14, 16]</code>, então teremos o seguinte vetor de saída ao aplicarmos <code>check</code> em <code>v</code>: <code>[0,0,0,0,0,1,1,1,1,1]</code>.</p>
+<p>Suponha a função <code>check</code> abaixo que verifica se um elemento é maior ou igual a <code>x</code>. Se <code>x = 11</code> e o vetor <code>v = [1, 2, 3, 5, 8, 11, 12, 14, 16]</code>, então teremos o seguinte vetor de saída ao aplicarmos <code>check</code> em <code>v</code>: <code>[0, 0, 0, 0, 0, 1, 1, 1, 1, 1]</code>.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
 <span class="normal"><a href="#__codelineno-3-2">2</a></span>
 <span class="normal"><a href="#__codelineno-3-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -714,8 +714,8 @@
 <li>Se <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span></code> é <code class="highlight"><span class="nb">true</span><span class="w"></span></code>, então todos os números menores que <code>m</code> também serão <code class="highlight"><span class="nb">true</span><span class="w"></span></code>.</li>
 <li>Se <code class="highlight"><span class="n">check</span><span class="p">(</span><span class="n">m</span><span class="p">)</span><span class="w"></span></code> é <code class="highlight"><span class="nb">false</span><span class="w"></span></code>, então todos os números maiores que <code>m</code> também serão <code class="highlight"><span class="nb">false</span><span class="w"></span></code>.</li>
 </ol>
-<h4 id="two-pointers">Two-Pointers</h4>
-<p>Na técnica chamada <a href="https://www.geeksforgeeks.org/two-pointers-technique/">Two-Pointers</a> dois "apontadores" caminham pelo vetor. Normalmente, esses apontadores são ``colocados'' nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.</p>
+<h2 id="two-pointers">Two-Pointers</h2>
+<p>Na técnica chamada <a href="https://www.geeksforgeeks.org/two-pointers-technique/">Two-Pointers</a> dois "apontadores" caminham pelo vetor. Normalmente, esses apontadores são "colocados" nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.</p>
 <figure>
 <p><img src="/img/two-pointer.png" alt="Two-Pointers" style="width:450px;display: block; margin: 0 auto;"/>
   </p>
