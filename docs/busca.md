@@ -72,7 +72,7 @@ Considere uma função booleana $f(x)$ e se deseja encontrar o valor máximo (ou
 
 Seja `check(x)` uma função que verifica uma propriedade de `x`. Se para todo `x`, `#!c++ check(x) = true` implica `#!c++ check(x+1) = true`, ou para todo `x`, `#!c++ check(x) = false` implica `#!c++ check(x+1) = false`, então a função `check` é monótona.
 
-Suponha a função `check` abaixo que verifica se um elemento é maior ou igual a `x`. Se `x = 11` e o vetor `v = [1,2,3,5, 8, 11, 12, 14, 16]`, então teremos o seguinte vetor de saída ao aplicarmos `check` em `v`: `[0,0,0,0,0,1,1,1,1,1]`.
+Suponha a função `check` abaixo que verifica se um elemento é maior ou igual a `x`. Se `x = 11` e o vetor `v = [1, 2, 3, 5, 8, 11, 12, 14, 16]`, então teremos o seguinte vetor de saída ao aplicarmos `check` em `v`: `[0, 0, 0, 0, 0, 1, 1, 1, 1, 1]`.
 
 ```c++ linenums="1"
 bool check(int val) {
@@ -127,7 +127,7 @@ int lastTrue(int ini, int fim) {
 
 #### Two-Pointers
 
-Na técnica chamada [Two-Pointers](https://www.geeksforgeeks.org/two-pointers-technique/) dois "apontadores" caminham pelo vetor. Normalmente, esses apontadores são ``colocados'' nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.
+Na técnica chamada [Two-Pointers](https://www.geeksforgeeks.org/two-pointers-technique/) dois "apontadores" caminham pelo vetor. Normalmente, esses apontadores são "colocados" nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.
 
 <figure markdown>
 <img src="/img/two-pointer.png" alt="Two-Pointers" style="width:450px;display: block; margin: 0 auto;"/>

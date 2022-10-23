@@ -421,7 +421,7 @@ void imprime(ll n) {
 }
 
 bool seguidos() {
-    for (ll i = 0; i < permutacao.size(); i++)
+    for (ll i = 0; i < permutacao.size() - 1; i++)
         if (permutacao[i] == 2 && permutacao[i + 1] == 3)
             return true;
     return false;
@@ -474,7 +474,7 @@ void imprime(ll n) {
 }
 
 bool seguidos() {
-    for (ll i = 0; i < permutacao.size(); i++)
+    for (ll i = 0; i < permutacao.size() - 1; i++)
         if (permutacao[i] == 2 && permutacao[i + 1] == 3)
             return true;
     return false;

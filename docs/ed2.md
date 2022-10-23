@@ -138,7 +138,7 @@ A ideia da BIT é que, assim como um número pode ser representado como uma soma
 |   02   |                  [01, 02]                  |
 |   01   |                  [01, 01]                  |
 
-Perceba que todo índices ímpar fica responsável por um intervalo de tamanho 1 (porquê?). Já os índices $i$ que são potência de 2, ficam responsáveis pelo intervalo $[1, i]$.
+Perceba que todo índice ímpar fica responsável por um intervalo de tamanho 1 (porquê?). Já os índices $i$ que são potência de 2, ficam responsáveis pelo intervalo $[1, i]$.
 
 Tipicamente, a Fenwick Tree é implementada usando um array (`vector`), digamos `ft`, de modo que:
 
