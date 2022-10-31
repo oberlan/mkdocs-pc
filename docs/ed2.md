@@ -636,8 +636,8 @@ int main() {
 
     st.update(8, 7);                  // A[8] = 7;
 
-    cout << st.query(8, 8) << "\n";   // 9
-    cout << st.query(0, 8) << "\n";   // 46
+    cout << st.query(8, 8) << "\n";   // 7
+    cout << st.query(0, 8) << "\n";   // 44
 
     return 0;
 }

@@ -64,7 +64,7 @@ Complemente sua leitura e seu conhecimento:
 - [Binary Search (ITMO Academy)](https://codeforces.com/edu/course/2/lesson/6) 🤯
 - [Binary Search (CS Academy)](https://csacademy.com/lesson/binary_search/)
 
-#### Busca binária em funções monotônicas[^2]
+### Busca binária em funções monotônicas[^2]
 
 [^2]: Conteúdo extraído de [Busca Binária](https://github.com/UnBalloon/programacao-competitiva/tree/master/Busca%20Bin%C3%A1ria)
 
@@ -125,7 +125,7 @@ int lastTrue(int ini, int fim) {
 1. Se `#!c++ check(m)` é `#!c++ true`, então todos os números menores que `m` também serão `#!c++ true`.
 2. Se `#!c++ check(m)` é `#!c++ false`, então todos os números maiores que `m` também serão `#!c++ false`.
 
-#### Two-Pointers
+## Two-Pointers
 
 Na técnica chamada [Two-Pointers](https://www.geeksforgeeks.org/two-pointers-technique/) dois "apontadores" caminham pelo vetor. Normalmente, esses apontadores são "colocados" nas extremidades opostas do vetor e caminham um em direção ao outro, como mostra a figura abaixo.
 
