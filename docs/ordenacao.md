@@ -212,7 +212,7 @@ int main() {
 1. Sobrecarga/definição do operador `<` para a classe `Pessoa`. Dessa forma, é possivel fazer a comparação `#!c++ p1 < p2`, considerando que `p1` e `p2` são objetos do tipo `Pessoa`.
 2. Usa o operador `<` para fazer a ordenação.
 
-### Complemente sua leitura e seu conhecimento
+### Material complementar
 
 - [Competitive Programmer’s Handbook](https://usaco.guide/CPH.pdf#page=35)
 - [Sorting (CS Academy)](https://csacademy.com/lesson/sorting/)

@@ -209,7 +209,7 @@ cout << f.count() << "\n"; // 3
 
 Explore mais o contêiner através da [documentação](https://en.cppreference.com/w/cpp/utility/bitset).
 
-## Links adicionais
+## Material complementar
 
 - :fontawesome-brands-youtube: [Bitwise Operations tutorial #1 | XOR, Shift, Subsets](https://www.youtube.com/watch?v=xXKL9YBWgCY)
 - :fontawesome-brands-youtube: [C++ Bitsets in Competitive Programming](https://www.youtube.com/watch?v=jqJ5s077OKo)
